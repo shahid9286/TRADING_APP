@@ -1,0 +1,8 @@
+[26-Jun-2025 11:35:50 Europe/London] PHP Warning:  require(/home5/mhoworg/public_html/MHOW_LARA/vendor/composer/../../app/Helpers/LanguageHelpers.php): Failed to open stream: No such file or directory in /home5/mhoworg/public_html/MHOW_LARA/vendor/composer/autoload_real.php on line 41
+[26-Jun-2025 11:35:50 Europe/London] PHP Fatal error:  Uncaught Error: Failed opening required '/home5/mhoworg/public_html/MHOW_LARA/vendor/composer/../../app/Helpers/LanguageHelpers.php' (include_path='.:/opt/alt/php82/usr/share/pear:/opt/alt/php82/usr/share/php:/usr/share/pear:/usr/share/php') in /home5/mhoworg/public_html/MHOW_LARA/vendor/composer/autoload_real.php:41
+Stack trace:
+#0 /home5/mhoworg/public_html/MHOW_LARA/vendor/composer/autoload_real.php(45): {closure}()
+#1 /home5/mhoworg/public_html/MHOW_LARA/vendor/autoload.php(22): ComposerAutoloaderInitd0a2896df4c4d6e585def193aab050b4::getLoader()
+#2 /home5/mhoworg/public_html/MHOW_LARA/public/index.php(13): require('/home5/mhoworg/...')
+#3 {main}
+  thrown in /home5/mhoworg/public_html/MHOW_LARA/vendor/composer/autoload_real.php on line 41

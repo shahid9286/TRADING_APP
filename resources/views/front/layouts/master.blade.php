@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+@include('front.partials.head')
+
+<body>
+
+    <div class="preloader">
+        <img src="{{ asset('front/images/logo/preloader.png') }}" alt="preloader icon">
+    </div>
+
+    @include('front.partials.header')
+
+    @yield('content')
+
+    @include('front.partials.footer')
+
+    <a href="#" class="scrollToTop scrollToTop--home1"><i class="fa-solid fa-arrow-up-from-bracket"></i></a>
+
+    @include('front.partials.scripts')
+    
+</body>
+
+</html>
