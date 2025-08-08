@@ -10,6 +10,7 @@ use App\Http\Controllers\{
 
 use App\Http\Controllers\Admin\{
     UserController,
+    AnnouncementController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -58,5 +59,17 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/pendingUsers', [UserController::class, 'pendingUsers'])->name('admin.user.pendingUsers');
         Route::get('/approvedUsers', [UserController::class, 'approvedUsers'])->name('admin.user.approvedUsers');
         Route::get('/blockedUsers', [UserController::class, 'blockedUsers'])->name('admin.user.blockedUsers');
+
+        // announcement routes
+
+        Route::get('/', [AnnouncementController::class, 'index'])->name('admin.announcement.index');
+        Route::get('/announcement/add', [AnnouncementController::class, 'add'])->name('admin.announcement.add');
+        Route::post('/announcement/store', [AnnouncementController::class, 'store'])->name('admin.announcement.store');
+        Route::get('/announcement/{id}/edit', [AnnouncementController::class, 'edit'])->name('admin.announcement.edit');
+        Route::post('/announcement/{id}/update', [AnnouncementController::class, 'update'])->name('admin.announcement.update');
+        Route::post('/announcement/{id}/delete', [AnnouncementController::class, 'delete'])->name('admin.announcement.delete');
+        Route::get('announcement/restore', [AnnouncementController::class, 'restorePage'])->name('admin.announcement.restore.page');
+        Route::get('announcement/restore/{id}', [AnnouncementController::class, 'restore'])->name('admin.announcement.restore');
+        Route::post('announcement/force_delete/{id}', [AnnouncementController::class, 'forceDelete'])->name('admin.announcement.force.delete');
     });
 });

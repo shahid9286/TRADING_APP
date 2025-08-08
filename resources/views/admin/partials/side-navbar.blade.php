@@ -77,6 +77,54 @@
                             </a>
                         </li>
                     </ul>
+
+                    {{-- Announcement --}}
+
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.announcement.index' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.announcement.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-question-circle"></i>
+                        <p>
+                            {{ __('Announcement') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.announcement.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.announcement.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Announcement') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- Announcement End --}}
+
+
+
+                {{-- Trash --}}
+
+                <li class="nav-item {{ request()->routeIs('admin.announcement.restore.*') ? 'menu-open' : '' }}">
+                    <a href=""
+                        class="nav-link {{ request()->routeIs('admin.announcement.restore.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-trash"></i>
+
+                        <p>
+                            {{ __('Trash') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.announcement.restore.page') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.announcement.restore.page' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Announcement') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 </li>
 
             </ul>
