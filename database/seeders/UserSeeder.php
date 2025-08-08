@@ -17,7 +17,6 @@ class UserSeeder extends Seeder
         $user_role  = Role::create(['name' => 'user']);
 
         $admin = User::create([
-            'name' => 'Admin',
             'username' => 'admin',
             'email' => 'admin@admin.com',
             'phone' => '+923758365729',
@@ -38,7 +37,6 @@ class UserSeeder extends Seeder
         $admin->assignRole($admin_role);
 
         $user = User::create([
-            'name' => 'User',
             'username' => 'user',
             'email' => 'user@user.com',
             'phone' => '+923758365729',
