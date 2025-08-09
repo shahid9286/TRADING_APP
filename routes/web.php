@@ -10,6 +10,9 @@ use App\Http\Controllers\{
 
 use App\Http\Controllers\Admin\{
     UserController,
+    RewardController,
+    EnquiryController,
+    InvestmentController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -58,5 +61,46 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/pendingUsers', [UserController::class, 'pendingUsers'])->name('admin.user.pendingUsers');
         Route::get('/approvedUsers', [UserController::class, 'approvedUsers'])->name('admin.user.approvedUsers');
         Route::get('/blockedUsers', [UserController::class, 'blockedUsers'])->name('admin.user.blockedUsers');
+            // reward Routes
+        Route::get('/reward', [RewardController::class, 'index'])->name('admin.reward.index');
+        Route::get('/reward/add', [RewardController::class, 'add'])->name('admin.reward.add');
+        Route::post('/reward/store', [RewardController::class, 'store'])->name('admin.reward.store');
+        Route::get('reward/restore', [RewardController::class, 'restorePage'])->name('admin.reward.restore.page');
+        Route::get('/reward/edit/{id}', [RewardController::class, 'edit'])->name('admin.reward.edit');
+        Route::put('/reward/update/{id}', [RewardController::class, 'update'])->name('admin.reward.update');
+        Route::post('/reward/delete/{id}', [RewardController::class, 'delete'])->name('admin.reward.delete');
+        Route::get('reward/restore/{id}', [RewardController::class, 'restore'])->name('admin.reward.restore');
+        Route::post('reward/force_delete/{id}', [RewardController::class, 'forceDelete'])->name('admin.reward.force.delete');
+        // End of reward
+
+                    // investment Routes
+        Route::get('/investment', [InvestmentController::class, 'index'])->name('admin.investment.index');
+        Route::get('/investment/add', [InvestmentController::class, 'add'])->name('admin.investment.add');
+        Route::post('/investment/store', [InvestmentController::class, 'store'])->name('admin.investment.store');
+        Route::get('investment/restore', [InvestmentController::class, 'restorePage'])->name('admin.investment.restore.page');
+        Route::get('/investment/edit/{id}', [InvestmentController::class, 'edit'])->name('admin.investment.edit');
+        Route::put('/investment/update/{id}', [InvestmentController::class, 'update'])->name('admin.investment.update');
+        Route::post('/investment/delete/{id}', [InvestmentController::class, 'delete'])->name('admin.investment.delete');
+        Route::get('investment/restore/{id}', [InvestmentController::class, 'restore'])->name('admin.investment.restore');
+        Route::post('investment/force_delete/{id}', [InvestmentController::class, 'forceDelete'])->name('admin.investment.force.delete');
+        // End of Investment
+
+        // Enquiry Routes
+        Route::get('/enquiry', [EnquiryController::class, 'index'])->name('admin.enquiry.index');
+        Route::get('/enquiry/add', [EnquiryController::class, 'add'])->name('admin.enquiry.add');
+        Route::post('/enquiry/store', [EnquiryController::class, 'store'])->name('admin.enquiry.store');
+        Route::get('enquiry/restore', [EnquiryController::class, 'restorePage'])->name('admin.enquiry.restore.page');
+        Route::get('/enquiry/edit/{id}', [EnquiryController::class, 'edit'])->name('admin.enquiry.edit');
+        Route::post('/enquiry/update/{id}', [EnquiryController::class, 'update'])->name('admin.enquiry.update');
+        Route::post('/enquiry/delete/{id}', [EnquiryController::class, 'delete'])->name('admin.enquiry.delete');
+        Route::get('/enquiry/detail/{id}', [EnquiryController::class, 'detail'])->name('admin.enquiry.detail');
+        Route::post('/enquiry/comment/{id}', [EnquiryController::class, 'comment'])->name('admin.enquiry.comment.store');
+        Route::get('/enquiry/comment/delete/{id}', [EnquiryController::class, 'deleteComment'])->name('admin.enquiry.comment.delete');
+        Route::get('enquiry/restore/{id}', [EnquiryController::class, 'restore'])->name('admin.enquiry.restore');
+        Route::post('enquiry/force_delete/{id}', [EnquiryController::class, 'forceDelete'])->name('admin.enquiry.force.delete');
+        // End of Enquiry
+
+
+
     });
 });
