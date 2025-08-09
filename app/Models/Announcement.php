@@ -16,6 +16,6 @@ class Announcement extends Model
         'link_url',
         'status',
         'order_no',
-        'created_by',
+        'title',
     ];
 }

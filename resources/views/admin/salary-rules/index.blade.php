@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Announcement List')
+@section('title', 'Salary Rule List')
 
 @section('content')
     <section class="content">
@@ -8,10 +8,10 @@
                 <div class="col-md-12">
                     <div class="card card-primary card-outline mt-3">
                         <div class="card-header">
-                            <h3 class="card-title mt-1"><b>{{ __('List of Announcements') }}</b></h3>
+                            <h3 class="card-title mt-1"><b>{{ __('List of Salary Rules') }}</b></h3>
                             <div class="card-tools d-flex">
-                                <a href="{{ route('admin.announcement.add') }}" class="btn btn-primary btn-sm mx-1">
-                                    <i class="fas fa-plus"></i> {{ __('Add Announcement') }}
+                                <a href="{{ route('admin.salary-rules.add') }}" class="btn btn-primary btn-sm mx-1">
+                                    <i class="fas fa-plus"></i> {{ __('Add Salary Rule') }}
                                 </a>
                             </div>
                         </div>
@@ -22,47 +22,34 @@
                                     <thead>
                                         <tr>
                                             <th>{{ __('#') }}</th>
-                                            <th>{{ __('Title') }}</th>
-                                            <th>{{ __('Link Text') }}</th>
-                                            <th>{{ __('Order No') }}</th>
-                                            <th>{{ __('Status') }}</th>
+                                            <th>{{ __('Direct Investment') }}</th>
+                                            <th>{{ __('Salary') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($announcements as $announcement)
+                                        @forelse ($salary_rules as $salary_rule)
                                             <tr>
-                                                <td class="text-center">{{ $announcement->id }}</td>
+                                                <td class="text-center">{{ $salary_rule->id }}</td>
 
                                                 <td>
-                                                    {{ $announcement->title }}
+                                                    {{ $salary_rule->direct_investment }}
 
                                                 </td>
                                                 <td>
-                                                    {{ $announcement->link_text }}
+                                                    {{ $salary_rule->salary }}
                                                 </td>
 
-                                                <td>{{ $announcement->order_no }}</td>
-                                                <td>
-                                                    <span
-                                                        class="badge bg-{{ $announcement->status == 'active' ? 'success' : 'danger' }}">
-                                                        @if ($announcement->status == 'active')
-                                                            <i class="fas fa-check-circle"></i>
-                                                        @else
-                                                            <i class="fas fa-times-circle"></i>
-                                                        @endif
-                                                        {{ ucfirst($announcement->status) }}
-                                                    </span>
-                                                </td>
+
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                        <a href="{{ route('admin.announcement.edit', $announcement->id) }}"
+                                                        <a href="{{ route('admin.salary-rules.edit', $salary_rule->id) }}"
                                                             class="btn btn-info btn-sm mx-1">
                                                             <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
                                                         </a>
 
                                                         <form id="deleteform" class="d-inline-block"
-                                                            action="{{ route('admin.announcement.delete', $announcement->id) }}"
+                                                            action="{{ route('admin.salary-rules.delete', $salary_rule->id) }}"
                                                             method="post">
                                                             @csrf
                                                             <button type="submit" class="btn btn-danger btn-sm"
@@ -75,7 +62,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="6" class="text-center text-muted">No announcements found.
+                                                <td colspan="6" class="text-center text-muted">No salary rules found.
                                                 </td>
                                             </tr>
                                         @endforelse

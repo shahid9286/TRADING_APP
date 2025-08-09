@@ -24,7 +24,7 @@
                                         <label for="title">{{ __('Title') }} <span class="text-danger">*</span></label>
                                         <input type="text" id="title" class="form-control form-control-sm"
                                             name="title" value="{{ old('title') }}"
-                                            placeholder="{{ __('Enter Announcement Title') }}">
+                                            placeholder="{{ __('Enter Announcement Title') }}" required>
                                         @if ($errors->has('title'))
                                             <p class="text-danger">{{ $errors->first('title') }}</p>
                                         @endif
@@ -57,8 +57,8 @@
                                         <label for="order_no">{{ __('Order No') }} <span
                                                 class="text-danger">*</span></label>
                                         <input type="number" id="order_no" name="order_no"
-                                            class="form-control form-control-sm"
-                                            placeholder="{{ __('Enter Order Number') }}" value="{{ old('order_no') }}">
+                                            class="form-control form-control-sm" placeholder="{{ __('Enter Order No') }}"
+                                            value="{{ old('order_no') }}" required>
                                         @if ($errors->has('order_no'))
                                             <p class="text-danger">{{ $errors->first('order_no') }}</p>
                                         @endif
@@ -68,7 +68,7 @@
                                     <div class=" col-md-3 mt-2">
                                         <label for="status">{{ __('Status') }} <span
                                                 class="text-danger">*</span></label>
-                                        <select id="status" name="status" class="form-control form-control-sm">
+                                        <select id="status" name="status" class="form-control form-control-sm" required>
                                             <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
                                             </option>
                                             <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>
@@ -84,7 +84,7 @@
                                     <div class="col-md-12 mt-2">
                                         <label for="message">Message <span class="text-danger">*</span></label>
                                         <textarea id="message" class="summernote form-control form-control-sm" name="message"
-                                            placeholder="{{ __('Enter Announcement Message') }}">{{ old('message') }}</textarea>
+                                            placeholder="{{ __('Enter Announcement Message') }}" required>{{ old('message') }}</textarea>
 
                                         @if ($errors->has('message'))
                                             <p class="text-danger">{{ $errors->first('message') }}</p>
