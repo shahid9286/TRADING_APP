@@ -101,7 +101,28 @@
                 </li>
                 {{-- Announcement End --}}
 
+                {{-- Salary Rule --}}
 
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.salary-rules.index' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.salary-rules.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-file-invoice-dollar"></i></i>
+                        <p>
+                            {{ __('Salary Rule') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.salary-rules.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.salary-rules.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Salary Rule') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- Salary Rule End --}}
 
                 {{-- Trash --}}
 
@@ -125,6 +146,8 @@
                         </li>
                     </ul>
                 </li>
+                {{-- Trash End --}}
+
                 </li>
 
             </ul>

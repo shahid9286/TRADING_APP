@@ -26,7 +26,7 @@ class AnnouncementController extends Controller
             'message'    => 'required|string',
             'link_text'  => 'nullable|string|max:255',
             'link_url'   => 'nullable|url|max:500',
-            'order_no'   => 'nullable|integer|min:0',
+            'order_no'   => 'required|integer|min:0',
             'status'     => 'required|in:active,inactive',
 
         ]);
@@ -42,7 +42,7 @@ class AnnouncementController extends Controller
         $announcement->save();
 
         $notification = array(
-            'messege' => 'Announcement Added Successfully!',
+            'message' => 'Announcement Added Successfully!',
             'alert' => 'success'
         );
 
@@ -63,7 +63,7 @@ class AnnouncementController extends Controller
             'message'    => 'required|string',
             'link_text'  => 'nullable|string|max:255',
             'link_url'   => 'nullable|url|max:500',
-            'order_no'   => 'nullable|integer|min:0',
+            'order_no'   => 'required|integer|min:0',
             'status'     => 'required|in:active,inactive',
         ]);
         $announcement = Announcement::find($id);
@@ -77,7 +77,7 @@ class AnnouncementController extends Controller
         $announcement->save();
 
         $notification = array(
-            'messege' => 'Announcement Updated Successfully!',
+            'message' => 'Announcement Updated Successfully!',
             'alert' => 'success'
         );
 
@@ -90,7 +90,7 @@ class AnnouncementController extends Controller
         $announcement->delete();
 
         $notification = array(
-            'messege' => 'Announcement Deleted Successfully!',
+            'message' => 'Announcement Deleted Successfully!',
             'alert' => 'success'
         );
 
@@ -101,7 +101,7 @@ class AnnouncementController extends Controller
     {
 
         $announcements = Announcement::onlyTrashed()->get();
-        return view('admin.announcement.restore.page', compact('announcements'));
+        return view('admin.announcement.restore', compact('announcements'));
     }
 
     public function restore($id)
@@ -110,7 +110,7 @@ class AnnouncementController extends Controller
         $announcement->restore();
 
         $notification = array(
-            'messege' => 'Announcement Restored Successfully!',
+            'message' => 'Announcement Restored Successfully!',
             'alert' => 'success',
         );
 
@@ -124,7 +124,7 @@ class AnnouncementController extends Controller
         $announcement->forceDelete();
 
         $notification = array(
-            'messege' => 'Announcement Permanently Deleted Successfully!',
+            'message' => 'Announcement Permanently Deleted Successfully!',
             'alert' => 'success',
         );
 
