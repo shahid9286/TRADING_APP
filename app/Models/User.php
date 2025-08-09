@@ -55,9 +55,9 @@ class User extends Authenticatable
         return $query->where('branch_id', auth()->user()->branch_id)->whereIn('user_type', ['branchUser', 'healthDepartmentUser']);
     }
 
-    public function branch()
+    public function profile()
     {
-        return $this->belongsTo(Branch::class);
+        return $this->hasOne(UserProfile::class);
     }
 
 }
