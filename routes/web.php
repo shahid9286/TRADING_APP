@@ -62,7 +62,7 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // announcement routes
 
-        Route::get('/', [AnnouncementController::class, 'index'])->name('admin.announcement.index');
+        Route::get('/announcement', [AnnouncementController::class, 'index'])->name('admin.announcement.index');
         Route::get('/announcement/add', [AnnouncementController::class, 'add'])->name('admin.announcement.add');
         Route::post('/announcement/store', [AnnouncementController::class, 'store'])->name('admin.announcement.store');
         Route::get('/announcement/{id}/edit', [AnnouncementController::class, 'edit'])->name('admin.announcement.edit');

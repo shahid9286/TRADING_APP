@@ -13,4 +13,14 @@ class FrontController extends Controller
         return view('front.index');
     }
 
+    public function signup()
+{
+    return view('front.signup');
+}
+public function login()
+{
+    return view('front.login');
+}
+
+
 }
