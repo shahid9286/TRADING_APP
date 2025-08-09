@@ -1,17 +1,16 @@
 @extends('admin.layouts.master')
-@section('title', 'Edit Announcement')
+@section('title', 'Add Salary Rules')
 @section('content')
-
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <form class="form-horizontal" action="{{ route('admin.announcement.update', $announcement->id) }}"
-                    method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="{{ route('admin.announcement.store') }}" method="post"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="col-lg-12">
                         <div class="card card-primary card-outline mt-2">
                             <div class="card-header">
-                                <h3 class="card-title mt-1"> <b> {{ __('Edit Announcement') }} </b> </h3>
+                                <h3 class="card-title mt-1"> <b> {{ __('Add Salary Rules') }} </b> </h3>
 
                             </div>
                             <!-- /.card-header -->
@@ -19,14 +18,15 @@
 
                                 <div class="row">
 
+
                                     <!-- Announcement Title -->
                                     <div class=" col-md-6">
                                         <label for="title">{{ __('Title') }} <span class="text-danger">*</span></label>
                                         <input type="text" id="title" class="form-control form-control-sm"
-                                            name="title" value="{{ old('title', $announcement->title) }}"
+                                            name="title" value="{{ old('title') }}"
                                             placeholder="{{ __('Enter Announcement Title') }}">
-                                        @if ($errors->has('title', $announcement->title))
-                                            <p class="text-danger">{{ $errors->first('title', $announcement->title) }}</p>
+                                        @if ($errors->has('title'))
+                                            <p class="text-danger">{{ $errors->first('title') }}</p>
                                         @endif
                                     </div>
 
@@ -35,10 +35,9 @@
                                         <label for="link_text">{{ __('Link Text') }}</label>
                                         <input type="text" id="link_text" name="link_text"
                                             class="form-control form-control-sm" placeholder="{{ __('Enter Link Text') }}"
-                                            value="{{ old('link_text', $announcement->link_text) }}">
-                                        @if ($errors->has('link_text', $announcement->link_text))
-                                            <p class="text-danger">
-                                                {{ $errors->first('link_text', $announcement->link_text) }}</p>
+                                            value="{{ old('link_text') }}">
+                                        @if ($errors->has('link_text'))
+                                            <p class="text-danger">{{ $errors->first('link_text') }}</p>
                                         @endif
                                     </div>
 
@@ -47,10 +46,9 @@
                                         <label for="link_url">{{ __('Link URL') }}</label>
                                         <input type="url" id="link_url" name="link_url"
                                             class="form-control form-control-sm" placeholder="{{ __('Enter Link URL') }}"
-                                            value="{{ old('link_url', $announcement->link_url) }}">
-                                        @if ($errors->has('link_url', $announcement->link_url))
-                                            <p class="text-danger">
-                                                {{ $errors->first('link_url', $announcement->link_url) }}</p>
+                                            value="{{ old('link_url') }}">
+                                        @if ($errors->has('link_url'))
+                                            <p class="text-danger">{{ $errors->first('link_url') }}</p>
                                         @endif
                                     </div>
 
@@ -60,11 +58,9 @@
                                                 class="text-danger">*</span></label>
                                         <input type="number" id="order_no" name="order_no"
                                             class="form-control form-control-sm"
-                                            placeholder="{{ __('Enter Order Number') }}"
-                                            value="{{ old('order_no', $announcement->order_no) }}">
-                                        @if ($errors->has('order_no', $announcement->order_no))
-                                            <p class="text-danger">
-                                                {{ $errors->first('order_no', $announcement->order_no) }}</p>
+                                            placeholder="{{ __('Enter Order Number') }}" value="{{ old('order_no') }}">
+                                        @if ($errors->has('order_no'))
+                                            <p class="text-danger">{{ $errors->first('order_no') }}</p>
                                         @endif
                                     </div>
 
@@ -73,11 +69,9 @@
                                         <label for="status">{{ __('Status') }} <span
                                                 class="text-danger">*</span></label>
                                         <select id="status" name="status" class="form-control form-control-sm">
-                                            <option value="active"
-                                                {{ old('status', $announcement->status) == 'active' ? 'selected' : '' }}>
-                                                Active</option>
-                                            <option value="inactive"
-                                                {{ old('status', $announcement->status) == 'inactive' ? 'selected' : '' }}>
+                                            <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
+                                            </option>
+                                            <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>
                                                 Inactive</option>
                                         </select>
                                         @if ($errors->has('status'))
@@ -85,18 +79,17 @@
                                         @endif
                                     </div>
 
+
                                     <!-- Message -->
                                     <div class="col-md-12 mt-2">
                                         <label for="message">Message <span class="text-danger">*</span></label>
                                         <textarea id="message" class="summernote form-control form-control-sm" name="message"
-                                            placeholder="{{ __('Enter Announcement Message') }}">{{ old('message', $announcement->message) }}</textarea>
+                                            placeholder="{{ __('Enter Announcement Message') }}">{{ old('message') }}</textarea>
 
-                                        @if ($errors->has('message', $announcement->message))
-                                            <p class="text-danger">{{ $errors->first('message', $announcement->message) }}
-                                            </p>
+                                        @if ($errors->has('message'))
+                                            <p class="text-danger">{{ $errors->first('message') }}</p>
                                         @endif
                                     </div>
-
 
                                 </div>
 
@@ -105,9 +98,9 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class=" col-12">
                         <button type="submit"
-                            class="btn btn-sm mb-1 btn-primary float-right">{{ __('Update Announcement') }}</button>
+                            class="btn btn-sm mb-1 btn-primary float-right">{{ __('Add Announcement') }}</button>
                     </div>
                 </form>
             </div>
@@ -115,5 +108,4 @@
         <!-- /.row -->
 
     </section>
-
 @endsection
