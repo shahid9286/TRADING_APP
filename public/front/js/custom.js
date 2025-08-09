@@ -14,21 +14,21 @@ window.addEventListener('load', function () {
 
 // =================== light and dark start ================== //
 
-const moon = document.getElementById('btnSwitch');
-const icon = document.querySelector('#btnSwitch img');
-moon.addEventListener('click', () => {
-    const theme = document.documentElement.getAttribute('data-bs-theme');
-    document.documentElement.setAttribute('data-bs-theme', theme === 'dark' ? 'light' : 'dark');
-    if (theme === 'light') {
-        icon.src = 'assets/images/icon/sun.svg';
-        moon.style.backgroundColor = 'white';
-    } else {
-        icon.src = 'assets/images/icon/moon.svg';
-        moon.style.backgroundColor = '#00D094';
-    }
+// const moon = document.getElementById('btnSwitch');
+// const icon = document.querySelector('#btnSwitch img');
+// moon.addEventListener('click', () => {
+//     const theme = document.documentElement.getAttribute('data-bs-theme');
+//     document.documentElement.setAttribute('data-bs-theme', theme === 'dark' ? 'light' : 'dark');
+//     if (theme === 'light') {
+//         icon.src = 'assets/images/icon/sun.svg';
+//         moon.style.backgroundColor = 'white';
+//     } else {
+//         icon.src = 'assets/images/icon/moon.svg';
+//         moon.style.backgroundColor = '#00D094';
+//     }
 
-    changeImage();
-});
+//     changeImage();
+// });
 // =================== light and dark end ================== //
 
 

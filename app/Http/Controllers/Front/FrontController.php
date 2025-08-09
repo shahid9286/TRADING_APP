@@ -14,13 +14,12 @@ class FrontController extends Controller
     }
 
     public function signup()
-{
-    return view('front.signup');
-}
-public function login()
-{
-    return view('front.login');
-}
-
-
+    {
+        return view('front.signup');
+    }
+    
+    public function login()
+    {
+        return view('front.login');
+    }
 }
