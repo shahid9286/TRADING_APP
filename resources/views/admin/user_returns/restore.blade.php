@@ -1,18 +1,18 @@
 @extends('admin.layouts.master')
-@section('title', 'Restore Reward')
+@section('title', 'Restore User Return')
 @section('content')
 
     <div class="content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">{{ __('Restore Reward') }} </h1>
+                    <h1 class="m-0 text-dark">{{ __('Restore User Return') }} </h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i
                                     class="fas fa-home"></i>{{ __('Home') }}</a></li>
-                        <li class="breadcrumb-item">{{ __('Restore Reward') }}</li>
+                        <li class="breadcrumb-item">{{ __('Restore User Return') }}</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -30,38 +30,35 @@
                                     <thead>
                                         <tr>
                                             <th>{{ __('#') }}</th>
-                                            <th>{{ __('Title') }}</th>
-                                            <th>{{ __('Reward Title') }}</th>
-                                            <th>{{ __('Status') }}</th>
+                                            <th>{{ __('User') }}</th>
+                                            <th>{{ __('Investment') }}</th>
+                                            <th>{{ __('Entry Date ') }}</th>
+                                            <th>{{ __('Amount') }}</th>
+
                                             <th>{{ __('Action') }}</th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                        @forelse ($rewards as $reward)
+                                        @foreach ($returns as $index => $return)
                                             <tr>
-                                                <td>{{ $reward->id }}</td>
-                                                <td>{{ $reward->title }}</td>
-                                                <td>{{ $reward->reward_title }}</td>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $return->user->name ?? 'N/A' }}</td>
                                                 <td>
-                                                    @if ($reward->status === 'active')
-                                                        <span class="badge badge-success">{{ __('Active') }}</span>
-                                                    @elseif($reward->status === 'expired')
-                                                        <span class="badge badge-danger">{{ __('Expired') }}</span>
-                                                    @else
-                                                        <span class="badge badge-secondary">{{ __('Inactive') }}</span>
-                                                    @endif
+                                                    {{ $return->investment->id ?? 'N/A' }}
+                                                    - {{ $return->investment->amount ?? '' }}
                                                 </td>
-
+                                                <td>{{ $return->entry_date ?? 'N/A' }}</td>
+                                                <td>{{ number_format($return->amount, 2) }}</td>
                                                 <td>
-                                                    <a href="{{ route('admin.reward.restore', $reward->id) }}"
+                                                    <a href="{{ route('admin.user_returns.restore', $return->id) }}"
                                                         class="btn btn-info btn-sm"><i class="fas fa-undo"></i>
                                                         {{ __('') }}</a>
 
 
                                                     <form id="deleteform" class="d-inline-block"
-                                                        action="{{ route('admin.reward.force.delete', $reward->id) }}"
+                                                        action="{{ route('admin.user_returns.force.delete', $return->id) }}"
                                                         method="post">
                                                         @csrf
                                                         <button type="submit" class="btn btn-danger btn-sm" id="delete">

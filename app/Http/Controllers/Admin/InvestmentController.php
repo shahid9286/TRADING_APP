@@ -3,162 +3,140 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\AdminBank;
 use App\Models\Investment;
 use App\Helpers\FileHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class InvestmentController extends Controller
 {
     public function index()
     {
-    $investments = Investment::with('user')->get();
-    return view('admin.investment.index', compact('investments'));
+        $investments = Investment::with('user')->get();
+        return view('admin.investment.index', compact('investments'));
     }
 
 public function add()
 {
     $users = User::select('id', 'username', 'email')->get();
-    return view('admin.investment.add', compact('users'));
+    $bankAccounts = AdminBank::all();
+    
+    return view('admin.investment.add', compact('users', 'bankAccounts'));
 }
 
     public function store(Request $request)
     {
         $request->validate([
             'amount'         => 'required|numeric|min:0',
-            'is_active'     => 'required|boolean',
-            'transaction_id' => 'nullable|string|max:255|unique:investments,transaction_id,' . $id,
-            'screenshot'     => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_active'      => 'required|in:active,expired',
+            'transaction_id' => 'required|string|max:255|unique:investments,transaction_id',
+            'screenshot'     => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'user_id'        => 'required|exists:users,id',
             'referral_id'    => 'nullable|exists:users,id',
+            'admin_bank_id' => 'required|exists:admin_banks,id',
             'status'         => 'required|in:pending,approved,rejected',
         ]);
 
-    $investment = new Investment();
-    $investment->amount = $request->amount;
-    $investment->start_date = now();
-    $investment->expiry_date = Carbon::now()->addYear();
-    $investment->status = $request->status;
-    $investment->transaction_id = $request->transaction_id;
-    $investment->user_id = $request->user_id;
-    $investment->referral_id = $request->referral_id;
-    $investment->is_active = $request->boolean('is_active');
-    $investment->added_by = Auth::id();
+        $investment = new Investment();
+        $investment->amount = $request->amount;
+        $investment->start_date = now();
+        $investment->expiry_date = Carbon::now()->addYear();
+        $investment->status = $request->status;
+        $investment->transaction_id = $request->transaction_id;
+        $investment->user_id = $request->user_id;
+        $investment->referral_id = $request->referral_id;
+        $investment->is_active = $request->is_active;
+        $investment->admin_bank_id = $request->admin_bank_id;
 
-    if ($request->hasFile('screenshot')) {
-        $investment->screenshot = FileHelper::upload(
-            $request->file('screenshot'),
-            'assets/admin/uploads/investments/screenshots'
-        );
-    }
+        if ($request->hasFile('screenshot')) {
+            $investment->screenshot = FileHelper::upload(
+                $request->file('screenshot'),
+                'assets/admin/uploads/investments/screenshots'
+            );
+        }
 
         $investment->save();
 
-        $notification = array(
-            'message' => 'Investment Added Successfully!',
-            'alert' => 'success',
-        );
-
-
-        return redirect()->route('admin.investment.index')->with('notification', $notification);
+        return redirect()->route('admin.investment.index')
+            ->with(['message' => 'Investment Added Successfully!', 'alert' => 'success']);
     }
 
-    public function edit($id)
-    {
+public function edit($id)
+{
     $investment = Investment::findOrFail($id);
     $users = User::select('id', 'username', 'email')->get();
-    return view('admin.investment.edit', compact('investment', 'users'));
-    }
+    $bankAccounts = AdminBank::all();
+
+    return view('admin.investment.edit', compact('investment', 'users', 'bankAccounts'));
+}
 
     public function update(Request $request, $id)
     {
-    $request->validate([
-        'amount'         => 'required|numeric|min:0',
-        'is_active'      => 'required|boolean',
-        'transaction_id' => 'required|string|max:255|unique:investments,transaction_id,' . $id,
-        'screenshot'     => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'user_id'        => 'required|exists:users,id',
-        'referral_id'    => 'nullable|exists:users,id',
-        'status'         => 'required|in:pending,approved,rejected',
-    ]);
+        $request->validate([
+            'amount'         => 'required|numeric|min:0',
+            'is_active'      => 'required|in:active,expired',
+            'transaction_id' => 'required|string|max:255|unique:investments,transaction_id,' . $id,
+            'screenshot'     => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'user_id'        => 'required|exists:users,id',
+            'referral_id'    => 'nullable|exists:users,id',
+            'admin_bank_id' => 'required|exists:admin_banks,id',
+            'status'         => 'required|in:pending,approved,rejected',
+        ]);
 
-    $investment = Investment::findOrFail($id);
+        $investment = Investment::findOrFail($id);
 
-    $investment->amount = $request->amount;
-    $investment->start_date = now();
-    $investment->expiry_date = Carbon::now()->addYear(); 
-    $investment->status = $request->status;
-    $investment->transaction_id = $request->transaction_id;
-    $investment->user_id = $request->user_id;
-    $investment->referral_id = $request->referral_id;
-    $investment->is_active = $request->boolean('is_active');
-    $investment->updated_by = Auth::id();
+        $investment->amount = $request->amount;
+        $investment->expiry_date = Carbon::now()->addYear();
+        $investment->status = $request->status;
+        $investment->transaction_id = $request->transaction_id;
+        $investment->user_id = $request->user_id;
+        $investment->referral_id = $request->referral_id;
+        $investment->is_active = $request->is_active;
+        $investment->admin_bank_id = $request->admin_bank_id;
 
-    if ($request->hasFile('screenshot')) {
-        $investment->screenshot = FileHelper::update(
-            $investment->screenshot,
-            $request->file('screenshot'),
-            'assets/admin/uploads/investments/screenshots'
-        );
-    }
+        if ($request->hasFile('screenshot')) {
+            $investment->screenshot = FileHelper::update(
+                $investment->screenshot,
+                $request->file('screenshot'),
+                'assets/admin/uploads/investments/screenshots'
+            );
+        }
 
         $investment->save();
 
-        $notification = array(
-            'message' => 'Investment Updated Successfully!',
-            'alert' => 'success',
-        );
-
-
-        return redirect()->route('admin.investment.index')->with('notification', $notification);
+        return redirect()->route('admin.investment.index')
+            ->with(['message' => 'Investment Updated Successfully!', 'alert' => 'success']);
     }
 
     public function delete($id)
     {
-        $investments = Investment::find($id);
+        $investment = Investment::findOrFail($id);
+        $investment->delete();
 
-        $investments->delete();
-
-        $notification = array(
-            'message' => 'Investment Deleted Successfully!',
-            'alert' => 'success',
-        );
-
-        return back()->with('notification', $notification);
+        return back()->with(['message' => 'Investment Deleted Successfully!', 'alert' => 'success']);
     }
+
     public function restorePage()
     {
-
-        $investment = Investment::onlyTrashed()->get();
-        return view('admin.investment.restore', compact('Investment'));
+        $investments = Investment::onlyTrashed()->get();
+        return view('admin.investment.restore', compact('investments'));
     }
 
     public function restore($id)
     {
-        $rewards = Investment::withTrashed()->find($id);
-        $rewards->restore();
+        $investment = Investment::withTrashed()->findOrFail($id);
+        $investment->restore();
 
-        $notification = array(
-            'message' => 'Investment Restored Successfully!',
-            'alert' => 'success',
-        );
-
-        return back()->with('notification', $notification);
+        return back()->with(['message' => 'Investment Restored Successfully!', 'alert' => 'success']);
     }
 
     public function forceDelete($id)
     {
-        $rewards = Investment::withTrashed()->find($id);
+        $investment = Investment::withTrashed()->findOrFail($id);
+        $investment->forceDelete();
 
-        $rewards->forceDelete();
-
-        $notification = array(
-            'message' => 'Investment Permanently Deleted Successfully!',
-            'alert' => 'success',
-        );
-
-        return back()->with('notification', $notification);
+        return back()->with(['message' => 'Investment Permanently Deleted Successfully!', 'alert' => 'success']);
     }
 }

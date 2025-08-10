@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\{
     InvestmentController,
     AnnouncementController,
     SalaryRulesController,
+    UserReturnController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -87,6 +88,18 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('investment/restore/{id}', [InvestmentController::class, 'restore'])->name('admin.investment.restore');
         Route::post('investment/force_delete/{id}', [InvestmentController::class, 'forceDelete'])->name('admin.investment.force.delete');
         // End of Investment
+                    // userreturn Routes
+        Route::get('/UserReturn', [UserReturnController::class, 'index'])->name('admin.user_returns.index');
+        Route::get('/UserReturn/add', [UserReturnController::class, 'add'])->name('admin.user_returns.add');
+        Route::post('/UserReturn/store', [UserReturnController::class, 'store'])->name('admin.user_returns.store');
+        Route::get('UserReturn/restore', [UserReturnController::class, 'restorePage'])->name('admin.user_returns.restore.page');
+        Route::get('/UserReturn/edit/{id}', [UserReturnController::class, 'edit'])->name('admin.user_returns.edit');
+        Route::put('/UserReturn/update/{id}', [UserReturnController::class, 'update'])->name('admin.user_returns.update');
+        Route::post('/UserReturn/delete/{id}', [UserReturnController::class, 'delete'])->name('admin.user_returns.delete');
+        Route::get('UserReturn/restore/{id}', [UserReturnController::class, 'restore'])->name('admin.user_returns.restore');
+        Route::post('UserReturn/force_delete/{id}', [UserReturnController::class, 'forceDelete'])->name('admin.user_returns.force.delete');
+        // End of userreturn
+
 
         // Enquiry Routes
         Route::get('/enquiry', [EnquiryController::class, 'index'])->name('admin.enquiry.index');

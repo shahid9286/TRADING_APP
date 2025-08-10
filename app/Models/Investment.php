@@ -20,7 +20,7 @@ class Investment extends Model
         'is_active',
         'user_id',
         'referral_id',
-'admin_bank_account_id' ,  ];
+'admin_bank_id' ,  ];
 
     protected $casts = [
         'start_date' => 'datetime',
@@ -40,21 +40,9 @@ class Investment extends Model
     {
         return $this->belongsTo(User::class, 'referral_id');
     }
-    public function bankaccount()
+    public function adminbank()
     {
-        return $this->belongsTo(User::class, 'referral_id');
-    }
-
-    // Relationship to added by user (admin/staff)
-    public function addedBy()
-    {
-        return $this->belongsTo(User::class, 'added_by');
-    }
-
-    // Relationship to updated by user
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
+        return $this->belongsTo(AdminBank::class, 'admin_bank_id');
     }
 
 }

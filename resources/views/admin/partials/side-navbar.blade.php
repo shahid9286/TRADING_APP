@@ -124,29 +124,6 @@
                 </li>
                 {{-- Salary Rule End --}}
 
-                {{-- Trash --}}
-
-                <li class="nav-item {{ request()->routeIs('admin.announcement.restore.*') ? 'menu-open' : '' }}">
-                    <a href=""
-                        class="nav-link {{ request()->routeIs('admin.announcement.restore.*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-trash"></i>
-
-                        <p>
-                            {{ __('Trash') }}
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.announcement.restore.page') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.announcement.restore.page' ? 'active' : '' }}">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{ __('Announcement') }}</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- Trash End --}}
 
                 </li>
                 {{-- Enquiry --}}
@@ -237,6 +214,76 @@
                     </ul>
                 </li>
                 {{-- investment End --}}
+                {{-- user return start --}}
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.user_returns.index' || Route::currentRouteName() == 'admin.user_returns.add' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.user_returns.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-trophy"></i>
+                        <p>
+                            {{ __('UserReturns') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.user_returns.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.user_returns.index' ? 'active' : '' }}">
+                                <i class="fas fa-trophy nav-icon"></i>
+                                <p>{{ __('All UserReturn') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.user_returns.add') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.user_returns.add' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Add UserReturn') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- user return End --}}
+
+
+                {{-- Trash --}}
+
+                <li class="nav-item {{ request()->routeIs('admin.announcement.restore.*') ? 'menu-open' : '' }}">
+                    <a href=""
+                        class="nav-link {{ request()->routeIs('admin.announcement.restore.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-trash"></i>
+
+                        <p>
+                            {{ __('Trash') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.announcement.restore.page') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.announcement.restore.page' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Announcement') }}</p>
+                            </a>
+                        </li>
+                                                <li class="nav-item">
+                            <a href="{{ route('admin.reward.restore.page') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.reward.restore.page' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Rewards ') }}</p>
+                            </a>
+                        </li>
+                                                <li class="nav-item">
+                            <a href="{{ route('admin.user_returns.restore.page') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.user_returns.restore.page' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('User Returns') }}</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                {{-- Trash End --}}
+
 
             </ul>
         </nav>
