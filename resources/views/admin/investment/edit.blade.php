@@ -131,19 +131,23 @@
 
                                 {{-- Screenshot --}}
                                 <div class="col-6 mb-3">
-                                    <label for="screenshot">{{ __('Screenshot') }}</label>
+                                    <label for="screenshot">{{ __(' Screenshot') }}</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-image"></i></span>
                                         </div>
-                                        <input type="file" class="form-control form-control-sm" name="screenshot" id="screenshot" accept="image/*">
+
+                                        <input type="file" name="screenshot" id="screenshot"
+                                            class="form-control form-control-sm up-img">
                                     </div>
-                                    @if($investment->screenshot)
-                                        <div class="mt-2">
-                                            <img src="{{ asset('uploads/screenshots/' . $investment->screenshot) }}" alt="Screenshot" width="150">
-                                        </div>
+
+                                    <img class="mw-400 mb-3 show-img img-demo mt-1" src="{{ asset($investment->screenshot) }}"
+                                        alt="" width="50px">
+
+                                    @if ($errors->has('screenshot'))
+                                        <p class="text-danger"> {{ $errors->first('screenshot') }} </p>
                                     @endif
-                                    @error('screenshot') <p class="text-danger">{{ $message }}</p> @enderror
+
                                 </div>
 
                                 {{-- Status --}}

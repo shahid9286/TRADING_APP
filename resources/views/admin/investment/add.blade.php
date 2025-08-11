@@ -127,16 +127,26 @@
                                 </div>
 
                                 {{-- Screenshot --}}
-                                <div class="col-6 mb-3">
-                                    <label for="screenshot">{{ __('Screenshot') }} <span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-image"></i></span>
-                                        </div>
-                                        <input type="file" class="form-control form-control-sm" name="screenshot" id="screenshot" accept="image/*" required>
+                            {{-- Image --}}
+                                    <div class="col-6 mb-3">
+                                        <label for="screenshot">
+                                            {{ __('Screenshot') }}
+                                        </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-image"></i></span>
                                     </div>
-                                    @error('screenshot') <p class="text-danger">{{ $message }}</p> @enderror
-                                </div>
+                                            <input type="file" class="form-control form-control-sm form-control form-control-sm-sm up-img" name="screenshot"
+                                                id="screenshot">
+                                        </div>
+                                        <img class="mw-400 mt-1 show-img img-demo"
+                                            src="{{ asset('assets/uploads/core/img-demo.jpg') }}" alt=""
+                                            width="50px">
+                                        @if ($errors->has('screenshot'))
+                                            <p class="text-danger">{{ $errors->first('screenshot') }}</p>
+                                        @endif
+                                    </div>
+
 
                                 {{-- Status --}}
                                 <div class="col-6 mb-3">
