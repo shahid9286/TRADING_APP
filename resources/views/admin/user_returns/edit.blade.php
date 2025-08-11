@@ -97,10 +97,9 @@
                                     <label for="entry_date">{{ __('Entry Date') }}</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-calendar-alt"></i></span></div>
-                                        <input id="entry_date" type="date" name="entry_date" class="form-control form-control-sm" value="{{ $initialEntryDate }}" readonly>
+                                        <input id="entry_date" type="date" name="entry_date" class="form-control form-control-sm" value="{{ old('entry_date', $user_return->entry_date) }}" required>
                                     </div>
                                     @error('entry_date') <p class="text-danger">{{ $message }}</p> @enderror
-                                    <small class="text-muted">{{ __('Auto-filled from selected investment and read-only') }}</small>
                                 </div>
 
                                 {{-- Type --}}

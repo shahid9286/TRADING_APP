@@ -87,15 +87,13 @@
                                     @error('amount') <p class="text-danger">{{ $message }}</p> @enderror
                                 </div>
 
-                                {{-- Entry Date (readonly, from investment) --}}
                                 <div class="col-4 mb-3">
                                     <label for="e_date">{{ __('Entry Date') }}</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend"><span class="input-group-text"><i class="far fa-calendar-alt"></i></span></div>
-                                        <input id="e_date" type="date" name="entry_date" class="form-control form-control-sm" value="{{ old('entry_date') }}" readonly>
+                                        <input id="e_date" type="date" name="entry_date" class="form-control form-control-sm" value="{{ old('entry_date') }}" required>
                                     </div>
                                     @error('entry_date') <p class="text-danger">{{ $message }}</p> @enderror
-                                    <small class="text-muted">{{ __('Auto-filled from selected investment and read-only') }}</small>
                                 </div>
 
                                 {{-- Type --}}
