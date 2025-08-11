@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Country;
 use App\Models\User;
+use App\Models\Country;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\AdminBankSeeder;
+use Database\Seeders\InvestmentSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,5 +15,9 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call(UserSeeder::class);
+        $this->call(InvestmentSeeder::class);
+         $this->call(AdminBankSeeder::class);
+
+
     }
 }
