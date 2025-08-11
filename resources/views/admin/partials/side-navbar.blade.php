@@ -164,6 +164,127 @@
                 </li>
                 {{-- Salary Rule End --}}
 
+
+                </li>
+                {{-- Enquiry --}}
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.enquiry.index' || Route::currentRouteName() == 'admin.enquiry.add' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.enquiry.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-question-circle"></i>
+                        <p>
+                            {{ __('Enquiry') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.enquiry.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.enquiry.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('All Enquiries') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.enquiry.add') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.enquiry.add' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Add Enquiry') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- Enquiry End --}}
+
+                {{-- reward --}}
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.reward.index' || Route::currentRouteName() == 'admin.reward.add' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.reward.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-trophy"></i>
+                        <p>
+                            {{ __('Reward') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.reward.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.reward.index' ? 'active' : '' }}">
+                                <i class="fas fa-trophy nav-icon"></i>
+                                <p>{{ __('All Rewards') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.reward.add') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.reward.add' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Add Reward') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- Reward End --}}
+                {{-- investment --}}
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.investment.index' || Route::currentRouteName() == 'admin.investment.add' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.investment.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-trophy"></i>
+                        <p>
+                            {{ __('Investment') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.investment.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.investment.index' ? 'active' : '' }}">
+                                <i class="fas fa-trophy nav-icon"></i>
+                                <p>{{ __('All Investment') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.investment.add') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.investment.add' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Add Investment') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- investment End --}}
+                {{-- user return start --}}
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.user_returns.index' || Route::currentRouteName() == 'admin.user_returns.add' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.user_returns.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-trophy"></i>
+                        <p>
+                            {{ __('UserReturns') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.user_returns.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.user_returns.index' ? 'active' : '' }}">
+                                <i class="fas fa-trophy nav-icon"></i>
+                                <p>{{ __('All UserReturn') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.user_returns.add') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.user_returns.add' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Add UserReturn') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- user return End --}}
+
+
                 {{-- Trash --}}
 
                 <li class="nav-item {{ request()->routeIs('admin.announcement.restore.*') ? 'menu-open' : '' }}">
@@ -184,11 +305,25 @@
                                 <p>{{ __('Announcement') }}</p>
                             </a>
                         </li>
+                                                <li class="nav-item">
+                            <a href="{{ route('admin.reward.restore.page') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.reward.restore.page' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Rewards ') }}</p>
+                            </a>
+                        </li>
+                                                <li class="nav-item">
+                            <a href="{{ route('admin.user_returns.restore.page') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.user_returns.restore.page' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('User Returns') }}</p>
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
                 {{-- Trash End --}}
 
-                </li>
 
             </ul>
         </nav>
