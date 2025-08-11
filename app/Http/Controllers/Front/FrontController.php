@@ -30,6 +30,11 @@ class FrontController extends Controller
     {
         return view('front.about');
     }
+     public function privacyPolicy()
+    {
+        return view('front.privacy.policy');
+    }
+
     
     
 }
