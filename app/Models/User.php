@@ -60,4 +60,8 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
+    public function banks()
+    {
+        return $this->hasMany(UserBank::class);
+    }
 }
