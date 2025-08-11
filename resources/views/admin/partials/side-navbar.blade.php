@@ -101,6 +101,46 @@
                 </li>
                 {{-- Announcement End --}}
 
+{{-- Admin Bank --}}
+{{-- Admin Bank --}}
+<li class="nav-item {{ Route::currentRouteName() == 'admin.admin_banks.index' ? 'menu-open' : '' }}">
+    <a href="{{ route('admin.admin_banks.index') }}" class="nav-link">
+        <i class="nav-icon fas fa-university"></i> {{-- Bank icon --}}
+        <p>
+            {{ __('Admin Bank') }}
+            <i class="fas fa-angle-left right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('admin.admin_banks.index') }}"
+                class="nav-link {{ Route::currentRouteName() == 'admin.admin_banks.index' ? 'active' : '' }}">
+                <i class="fas fa-circle nav-icon"></i>
+                <p>{{ __('Admin Bank') }}</p>
+            </a>
+        </li>
+    </ul>
+</li>
+{{-- Admin Bank End --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 {{-- Salary Rule --}}
 
                 <li class="nav-item {{ Route::currentRouteName() == 'admin.salary-rules.index' ? 'menu-open' : '' }}">
