@@ -6,4 +6,7 @@
 
 <link rel="stylesheet" href="{{ asset('front/css/swiper-bundle.min.css') }}">
 
+
+
+<!-- main css for template -->
 <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">

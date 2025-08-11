@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 // Middleware
 
 use App\Http\Controllers\{
     DashboardController,
     ProfileController
 };
+use App\Http\Controllers\Admin\AdminBankController;
 
 use App\Http\Controllers\Admin\{
     UserController,
@@ -131,8 +133,28 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('announcement/restore/{id}', [AnnouncementController::class, 'restore'])->name('admin.announcement.restore');
         Route::post('announcement/force_delete/{id}', [AnnouncementController::class, 'forceDelete'])->name('admin.announcement.force.delete');
 
-        // salary rules routes
+       // admin bank routes
+Route::get('/admin-banks', [AdminBankController::class, 'index'])->name('admin.admin_banks.index');
+Route::get('/admin-banks/add', [AdminBankController::class, 'add'])->name('admin.admin_banks.add');
+Route::post('/admin-banks/store', [AdminBankController::class, 'store'])->name('admin.admin_banks.store');
+Route::get('/admin-banks/{id}/edit', [AdminBankController::class, 'edit'])->name('admin.admin_banks.edit');
+Route::post('/admin-banks/{id}/update', [AdminBankController::class, 'update'])->name('admin.admin_banks.update');
+Route::post('/admin-banks/{id}/delete', [AdminBankController::class, 'delete'])->name('admin.admin_banks.delete');
+Route::get('/admin-banks/restore', [AdminBankController::class, 'restorePage'])->name('admin.admin_banks.restore.page');
+Route::get('/admin-banks/restore/{id}', [AdminBankController::class, 'restore'])->name('admin.admin_banks.restore');
+Route::post('/admin-banks/force_delete/{id}', [AdminBankController::class, 'forceDelete'])->name('admin.admin_banks.force.delete');
 
+
+
+
+
+
+
+
+
+
+
+   // salary rules routes
         Route::get('/salary-rules', [SalaryRulesController::class, 'index'])->name('admin.salary-rules.index');
         Route::get('/salary-rules/add', [SalaryRulesController::class, 'add'])->name('admin.salary-rules.add');
         Route::post('/salary-rules/store', [SalaryRulesController::class, 'store'])->name('admin.salary-rules.store');
