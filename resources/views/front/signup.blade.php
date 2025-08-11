@@ -11,27 +11,22 @@
 
                             <!-- account tittle -->
                             <div class="account__header">
-                                <h2>Create Your Account</h2>
-                                <p>Hey there! Ready to join the party? We just need a few details from you to get started.
-                                    Let's do
-                                    this!</p>
+                                <h1>Create Your Account</h1>
+                                
                             </div>
 
-                            <!-- account social -->
-                            <div class="account__social">
-                                <a href="#" class="account__social-btn"><span><img
-                                            src="assets/images/others/google.svg" alt="google icon"></span>
-                                    Continue with google
-                                </a>
-                            </div>
-
-                            <!-- account divider -->
-                            <div class="account__divider account__divider--style1">
-                                <span>or</span>
-                            </div>
+                           
 
                             <!-- account form -->
+                             
                             <form action="#" class="account__form needs-validation" novalidate>
+                                <div class="col-12 mb-2">
+                                        <div>
+                                            <label for="account-Refferal iD" class="form-label">Refferal iD  </label>
+                                            <input type="Refferal iD" class="form-control" id="Refferal iD"
+                                                placeholder="Enter your Refferal iD" required>
+                                        </div>
+                                    </div>
                                 <div class="row g-4">
                                     <div class="col-12 col-md-6">
                                         <div>

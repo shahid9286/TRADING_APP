@@ -22,4 +22,18 @@ class FrontController extends Controller
     {
         return view('front.login');
     }
+    public function resetPassword()
+    {
+        return view('front.reset.password');
+    }
+     public function about()
+    {
+        return view('front.about');
+    }
+    
+    
 }
+
+
+
+

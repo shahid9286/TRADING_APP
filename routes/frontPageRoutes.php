@@ -10,7 +10,7 @@ Route::post('/user-store', [FrontController::class, 'storeUser'])->name('front.s
 Route::get('/user-login', [FrontController::class, 'login'])->name('front.login');
 Route::post('/user-login', [FrontController::class, 'loginUser'])->name('front.login.user');
 Route::get('/user-forgot-password', [FrontController::class, 'forgotPassword'])->name('front.forgot.password');
-Route::post('/user-forgot-password', [FrontController::class, 'resetPassword'])->name('front.reset.password');
+Route::get('/user-reset-password', [FrontController::class, 'resetPassword'])->name('front.reset.password');
 Route::get('/about-us', [FrontController::class, 'about'])->name('front.about');
 Route::get('/contact-us', [FrontController::class, 'contact-us'])->name('front.contact');
 Route::post('/contact-us', [FrontController::class, 'storeContactUs'])->name('front.store.contact');
