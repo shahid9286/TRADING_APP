@@ -20,4 +20,9 @@ class UserBank extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function withdrawalRequests()
+    {
+        return $this->hasMany(WithdrawalRequest::class);
+    }
 }

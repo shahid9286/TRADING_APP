@@ -16,4 +16,9 @@ class AdminBank extends Model
         'order_no',
         'notes',
     ];
+
+    public function withdrawalRequests()
+    {
+        return $this->hasMany(WithdrawalRequest::class);
+    }
 }

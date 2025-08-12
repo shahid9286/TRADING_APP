@@ -144,6 +144,28 @@
                 {{-- User Bank End --}}
 
 
+                {{-- Withdrawal Request --}}
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.withdrawal-request.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-wallet"></i>
+
+                        <p>
+                            {{ __('Withdrawal Request') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.withdrawal-request.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Withdrawal Request') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- Withdrawal Request End --}}
 
                 {{-- Salary Rule --}}
 

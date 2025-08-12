@@ -45,7 +45,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-   
+
     public function profile()
     {
         return $this->hasOne(UserProfile::class);
@@ -54,5 +54,10 @@ class User extends Authenticatable
     public function banks()
     {
         return $this->hasMany(UserBank::class);
+    }
+
+    public function withdrawalRequests()
+    {
+        return $this->hasMany(WithdrawalRequest::class);
     }
 }
