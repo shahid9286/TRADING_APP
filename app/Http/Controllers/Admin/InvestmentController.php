@@ -88,7 +88,6 @@ public function edit($id)
         $investment = Investment::findOrFail($id);
 
         $investment->amount = $request->amount;
-        $investment->expiry_date = Carbon::now()->addYear();
         $investment->status = $request->status;
         $investment->transaction_id = $request->transaction_id;
         $investment->user_id = $request->user_id;

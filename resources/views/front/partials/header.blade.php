@@ -61,7 +61,7 @@
 
                 </li>
                 <li>
-                         <a href="{{ route('front.contact') }}">Contact</a>
+                         <a href="{{ route('front.contact') }}">Contact Us</a>
                 </li>
               </ul>
 
