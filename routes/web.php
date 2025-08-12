@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\{
     AnnouncementController,
     SalaryRulesController,
     UserReturnController,
+    UserBankController,
+    WithdrawalRequestController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -25,6 +27,7 @@ use App\Http\Controllers\Auth\{
     NewPasswordController
 };
 use App\Models\SalaryRule;
+use App\Models\WithdrawalRequest;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
@@ -67,7 +70,7 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/pendingUsers', [UserController::class, 'pendingUsers'])->name('admin.user.pendingUsers');
         Route::get('/approvedUsers', [UserController::class, 'approvedUsers'])->name('admin.user.approvedUsers');
         Route::get('/blockedUsers', [UserController::class, 'blockedUsers'])->name('admin.user.blockedUsers');
-            // reward Routes
+        // reward Routes
         Route::get('/reward', [RewardController::class, 'index'])->name('admin.reward.index');
         Route::get('/reward/add', [RewardController::class, 'add'])->name('admin.reward.add');
         Route::post('/reward/store', [RewardController::class, 'store'])->name('admin.reward.store');
@@ -79,7 +82,7 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::post('reward/force_delete/{id}', [RewardController::class, 'forceDelete'])->name('admin.reward.force.delete');
         // End of reward
 
-                    // investment Routes
+        // investment Routes
         Route::get('/investment', [InvestmentController::class, 'index'])->name('admin.investment.index');
         Route::get('/investment/add', [InvestmentController::class, 'add'])->name('admin.investment.add');
         Route::post('/investment/store', [InvestmentController::class, 'store'])->name('admin.investment.store');
@@ -90,7 +93,7 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('investment/restore/{id}', [InvestmentController::class, 'restore'])->name('admin.investment.restore');
         Route::post('investment/force_delete/{id}', [InvestmentController::class, 'forceDelete'])->name('admin.investment.force.delete');
         // End of Investment
-                    // userreturn Routes
+        // userreturn Routes
         Route::get('/UserReturn', [UserReturnController::class, 'index'])->name('admin.user_returns.index');
         Route::get('/UserReturn/add', [UserReturnController::class, 'add'])->name('admin.user_returns.add');
         Route::post('/UserReturn/store', [UserReturnController::class, 'store'])->name('admin.user_returns.store');
@@ -133,28 +136,40 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('announcement/restore/{id}', [AnnouncementController::class, 'restore'])->name('admin.announcement.restore');
         Route::post('announcement/force_delete/{id}', [AnnouncementController::class, 'forceDelete'])->name('admin.announcement.force.delete');
 
-       // admin bank routes
-Route::get('/admin-banks', [AdminBankController::class, 'index'])->name('admin.admin_banks.index');
-Route::get('/admin-banks/add', [AdminBankController::class, 'add'])->name('admin.admin_banks.add');
-Route::post('/admin-banks/store', [AdminBankController::class, 'store'])->name('admin.admin_banks.store');
-Route::get('/admin-banks/{id}/edit', [AdminBankController::class, 'edit'])->name('admin.admin_banks.edit');
-Route::put('/admin-banks/{id}/update', [AdminBankController::class, 'update'])->name('admin.admin_banks.update');
-Route::post('/admin-banks/{id}/delete', [AdminBankController::class, 'delete'])->name('admin.admin_banks.delete');
-Route::get('/admin-banks/restore', [AdminBankController::class, 'restorePage'])->name('admin.admin_banks.restore.page');
-Route::get('/admin-banks/restore/{id}', [AdminBankController::class, 'restore'])->name('admin.admin_banks.restore');
-Route::post('/admin-banks/force_delete/{id}', [AdminBankController::class, 'forceDelete'])->name('admin.admin_banks.force.delete');
+        // admin bank routes
+        Route::get('/admin-banks', [AdminBankController::class, 'index'])->name('admin.admin_banks.index');
+        Route::get('/admin-banks/add', [AdminBankController::class, 'add'])->name('admin.admin_banks.add');
+        Route::post('/admin-banks/store', [AdminBankController::class, 'store'])->name('admin.admin_banks.store');
+        Route::get('/admin-banks/{id}/edit', [AdminBankController::class, 'edit'])->name('admin.admin_banks.edit');
+        Route::put('/admin-banks/{id}/update', [AdminBankController::class, 'update'])->name('admin.admin_banks.update');
+        Route::post('/admin-banks/{id}/delete', [AdminBankController::class, 'delete'])->name('admin.admin_banks.delete');
+        Route::get('/admin-banks/restore', [AdminBankController::class, 'restorePage'])->name('admin.admin_banks.restore.page');
+        Route::get('/admin-banks/restore/{id}', [AdminBankController::class, 'restore'])->name('admin.admin_banks.restore');
+        Route::post('/admin-banks/force_delete/{id}', [AdminBankController::class, 'forceDelete'])->name('admin.admin_banks.force.delete');
 
+        //end of admin bank routes
 
+        // user bank routes
+        Route::get('/user-banks', [UserBankController::class, 'index'])->name('admin.user-banks.index');
+        Route::get('/user-banks/add', [UserBankController::class, 'add'])->name('admin.user-banks.add');
+        Route::post('/user-banks/store', [UserBankController::class, 'store'])->name('admin.user-banks.store');
+        Route::get('/user-banks/{id}/edit', [UserBankController::class, 'edit'])->name('admin.user-banks.edit');
+        Route::post('/user-banks/{id}/update', [UserBankController::class, 'update'])->name('admin.user-banks.update');
+        Route::post('/user-banks/{id}/delete', [UserBankController::class, 'delete'])->name('admin.user-banks.delete');
 
+        //end of user bank routes
 
+        // Withdrawal Request routes
+        Route::get('/user-banks', [WithdrawalRequestController::class, 'index'])->name('admin.withdrawal-request.index');
+        Route::get('/user-banks/add', [WithdrawalRequestController::class, 'add'])->name('admin.withdrawal-request.add');
+        Route::post('/user-banks/store', [WithdrawalRequestController::class, 'store'])->name('admin.withdrawal-request.store');
+        Route::get('/user-banks/{id}/edit', [WithdrawalRequestController::class, 'edit'])->name('admin.withdrawal-request.edit');
+        Route::post('/user-banks/{id}/update', [WithdrawalRequestController::class, 'update'])->name('admin.withdrawal-request.update');
+        Route::post('/user-banks/{id}/delete', [WithdrawalRequestController::class, 'delete'])->name('admin.withdrawal-request.delete');
 
+        //end of Withdrawal Request routes
 
-
-
-
-
-
-   // salary rules routes
+        // salary rules routes
         Route::get('/salary-rules', [SalaryRulesController::class, 'index'])->name('admin.salary-rules.index');
         Route::get('/salary-rules/add', [SalaryRulesController::class, 'add'])->name('admin.salary-rules.add');
         Route::post('/salary-rules/store', [SalaryRulesController::class, 'store'])->name('admin.salary-rules.store');

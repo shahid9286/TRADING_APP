@@ -21,40 +21,42 @@
                             <form action="{{ route('admin.user-banks.store') }}" method="POST">
                                 @csrf
 
-                                <div class="form-group">
-                                    <label for="user_id">{{ __('User') }} <span class="text-danger">*</span></label>
-                                    <select name="user_id" id="user_id" class="form-control" required>
-                                        <option value="">{{ __('Select User') }}</option>
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->id }}"
-                                                {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                                {{ $user->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('user_id')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="user_id">{{ __('User') }} <span class="text-danger">*</span></label>
+                                        <select name="user_id" id="user_id" class="form-control" required>
+                                            <option value="">{{ __('Select User') }}</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->id }}"
+                                                    {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                                    {{ $user->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('user_id'))
+                                            <p class="text-danger">{{ $errors->first('user_id') }}</p>
+                                        @endif
+                                    </div>
 
+                                    <div class="form-group col-md-6">
+                                        <label for="name">{{ __('Bank Name') }} <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" name="bank_name" id="bank_name" class="form-control"
+                                            value="{{ old('bank_name') }}" required>
+                                        @if ($errors->has('bank_name'))
+                                            <p class="text-danger">{{ $errors->first('bank_name') }}</p>
+                                        @endif
+                                    </div>
 
-                                <div class="form-group">
-                                    <label for="name">{{ __('Bank Name') }} <span class="text-danger">*</span></label>
-                                    <input type="text" name="bank_name" id="bank_name" class="form-control"
-                                        value="{{ old('bank_name') }}" required>
-                                    @error('bank_name')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="account_no">{{ __('Account No') }} <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" name="account_no" id="account_no" class="form-control"
-                                        value="{{ old('account_no') }}" required>
-                                    @error('account_no')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
+                                    <div class="form-group col-md-6">
+                                        <label for="account_no">{{ __('Account No') }} <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" name="account_no" id="account_no" class="form-control"
+                                            value="{{ old('account_no') }}" required>
+                                        @if ($errors->has('account_no'))
+                                            <p class="text-danger">{{ $errors->first('account_no') }}</p>
+                                        @endif
+                                    </div>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">{{ __('Add User Bank') }}</button>

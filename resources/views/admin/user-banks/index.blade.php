@@ -37,16 +37,18 @@
                                             <td>{{ $user_bank->account_no }}</td>
 
                                             <td>
-                                                <div class="btn-group">
+                                                <div class="d-flex justify-content-center">
                                                     <a href="{{ route('admin.user-banks.edit', $user_bank->id) }}"
-                                                        class="btn btn-warning btn-sm">
-                                                        <i class="fas fa-edit"></i>
+                                                        class="btn btn-info btn-sm mx-1">
+                                                        <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
                                                     </a>
-                                                    <form action="{{ route('admin.user-banks.delete', $user_bank->id) }}"
-                                                        method="post" class="d-inline-block">
+
+                                                    <form id="deleteform" class="d-inline-block"
+                                                        action="{{ route('admin.user-banks.delete', $user_bank->id) }}"
+                                                        method="post">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-danger btn-sm deletebtn">
-                                                            <i class="fas fa-trash"></i>
+                                                        <button type="submit" class="btn btn-danger btn-sm" id="delete">
+                                                            <i class="fas fa-trash"></i>{{ __('Delete') }}
                                                         </button>
                                                     </form>
                                                 </div>
