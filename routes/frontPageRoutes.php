@@ -15,3 +15,11 @@ Route::get('/about-us', [FrontController::class, 'about'])->name('front.about');
 Route::get('/contact-us', [FrontController::class, 'contact'])->name('front.contact');
 Route::post('/contact-us', [FrontController::class, 'contactUsStore'])->name('front.contact.store');
 Route::get('/privacy-policy', [FrontController::class, 'privacyPolicy'])->name('front.privacy.policy');
+Route::get('/withdraw', [FrontController::class, 'withdraw'])->name('front.withdraw');
+Route::get('/withdraw/store', [FrontController::class, 'withdraw'])->name('front.withdraw.store');
+
+Route::get('/withdraw/history', [FrontController::class, 'withdraw_history'])->name('front.withdraw.history');
+
+Route::get('/transaction', [FrontController::class, 'transaction'])->name('front.transaction');
+Route::get('/plan', [FrontController::class, 'plan'])->name('front.plan');
+

@@ -5,137 +5,122 @@
 
     <!-- main-slider-end -->
     <section class="page-header">
-        <div class="page-header__bg">
+        {{-- <div class="page-header__bg">
             <img src="{{ asset('assets/core/BreadCrumb.png') }}" alt="">
-        </div>
+        </div> --}}
         <!-- /.page-header__bg -->
-        <div class="container">
+        {{-- <div class="container">
             <h2 class="page-header__title bw-split-in-left">Contact Us</h2>
             <ul class="careox-breadcrumb list-unstyled">
                 <li><a href="{{ route('front.index') }}">Home</a></li>
                 <li><span>Contact Us</span></li>
             </ul><!-- /.thm-breadcrumb list-unstyled -->
-        </div><!-- /.container -->
+        </div><!-- /.container --> --}}
     </section><!-- /.page-header -->
 
-    <section class="contact-one contact-one--page service-two" style="background-color: #F9FBFE !important;">
-        <div class="contact-one__shape" style="background-image: url(assets/images/contact/2.png);"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-5">
-                </div>
-                <div class="col-lg-7">
+<section class="contact-section py-5" style="background-color: #f9fbfe;">
+    <div class="container">
+        <div class="row justify-content-center">
+            
+            <div class="col-lg-8 col-md-10 mx-auto">
+                
+                {{-- Notification --}}
+                @if(session('notification'))
+                    <div class="alert alert-{{ session('notification.alert') }} alert-dismissible fade show" role="alert">
+                        {{ session('notification.message') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
 
-                    {{-- Success message --}}
-@if(session('notification'))
-  <div class="alert alert-{{ session('notification.alert') }} alert-dismissible fade show" role="alert">
-    {{ session('notification.message') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-@endif
-
-                    <form id="contactform" method="POST" action="{{ route('front.contact.store') }}"
-                          class="contact-one__form contact-form-validated form-one wow fadeInUp animated"
-                          data-wow-duration="1500ms" novalidate>
-                        @csrf
-
-                        <h1 class="mt-4 text-black"> Let's Get in Touch with Us</h1>
-                        <p class="contact_social text-black">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        
+                        <h4 class="mb-4 fw-bold text-primary text-center">Get in Touch</h4>
+                        <p class="text-center text-muted fs-5">
                             Have a question or want to support our mission? Reach out — we’re here to help and always happy to connect.
                         </p>
 
-                        <div class="form-one__group">
+                        <form id="contactform" method="POST" action="{{ route('front.contact.store') }}" novalidate>
+                            @csrf
 
-                            <div class="col-12 mb-2">
-                                <label for="name" class="form-label text-black">Name</label>
-                                <input
-                                    class="form-control"
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    placeholder="Full Name"
-                                    value="{{ old('name') }}"
-                                    required
-                                >
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control @error('name') is-invalid @enderror" 
+                                       id="name" 
+                                       name="name" 
+                                       placeholder="Your full name" 
+                                       value="{{ old('name') }}" 
+                                       required>
                                 @error('name')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="col-12 mb-2">
-                                <label for="email" class="form-label text-black">Email</label>
-                                <input
-                                    class="form-control"
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    placeholder="Email here"
-                                    value="{{ old('email') }}"
-                                    required
-                                >
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                <input type="email" 
+                                       class="form-control @error('email') is-invalid @enderror" 
+                                       id="email" 
+                                       name="email" 
+                                       placeholder="you@example.com" 
+                                       value="{{ old('email') }}" 
+                                       required>
                                 @error('email')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="col-12 mb-2">
-  <label for="phone_no" class="form-label text-black">Phone Number</label>
-  <input
-      class="form-control"
-      type="tel"
-      id="phone_no"
-      name="phone_no"
-      placeholder="Phone Number"
-      value="{{ old('phone_no') }}"
-      required
-  >
-  @error('phone_no')
-      <small class="text-danger">{{ $message }}</small>
-  @enderror
-</div>
 
+                            <div class="mb-3">
+                                <label for="phone_no" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                <input type="tel" 
+                                       class="form-control @error('phone_no') is-invalid @enderror" 
+                                       id="phone_no" 
+                                       name="phone_no" 
+                                       placeholder="+1 234 567 8900" 
+                                       value="{{ old('phone_no') }}" 
+                                       required>
+                                @error('phone_no')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                            <div class="col-12 mb-2">
-                                <label for="subject" class="form-label text-black">Subject</label>
-                                <input
-                                    class="form-control"
-                                    type="text"
-                                    id="subject"
-                                    name="subject"
-                                    placeholder="Subject here"
-                                    value="{{ old('subject') }}"
-                                    required
-                                >
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject <span class="text-danger">*</span></label>
+                                <input type="text" 
+                                       class="form-control @error('subject') is-invalid @enderror" 
+                                       id="subject" 
+                                       name="subject" 
+                                       placeholder="Subject" 
+                                       value="{{ old('subject') }}" 
+                                       required>
                                 @error('subject')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="col-12 mb-2">
-                                <label for="enquiry_message" class="form-label text-black">Message</label>
-                                <textarea
-                                    cols="30"
-                                    rows="5"
-                                    class="form-control"
-                                    id="enquiry_message"
-                                    name="enquiry_message"
-                                    placeholder="Enter Your Message"
-                                    required
-                                >{{ old('enquiry_message') }}</textarea>
+                            <div class="mb-4">
+                                <label for="enquiry_message" class="form-label">Message <span class="text-danger">*</span></label>
+                                <textarea class="form-control @error('enquiry_message') is-invalid @enderror" 
+                                          id="enquiry_message" 
+                                          name="enquiry_message" 
+                                          rows="5" 
+                                          placeholder="Write your message here..." 
+                                          required>{{ old('enquiry_message') }}</textarea>
                                 @error('enquiry_message')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <button type="submit" class="trk-btn trk-btn--border trk-btn--primary mb-2 d-block">
-                                Contact Us Now
-                            </button>
+                <button type="submit" class="trk-btn trk-btn--border trk-btn--primary mt-4 d-block">contact us
+                  now</button>
+                        </form>
 
-                        </div><!-- /.form-one__group -->
-                    </form>
+                    </div>
+                </div>
 
-                </div><!-- /.col-xl-7 -->
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </section>
-
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+</section>
 @endsection

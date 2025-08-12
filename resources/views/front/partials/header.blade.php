@@ -34,21 +34,14 @@
                   </ul>
                 </li>
                 <li>
-                  <a href="#0">About</a>
-                  <ul class="submenu">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="price.html">Price</a></li>
-                    <li><a href="team.html">Team</a></li>
-                    <li><a href="team-2.html">Team 2</a></li>
-                    <li><a href="team-details.html">Team Details</a></li>
-                  </ul>
-                </li>
+                  <a href="{{route("front.plan")}}">Plan</a></li>
 
                 <li>
-                  <a href="#0">Pages</a>
+                  <a href="#0">Finance</a>
                   <ul class="submenu">
-                    <li><a href="blogs.html">Blogs</a></li>
-                    <li><a href="blog-sidebar.html">Blog - Side Bar</a></li>
+                    <li>
+                      <a href="{{ route('front.withdraw') }}">Withdraw</a></li>
+                      <li> <a href="{{ route('front.transaction') }}">Transaction</a></li>
                     <li><a href="blog-details.html">Blog Details</a></li>
                     <li><a href="signup.html">Sign Up</a></li>
                     <li><a href="signup-2.html">Sign Up 2</a></li>

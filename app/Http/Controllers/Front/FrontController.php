@@ -69,6 +69,27 @@ class FrontController extends Controller
 
         return back()->with('notification', $notification);
     }
+         public function withdraw()
+    {
+        return view('front.finance.withdraw');
+    }
+              public function withdraw_history()
+    {
+        return view('front.finance.withdraw_history');
+    }
+
+          public function transaction()
+    {
+        return view('front.finance.transaction');
+    }
+          public function plan()
+    {
+        return view('front.plan');
+    }
+          public function user_level()
+    {
+        return view('front.user_level');
+    }
 
 }
 
