@@ -23,34 +23,35 @@ class UserReturnController extends Controller
         return view('admin.user_returns.add', compact('users', 'investments'));
     }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'investment_id' => 'required|exists:investments,id',
-        'user_id'       => 'required|exists:users,id',
-        'amount'        => 'required|numeric|min:0',
-        'type'          => 'required|string',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'investment_id' => 'required|exists:investments,id',
+            'user_id'       => 'required|exists:users,id',
+            'amount'        => 'required|numeric|min:0',
+            'type'          => 'required|string',
+            'entry_date' => 'required|date'
+        ]);
 
-    // Fetch the investment
-    $investment = Investment::find($request->investment_id);
+        // Fetch the investment
+        $investment = Investment::find($request->investment_id);
 
-    UserReturn::create([
-        'investment_id' => $request->investment_id,
-        'user_id'       => $request->user_id,
-        'amount'        => $request->amount,
-        'type'          => $request->type,
-        'entry_date'    => $investment->created_at->toDateString(), // Now safe
-    ]);
+        UserReturn::create([
+            'investment_id' => $request->investment_id,
+            'user_id'       => $request->user_id,
+            'amount'        => $request->amount,
+            'type'          => $request->type,
+            'entry_date'    => $request->entry_date,
+        ]);
 
-    $notification = [
-        'message' => 'User Return Added Successfully!',
-        'alert'   => 'success',
-    ];
+        $notification = [
+            'message' => 'User Return Added Successfully!',
+            'alert'   => 'success',
+        ];
 
-    return redirect()->route('admin.user_returns.index')
-                     ->with('notification', $notification);
-}
+        return redirect()->route('admin.user_returns.index')
+            ->with('notification', $notification);
+    }
     public function edit($id)
     {
         $user_return = UserReturn::findOrFail($id);
@@ -67,18 +68,20 @@ public function store(Request $request)
             'investment_id' => 'required|exists:investments,id',
             'user_id'       => 'required|exists:users,id',
             'amount'        => 'required|numeric|min:0',
-            'type'          => 'required|in:daily-return,monthly-commission,referral-commission,rewards,admin-fee'
-        ]);
-        $user_return = UserReturn::findOrFail($id); 
-            $investment = Investment::findOrFail($request->investment_id);
+            'type'          => 'required|in:daily-return,monthly-commission,referral-commission,rewards,admin-fee',
+            "entry_date" => 'required|date',
 
-    $user_return->update([
-        'investment_id' => $request->investment_id,
-        'user_id'       => $request->user_id,
-        'amount'        => $request->amount,
-        'type'          => $request->type,
-        'entry_date'    => $investment->created_at->toDateString(), 
-    ]);
+        ]);
+        $user_return = UserReturn::findOrFail($id);
+        $investment = Investment::findOrFail($request->investment_id);
+
+        $user_return->update([
+            'investment_id' => $request->investment_id,
+            'user_id'       => $request->user_id,
+            'amount'        => $request->amount,
+            'type'          => $request->type,
+            'entry_date'    => $request->entry_date,
+        ]);
 
         $notification = array(
             'message' => 'User Return Updated Successfully!',

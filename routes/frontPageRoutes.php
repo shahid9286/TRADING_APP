@@ -12,6 +12,6 @@ Route::post('/user-login', [FrontController::class, 'loginUser'])->name('front.l
 Route::get('/user-forgot-password', [FrontController::class, 'forgotPassword'])->name('front.forgot.password');
 Route::get('/user-reset-password', [FrontController::class, 'resetPassword'])->name('front.reset.password');
 Route::get('/about-us', [FrontController::class, 'about'])->name('front.about');
-Route::get('/contact-us', [FrontController::class, 'contact-us'])->name('front.contact');
-Route::post('/contact-us', [FrontController::class, 'storeContactUs'])->name('front.store.contact');
+Route::get('/contact-us', [FrontController::class, 'contact'])->name('front.contact');
+Route::post('/contact-us', [FrontController::class, 'contactUsStore'])->name('front.contact.store');
 Route::get('/privacy-policy', [FrontController::class, 'privacyPolicy'])->name('front.privacy.policy');
