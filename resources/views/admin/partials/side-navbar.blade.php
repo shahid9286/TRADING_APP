@@ -101,45 +101,71 @@
                 </li>
                 {{-- Announcement End --}}
 
-{{-- Admin Bank --}}
-{{-- Admin Bank --}}
-<li class="nav-item {{ Route::currentRouteName() == 'admin.admin_banks.index' ? 'menu-open' : '' }}">
-    <a href="{{ route('admin.admin_banks.index') }}" class="nav-link">
-        <i class="nav-icon fas fa-university"></i> {{-- Bank icon --}}
-        <p>
-            {{ __('Admin Bank') }}
-            <i class="fas fa-angle-left right"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('admin.admin_banks.index') }}"
-                class="nav-link {{ Route::currentRouteName() == 'admin.admin_banks.index' ? 'active' : '' }}">
-                <i class="fas fa-circle nav-icon"></i>
-                <p>{{ __('Admin Bank') }}</p>
-            </a>
-        </li>
-    </ul>
-</li>
-{{-- Admin Bank End --}}
+                {{-- Admin Bank --}}
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.admin_banks.index' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.admin_banks.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-university"></i> {{-- Bank icon --}}
+                        <p>
+                            {{ __('Admin Bank') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.admin_banks.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.admin_banks.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Admin Bank') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- Admin Bank End --}}
+
+                {{-- User Bank --}}
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.user-banks.index' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.user-banks.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-landmark"></i>
+                        <p>
+                            {{ __('User Bank') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.user-banks.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.user-banks.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('User Bank') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- User Bank End --}}
 
 
+                {{-- Withdrawal Request --}}
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.withdrawal-request.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-wallet"></i>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        <p>
+                            {{ __('Withdrawal Request') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.withdrawal-request.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Withdrawal Request') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- Withdrawal Request End --}}
 
                 {{-- Salary Rule --}}
 
@@ -305,14 +331,14 @@
                                 <p>{{ __('Announcement') }}</p>
                             </a>
                         </li>
-                                                <li class="nav-item">
+                        <li class="nav-item">
                             <a href="{{ route('admin.reward.restore.page') }}"
                                 class="nav-link {{ Route::currentRouteName() == 'admin.reward.restore.page' ? 'active' : '' }}">
                                 <i class="fas fa-circle nav-icon"></i>
                                 <p>{{ __('Rewards ') }}</p>
                             </a>
                         </li>
-                                                <li class="nav-item">
+                        <li class="nav-item">
                             <a href="{{ route('admin.user_returns.restore.page') }}"
                                 class="nav-link {{ Route::currentRouteName() == 'admin.user_returns.restore.page' ? 'active' : '' }}">
                                 <i class="fas fa-circle nav-icon"></i>

@@ -45,14 +45,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     public function profile()
     {
         return $this->hasOne(UserProfile::class);
     }
 
-    public function scopeOwnBranch($query)
+    public function banks()
     {
-        return $query->where('branch_id', auth()->user()->branch_id)->whereIn('user_type', ['branchUser', 'healthDepartmentUser']);
+        return $this->hasMany(UserBank::class);
     }
 
+    public function withdrawalRequests()
+    {
+        return $this->hasMany(WithdrawalRequest::class);
+    }
 }

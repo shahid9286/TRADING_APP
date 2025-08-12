@@ -32,6 +32,15 @@ class FrontController extends Controller
     {
         return view('front.about');
     }
+<<<<<<< HEAD
+     public function privacyPolicy()
+    {
+        return view('front.privacy.policy');
+    }
+
+    
+    
+=======
          public function contact()
     {
         return view('front.contact');
@@ -91,6 +100,7 @@ class FrontController extends Controller
         return view('front.user_level');
     }
 
+>>>>>>> de4fe0abe1e3ee1bcb937f0b03c80380bdd27081
 }
 
 
