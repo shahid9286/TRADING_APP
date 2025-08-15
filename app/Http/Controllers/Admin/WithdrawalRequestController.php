@@ -20,7 +20,7 @@ class WithdrawalRequestController extends Controller
     public function add()
     {
         $users = User::select('id', 'username')->get();
-        $banks = AdminBank::select('id', 'bank_name')->get();
+        $banks = AdminBank::select('id', 'name')->get();
         $user_banks = UserBank::select('id', 'bank_name')->get();
 
         return view('admin.withdrawal-request.add', compact('users', 'banks', 'user_banks'));
@@ -85,7 +85,7 @@ class WithdrawalRequestController extends Controller
         $withdrawal_request = WithdrawalRequest::findOrFail($id);
 
         $users = User::select('id', 'username')->get();
-        $banks = AdminBank::select('id', 'bank_name')->get();
+        $banks = AdminBank::select('id', 'name')->get();
         $user_banks = UserBank::select('id', 'bank_name')->get();
 
         return view('admin.withdrawal-request.edit', compact('withdrawal_request', 'users', 'banks', 'user_banks'));

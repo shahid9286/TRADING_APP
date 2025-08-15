@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row">
                 <form class="form-horizontal" action="{{ route('admin.announcement.update', $announcement->id) }}"
-                    method="post" enctype="multipart/form-data">
+                    method="post">
                     @csrf
                     <div class="col-lg-12">
                         <div class="card card-primary card-outline mt-2">

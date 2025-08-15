@@ -70,7 +70,8 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="6" class="text-center text-muted">No announcements found.
+                                                <td colspan="6" class="text-center text-muted">No restore announcements
+                                                    found.
                                                 </td>
                                             </tr>
                                         @endforelse

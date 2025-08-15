@@ -4,8 +4,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <form class="form-horizontal" action="{{ route('admin.announcement.store') }}" method="post"
-                    enctype="multipart/form-data">
+                <form class="form-horizontal" action="{{ route('admin.announcement.store') }}" method="post">
                     @csrf
                     <div class="col-lg-12">
                         <div class="card card-primary card-outline mt-2">
