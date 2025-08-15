@@ -69,6 +69,7 @@
                                         <label for="status">{{ __('Status') }} <span
                                                 class="text-danger">*</span></label>
                                         <select id="status" name="status" class="form-control form-control-sm" required>
+                                            <option value="">{{ __('-- Select Status --') }}</option>
                                             <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
                                             </option>
                                             <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>
