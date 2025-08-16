@@ -17,7 +17,7 @@ class UserBankController extends Controller
 
     public function add()
     {
-        $users = User::select('id', 'name')->get();
+        $users = User::select('id', 'username')->get();
         return view('admin.user-banks.add', compact('users'));
     }
 
@@ -46,7 +46,7 @@ class UserBankController extends Controller
     public function edit($id)
     {
         $user_bank = UserBank::findOrFail($id);
-        $users = User::select('id', 'name')->get();
+        $users = User::select('id', 'username')->get();
         return view('admin.user-banks.edit', compact('user_bank', 'users'));
     }
 
@@ -75,13 +75,14 @@ class UserBankController extends Controller
 
     public function delete($id)
     {
-        $user_bank = UserBank::findOrFail($id);
-        $user_bank->delete();
+        $userBank = UserBank::findOrFail($id);
+        $userBank->delete();
 
-        $notification = [
-            'message' => 'User Bank Deleted Successfully!',
-            'alert'   => 'success'
-        ];
+        $notification = array(
+            'message' => 'User Banks Updated Successfully!',
+            'alert' => 'success'
+        );
+
 
         return redirect()->route('admin.user-banks.index')->with('notification', $notification);
     }

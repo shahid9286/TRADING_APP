@@ -4,8 +4,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <form class="form-horizontal" action="{{ route('admin.announcement.store') }}" method="post"
-                    enctype="multipart/form-data">
+                <form class="form-horizontal" action="{{ route('admin.announcement.store') }}" method="post">
                     @csrf
                     <div class="col-lg-12">
                         <div class="card card-primary card-outline mt-2">
@@ -69,6 +68,7 @@
                                         <label for="status">{{ __('Status') }} <span
                                                 class="text-danger">*</span></label>
                                         <select id="status" name="status" class="form-control form-control-sm" required>
+                                            <option value="">{{ __('-- Select Status --') }}</option>
                                             <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
                                             </option>
                                             <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>

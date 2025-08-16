@@ -13,7 +13,6 @@
                                 <a href="{{ route('admin.user-banks.add') }}" class="btn btn-sm btn-primary">
                                     <i class="fas fa-plus"></i> {{ __('Add New User Bank') }}
                                 </a>
-
                             </div>
                         </div>
 
@@ -35,7 +34,6 @@
                                             <td>{{ $user_bank->user->name }}</td>
                                             <td>{{ $user_bank->bank_name }}</td>
                                             <td>{{ $user_bank->account_no }}</td>
-
                                             <td>
                                                 <div class="d-flex justify-content-center">
                                                     <a href="{{ route('admin.user-banks.edit', $user_bank->id) }}"
