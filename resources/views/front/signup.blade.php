@@ -43,6 +43,26 @@
                                         @enderror
                                     </div>
 
+                                     {{-- Phone --}}
+                                    <div class="col-12 col-md-6">
+                                        <label for="phone" class="form-label">Phone</label>
+                                        <input type="text" class="form-control" id="phone" name="phone"
+                                            placeholder="Ex. john_doe" value="{{ old('phone') }}" required>
+                                        @error('phone')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                     {{-- Frist Name --}}
+                                    <div class="col-12 col-md-6">
+                                        <label for="first_name" class="form-label">Frist Name</label>
+                                        <input type="text" class="form-control" id="first_name" name="first_name"
+                                            placeholder="Ex. Doe" value="{{ old('first_name') }}">
+                                        @error('first_name')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
                                     {{-- Last Name --}}
                                     <div class="col-12 col-md-6">
                                         <label for="last_name" class="form-label">Last Name</label>

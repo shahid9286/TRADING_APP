@@ -103,7 +103,7 @@ class FrontController extends Controller
         $user = new User();
         $user->username          = $request->username;
         $user->email             = $request->email;
-        $user->phone             = '123';//$request->phone;
+        $user->phone             = $request->phone;
         $user->password          = Hash::make($request->password);
         $user->status            = 'pending'; // default from schema
         $user->net_balance       = 0;
