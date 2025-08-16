@@ -5,10 +5,6 @@
 
 <body>
 
-    <div class="preloader">
-        <img src="{{ asset('front/images/logo/preloader.png') }}" alt="preloader icon">
-    </div>
-
     @include('front.partials.header')
 
     @yield('content')

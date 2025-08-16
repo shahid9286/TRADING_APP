@@ -2,6 +2,12 @@
 
 namespace App\Models;
 
+/**
+ * @method bool hasRole(string|array|\Spatie\Permission\Contracts\Role $roles)
+ * @method \Spatie\Permission\Contracts\Role[] getRoleNames()
+ * @method $this assignRole(...$roles)
+ */
+
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;

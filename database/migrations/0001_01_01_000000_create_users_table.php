@@ -13,29 +13,22 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-        
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone');
             $table->enum('status', ['approved', 'pending', 'blocked'])->default('pending');
-            
             $table->string('referral_username')->nullable();
             $table->foreignId('referral_user_id')->nullable()->constrained('users')->nullOnDelete();
-        
-            for ($i = 1; $i <= 7; $i++) {
-                $table->foreignId("level_{$i}_user_id")
-                      ->nullable()
-                      ->constrained('users')
-                      ->nullOnDelete();
-            }
-        
+            $table->foreignId('level_1_user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('level_2_user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('level_3_user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('level_4_user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('level_5_user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('level_6_user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('level_7_user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('password');
-        
-            $table->decimal('total_earning', 12, 2)->default(0);
-            $table->decimal('total_withdraw', 12, 2)->default(0);
             $table->decimal('net_balance', 12, 2)->default(0);
-        
             $table->rememberToken();
             $table->timestamps();
         });

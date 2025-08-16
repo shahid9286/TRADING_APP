@@ -1,79 +1,111 @@
 @extends('front.layouts.master')
 @section('title', 'User Login')
 @section('content')
+    <section class="account padding-top padding-bottom sec-bg-color2">
+        <div class="container">
+            <div class="account__wrapper" data-aos="fade-up" data-aos-duration="800">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="account__content account__content--style1">
 
-<section class="account padding-top padding-bottom sec-bg-color2">
-    <div class="container">
-      <div class="account__wrapper" data-aos="fade-up" data-aos-duration="800">
-        <div class="row g-4">
-          <div class="col-lg-12">
-            <div class="account__content account__content--style1">
+                            <!-- Laravel Login Form -->
+                            <form method="POST" action="{{ route('front.login.user') }}" class="account__form needs-validation"
+                                novalidate>
+                                @csrf
 
-              <!-- account tittle -->
-              <div class="account__header">
-                <h2>Welcome back!</h2>
-                <p>Hey there! Ready to log in? Just enter your username and password below and you'll be back in action
-                  in no time. Let's go!</p>
-              </div>
+                                <div class="row">
+                                    <!-- Email -->
+                                    <div class="col-12">
+                                        <div>
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" name="email" id="email" value="{{ old('email') }}"
+                                                class="form-control @error('email') is-invalid @enderror"
+                                                placeholder="Enter your email" required autofocus>
+                                            @error('email')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
 
-              <!-- account social -->
-             
+                                    <!-- Password -->
+                                    <div class="col-12">
+                                        <div class="form-pass">
+                                            <label for="password" class="form-label">Password</label>
+                                            <input type="password" name="password" id="password"
+                                                class="form-control showhide-pass @error('password') is-invalid @enderror"
+                                                placeholder="Password" required>
 
-              <!-- account divider -->
-              <div class="account__divider account__divider--style1">
-                <span>or</span>
-              </div>
+                                            <button type="button" id="btnToggle" class="form-pass__toggle">
+                                                <i id="eyeIcon" class="fa fa-eye"></i>
+                                            </button>
 
-              <!-- account form -->
-              <form action="#" class="account__form needs-validation" novalidate>
-                <div class="row g-4">
-                  <div class="col-12">
-                    <div>
-                      <label for="account-email" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="account-email" placeholder="Enter your email"
-                        required>
+                                            @error('password')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Remember Me + Forgot Password -->
+                                <div class="account__check">
+                                    <div class="account__check-remember">
+                                        <input type="checkbox" name="remember" class="form-check-input" id="remember">
+                                        <label for="remember" class="form-check-label">Remember me</label>
+                                    </div>
+                                    <div class="account__check-forgot">
+                                        @if (Route::has('front.forgot.password'))
+                                            <a href="{{ route('front.forgot.password') }}">Forgot Password?</a>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Submit -->
+                                <button type="submit" class="trk-btn trk-btn--border trk-btn--primary d-block mt-4">
+                                    Sign in
+                                </button>
+                            </form>
+
+                            <!-- Switch to Signup -->
+                            <div class="account__switch">
+                                <p>Don't have an account?
+                                    <a href="{{ route('front.signup') }}">Sign up</a>
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-pass">
-                      <label for="account-pass" class="form-label">Password</label>
-                      <input type="password" class="form-control showhide-pass" id="account-pass" placeholder="Password"
-                        required>
-
-                      <button type="button" id="btnToggle" class="form-pass__toggle"><i id="eyeIcon"
-                          class="fa fa-eye"></i></button>
-                    </div>
-                  </div>
                 </div>
-
-                <div class="account__check">
-
-                  <div class="account__check-remember">
-                    <input type="checkbox" class="form-check-input" value="" id="terms-check">
-                    <label for="terms-check" class="form-check-label">
-                      Remember me
-                    </label>
-                  </div>
-                  <div class="account__check-forgot">
-                    <a href="forgot-pass.html">Forgot Password?</a>
-                  </div>
-                </div>
-
-                <button type="submit" class="trk-btn trk-btn--border trk-btn--primary d-block mt-4">Sign in</button>
-              </form>
-
-
-              <div class="account__switch">
-                <p>Don't have an account? <a href="signup.html">Sign up</a></p>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="account__shape">
-      <span class="account__shape-item account__shape-item--1"><img src="assets/images/contact/4.png"
-          alt="shape-icon"></span>
-    </div>
-  </section>
-  @endsection
+
+        <!-- Decorative Shapes -->
+        <div class="account__shape">
+            <span class="account__shape-item account__shape-item--1">
+                <img src="assets/images/contact/4.png" alt="shape-icon">
+            </span>
+        </div>
+    </section>
+
+    <!-- Show/Hide Password Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleBtn = document.getElementById("btnToggle");
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("eyeIcon");
+
+            toggleBtn.addEventListener("click", function() {
+                const isPassword = passwordInput.type === "password";
+                passwordInput.type = isPassword ? "text" : "password";
+
+                // Toggle eye / eye-slash icon
+                eyeIcon.classList.toggle("fa-eye");
+                eyeIcon.classList.toggle("fa-eye-slash");
+            });
+        });
+    </script>
+
+@endsection
