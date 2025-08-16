@@ -5,7 +5,7 @@ use App\Http\Controllers\Front\FrontController;
 
 // Front Routes
 Route::get('/', [FrontController::class, 'index'])->name('front.index');
-Route::get('/user-signup', [FrontController::class, 'signup'])->name('front.signup');
+Route::get('/user-signup/{user_name?}', [FrontController::class, 'signup'])->name('front.signup');
 Route::post('/user-store', [FrontController::class, 'storeUser'])->name('front.store.user');
 Route::get('/user-login', [FrontController::class, 'login'])->name('front.login');
 Route::post('/user-login', [FrontController::class, 'loginUser'])->name('front.login.user');

@@ -19,20 +19,25 @@
 
                             <!-- account form -->
                              
-                            <form action="#" class="account__form needs-validation" novalidate>
+                            <form action="{{ route('front.store.user')}}" class="account__form needs-validation" novalidate>
+                                @csrf
+                                
                                 <div class="col-12 mb-2">
                                         <div>
                                             <label for="account-Refferal iD" class="form-label">Refferal iD  </label>
-                                            <input type="Refferal iD" class="form-control" id="Refferal iD"
-                                                placeholder="Enter your Refferal iD" required>
+                                            @if(isset($refferal_user))
+                                                <input type="text" class="form-control" id="Refferal iD" placeholder="Enter your Refferal iD" value="{{ $refferal_user->email}}">
+                                                <input type="hidden" value="{{$refferal_user->id}}" name="refferal_id">
+                                                @else
+                                                    <input type="text" class="form-control" id="Refferal iD" placeholder="Enter your Refferal iD" >
+                                                @endif
                                         </div>
                                     </div>
                                 <div class="row g-4">
                                     <div class="col-12 col-md-6">
                                         <div>
-                                            <label for="first-name" class="form-label">First name</label>
-                                            <input class="form-control" type="text" id="first-name"
-                                                placeholder="Ex. Jhon">
+                                            <label for="first-name" class="form-label">User Name</label>
+                                            <input class="form-control" type="text" id="first-name" name="username" placeholder="Ex. Jhon" >
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -43,15 +48,14 @@
                                     </div>
                                     <div class="col-12">
                                         <div>
-                                            <label for="account-email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="account-email"
-                                                placeholder="Enter your email" required>
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-pass">
                                             <label for="account-pass" class="form-label">Password</label>
-                                            <input type="password" class="form-control showhide-pass" id="account-pass"
+                                            <input type="password" name="password" class="form-control showhide-pass" id="account-pass"
                                                 placeholder="Password" required>
 
                                             <button type="button" id="btnToggle" class="form-pass__toggle"><i

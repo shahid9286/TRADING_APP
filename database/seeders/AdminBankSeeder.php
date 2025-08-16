@@ -11,20 +11,20 @@ class AdminBankSeeder extends Seeder
     {
         $banks = [
             [
-                'bank_name' => 'National Bank of Pakistan',
-                'bank_account' => '1234567890123456',
+                'name' => 'National Bank of Pakistan',
+                'account_no' => '1234567890123456',
                 'order_no' => 1,
                 'status' => 'active',
             ],
             [
-                'bank_name' => 'Habib Bank Limited',
-                'bank_account' => '9876543210987654',
+                'name' => 'Habib Bank Limited',
+                'account_no' => '9876543210987654',
                 'order_no' => 2,
                 'status' => 'active',
             ],
             [
-                'bank_name' => 'United Bank Limited',
-                'bank_account' => '4567891234567891',
+                'name' => 'United Bank Limited',
+                'account_no' => '4567891234567891',
                 'order_no' => 3,
                 'status' => 'inactive',
             ],
