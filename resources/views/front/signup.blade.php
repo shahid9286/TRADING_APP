@@ -25,13 +25,15 @@
 
                                     @if (!empty($referral_username))
                                         {{-- Case: Came from referral link --}}
-                                        <input type="text" class="form-control" id="referral_username" name="referral_username" value="{{ $referral_username }}" readonly>
-                                         @error('referral_username')
+                                        <input type="text" class="form-control" id="referral_username"
+                                            name="referral_username" value="{{ $referral_username }}" readonly>
+                                        @error('referral_username')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     @else
                                         {{-- Case: Manual input OR blank --}}
-                                        <input type="text" class="form-control" id="referral_username" name="referral_username" placeholder="Enter Referral Username (Optional)"
+                                        <input type="text" class="form-control" id="referral_username"
+                                            name="referral_username" placeholder="Enter Referral Username (Optional)"
                                             value="{{ old('referral_username') }}">
                                         @error('referral_username')
                                             <small class="text-danger">{{ $message }}</small>
@@ -128,33 +130,32 @@
             </span>
         </div>
     </section>
+@endsection
+@section('js')
+    <script>
+        // Toggle password visibility
+        document.getElementById('btnToggle').addEventListener('click', function() {
+            let pass = document.getElementById('password');
+            let icon = document.getElementById('eyeIcon1');
+            if (pass.type === 'password') {
+                pass.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                pass.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
 
-    @push('scripts')
-        <script>
-            // Toggle password visibility
-            document.getElementById('btnToggle').addEventListener('click', function() {
-                let pass = document.getElementById('password');
-                let icon = document.getElementById('eyeIcon1');
-                if (pass.type === 'password') {
-                    pass.type = 'text';
-                    icon.classList.replace('fa-eye', 'fa-eye-slash');
-                } else {
-                    pass.type = 'password';
-                    icon.classList.replace('fa-eye-slash', 'fa-eye');
-                }
-            });
-
-            document.getElementById('btnCToggle').addEventListener('click', function() {
-                let pass = document.getElementById('password_confirmation');
-                let icon = document.getElementById('eyeIcon2');
-                if (pass.type === 'password') {
-                    pass.type = 'text';
-                    icon.classList.replace('fa-eye', 'fa-eye-slash');
-                } else {
-                    pass.type = 'password';
-                    icon.classList.replace('fa-eye-slash', 'fa-eye');
-                }
-            });
-        </script>
-    @endpush
+        document.getElementById('btnCToggle').addEventListener('click', function() {
+            let pass = document.getElementById('password_confirmation');
+            let icon = document.getElementById('eyeIcon2');
+            if (pass.type === 'password') {
+                pass.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                pass.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+    </script>
 @endsection
