@@ -26,3 +26,12 @@ Route::get('/withdraw/history', [FrontController::class, 'withdraw_history'])->n
 Route::get('/transaction', [FrontController::class, 'transaction'])->name('front.transaction');
 Route::get('/plan', [FrontController::class, 'plan'])->name('front.plan');
 
+
+
+Route::get('/account-blocked', [FrontController::class, 'blockedUser'])->name('user.blocked');
+Route::get('/check-status', function () {
+    $user = auth()->user();
+    return response()->json(['status' => $user->status]);
+})->name('check.status');
+
+
