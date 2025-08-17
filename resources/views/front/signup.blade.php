@@ -21,21 +21,30 @@
 
                                 {{-- Referral ID --}}
                                 <div class="col-12 mb-3">
-                                    <label for="referral_id" class="form-label">Referral ID</label>
-                                    @if (isset($refferal_user))
-                                        <input type="text" class="form-control" id="referral_id_display"
-                                            value="{{ $refferal_user->username }}" readonly>
-                                        <input type="hidden" name="referral_id" value="{{ $refferal_user->id }}">
+                                    <label for="referral_username" class="form-label">Referred By</label>
+
+                                    @if (!empty($referral_username))
+                                        {{-- Case: Came from referral link --}}
+                                        <input type="text" class="form-control" id="referral_username" name="referral_username" value="{{ $referral_username }}" readonly>
+                                         @error('referral_username')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     @else
-                                        <input type="text" class="form-control" id="referral_id" name="referral_id"
-                                            placeholder="Enter Referral Username (Optional)">
+                                        {{-- Case: Manual input OR blank --}}
+                                        <input type="text" class="form-control" id="referral_username" name="referral_username" placeholder="Enter Referral Username (Optional)"
+                                            value="{{ old('referral_username') }}">
+                                        @error('referral_username')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     @endif
                                 </div>
+
 
                                 <div class="row g-4">
                                     {{-- Username --}}
                                     <div class="col-12 col-md-6">
-                                        <label for="username" class="form-label">User Name</label>
+                                        <label for="username" class="form-label">Username <span class="text-danger"> *
+                                            </span></label>
                                         <input type="text" class="form-control" id="username" name="username"
                                             placeholder="Ex. john_doe" value="{{ old('username') }}" required>
                                         @error('username')
@@ -43,39 +52,22 @@
                                         @enderror
                                     </div>
 
-                                     {{-- Phone --}}
+                                    {{-- Phone --}}
                                     <div class="col-12 col-md-6">
-                                        <label for="phone" class="form-label">Phone</label>
+                                        <label for="phone" class="form-label">Mobile <span class="text-danger"> *
+                                            </span></label>
                                         <input type="text" class="form-control" id="phone" name="phone"
-                                            placeholder="Ex. john_doe" value="{{ old('phone') }}" required>
+                                            placeholder="+971123456789" value="{{ old('phone') }}" required>
                                         @error('phone')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
 
-                                     {{-- Frist Name --}}
-                                    <div class="col-12 col-md-6">
-                                        <label for="first_name" class="form-label">Frist Name</label>
-                                        <input type="text" class="form-control" id="first_name" name="first_name"
-                                            placeholder="Ex. Doe" value="{{ old('first_name') }}">
-                                        @error('first_name')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-
-                                    {{-- Last Name --}}
-                                    <div class="col-12 col-md-6">
-                                        <label for="last_name" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name"
-                                            placeholder="Ex. Doe" value="{{ old('last_name') }}">
-                                        @error('last_name')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
 
                                     {{-- Email --}}
                                     <div class="col-12">
-                                        <label for="email" class="form-label">Email</label>
+                                        <label for="email" class="form-label">Email Address <span class="text-danger"> *
+                                            </span></label>
                                         <input type="email" class="form-control" id="email" name="email"
                                             placeholder="Enter your email" value="{{ old('email') }}" required>
                                         @error('email')
@@ -83,10 +75,12 @@
                                         @enderror
                                     </div>
 
+
                                     {{-- Password --}}
-                                    <div class="col-12">
+                                    <div class="col-12 col-md-6">
                                         <div class="form-pass">
-                                            <label for="password" class="form-label">Password</label>
+                                            <label for="password" class="form-label">Password <span class="text-danger"> *
+                                                </span></label>
                                             <input type="password" name="password" class="form-control showhide-pass"
                                                 id="password" placeholder="Password" required>
                                             <button type="button" id="btnToggle" class="form-pass__toggle">
@@ -99,9 +93,10 @@
                                     </div>
 
                                     {{-- Confirm Password --}}
-                                    <div class="col-12">
+                                    <div class="col-12 col-md-6">
                                         <div class="form-pass">
-                                            <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                            <label for="password_confirmation" class="form-label">Confirm Password <span
+                                                    class="text-danger"> * </span></label>
                                             <input type="password" class="form-control showhide-pass"
                                                 id="password_confirmation" name="password_confirmation"
                                                 placeholder="Re-type password" required>

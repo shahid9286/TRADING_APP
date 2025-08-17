@@ -17,7 +17,7 @@
                                     <!-- Email -->
                                     <div class="col-12">
                                         <div>
-                                            <label for="email" class="form-label">Email</label>
+                                            <label for="email" class="form-label">Email  <span class="text-danger"> * </span></label>
                                             <input type="email" name="email" id="email" value="{{ old('email') }}"
                                                 class="form-control @error('email') is-invalid @enderror"
                                                 placeholder="Enter your email" required autofocus>
@@ -32,7 +32,7 @@
                                     <!-- Password -->
                                     <div class="col-12">
                                         <div class="form-pass">
-                                            <label for="password" class="form-label">Password</label>
+                                            <label for="password" class="form-label">Password  <span class="text-danger"> * </span></label>
                                             <input type="password" name="password" id="password"
                                                 class="form-control showhide-pass @error('password') is-invalid @enderror"
                                                 placeholder="Password" required>

@@ -59,35 +59,31 @@ class FrontController extends Controller
     }
 
 
-    public function signup($user_name = null)
+    public function signup($referral_username = null)
     {
-        $refferal_user = null;
-
-        if (isset($user_name)) {
-            $refferal_user = User::where('username', $user_name)->first();
-        }
-
-        return view('front.signup', compact('refferal_user'));
+        
+        return view('front.signup', compact('referral_username'));
     }
 
     public function storeUser(Request $request)
     {
-        //return $request;
+        // ✅ Validation
         $request->validate([
-            'username'   => 'required|min:3|alpha_dash|unique:users,username',
-            'email'      => 'required|email|max:255|unique:users,email',
-            'password'   => 'required|confirmed|min:6',
-            'first_name' => 'required|string|max:255',
-            'last_name'  => 'required|string|max:255',
-            'phone'      => 'required|string|max:20',
-            'address'    => 'nullable|string|max:255',
-            'referral_id' => 'nullable|exists:users,id',
+            'username'    => 'required|min:3|alpha_dash|unique:users,username',
+            'email'       => 'required|email|max:255|unique:users,email',
+            'phone'       => 'required|string|max:20',
+            'password'    => 'required|confirmed|min:6',
+            'referral_username' => 'nullable|exists:users,username',
         ]);
 
-        // ✅ Handle referral
+        // ✅ Handle referral (always by username)
         $referral_user = null;
-        if ($request->filled('referral_id')) {
-            $referral_user = User::find($request->referral_id);
+        if ($request->filled('referral_username')) {
+            $referral_user = User::where('username', $request->referral_username)->first();
+
+            if (!$referral_user) {
+                return back()->withErrors(['referral_username' => 'Referral username not found!'])->withInput();
+            }
         }
 
         // ✅ Assign referral hierarchy (up to 7 levels)
@@ -99,45 +95,32 @@ class FrontController extends Controller
         $level_6_user_id = $referral_user->level_5_user_id ?? null;
         $level_7_user_id = $referral_user->level_6_user_id ?? null;
 
-        // ✅ Create user
-        $user = new User();
-        $user->username          = $request->username;
-        $user->email             = $request->email;
-        $user->phone             = $request->phone;
-        $user->password          = Hash::make($request->password);
-        $user->status            = 'pending'; // default from schema
-        $user->net_balance       = 0;
-
-        // referral tracking
-        $user->referral_username = $referral_user->username ?? null;
-        $user->referral_user_id  = $referral_user->id ?? null;
-
-        // levels
-        $user->level_1_user_id   = $level_1_user_id;
-        $user->level_2_user_id   = $level_2_user_id;
-        $user->level_3_user_id   = $level_3_user_id;
-        $user->level_4_user_id   = $level_4_user_id;
-        $user->level_5_user_id   = $level_5_user_id;
-        $user->level_6_user_id   = $level_6_user_id;
-        $user->level_7_user_id   = $level_7_user_id;
-
-        $user->save();
-
-        // ✅ Assign role "user" (Spatie)
-        $user->assignRole('user');
-
-        // ✅ Create profile
-        UserProfile::create([
-            'user_id'      => $user->id,
-            'first_name'   => $request->first_name,
-            'last_name'    => $request->last_name,
-            'whatsapp_no'  => $request->whatsapp_no ?? null,
-            'address'      => $request->address ?? '',
-            'profile_image' => null,
+        // ✅ Create User
+        $user = User::create([
+            'username'          => $request->username,
+            'email'             => $request->email,
+            'phone'             => $request->phone,
+            'password'          => Hash::make($request->password),
+            'status'            => 'pending',
+            'net_balance'       => 0,
+            'referral_username' => $referral_user->username ?? null,
+            'referral_user_id'  => $referral_user->id ?? null,
+            'level_1_user_id'   => $level_1_user_id,
+            'level_2_user_id'   => $level_2_user_id,
+            'level_3_user_id'   => $level_3_user_id,
+            'level_4_user_id'   => $level_4_user_id,
+            'level_5_user_id'   => $level_5_user_id,
+            'level_6_user_id'   => $level_6_user_id,
+            'level_7_user_id'   => $level_7_user_id,
         ]);
 
-        return redirect()->route('front.login')->with('success', 'Account created successfully!');
+        // ✅ Assign role
+        $user->assignRole('user');
+
+        return redirect()->route('front.login')
+            ->with('success', 'Account created successfully! Please login.');
     }
+
 
     public function resetPassword()
     {
