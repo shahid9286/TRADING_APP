@@ -11,7 +11,5 @@ Route::middleware(['auth', 'status'])->group(function () {
             Route::get('/user/editProfile', [ProfileController::class, 'editProfile'])->name('user.profile.edit');
             Route::post('/user/updateProfile', [ProfileController::class, 'updateProfile'])->name('user.profile.update');
             Route::post('/user/updatePassword', [ProfileController::class, 'updatePassword'])->name('user.password.update');
-
-           
     });
 });

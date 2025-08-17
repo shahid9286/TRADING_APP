@@ -17,15 +17,20 @@ return new class extends Migration
             $table->dateTime('start_date');
             $table->dateTime('expiry_date');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->string('transaction_id')->nullable()->unique();
+            $table->string('transaction_id')->unique();
             $table->string('screenshot'); 
             $table->enum('is_active', ['active', 'expired'])->default('active');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('referral_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('admin_bank_id')->constrained('admin_banks')->onDelete('cascade');
 
-            $table->softDeletes();
+            $table->index('expiry_date');
+            $table->index('transaction_id');
+            $table->index('user_id');
+            $table->index('referral_id');
+            $table->index('admin_bank_id');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Front;
 
 use App\Models\Enquiry;
+use App\Models\Investment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AdminBank;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use App\Models\UserProfile;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
@@ -212,5 +215,64 @@ class FrontController extends Controller
     public function user_level()
     {
         return view('front.user_level');
+    }
+
+    public function deposit()
+    {
+        return view('front.finance.deposit');
+    }
+
+    public function depositManual(Request $request)
+    {
+        $request->validate(['amount' => 'required']);
+        $amount = $request->amount;
+        $admin_bank = AdminBank::where('status', 'active')->orderBy('order_no', 'ASC')->first();
+        return view('front.finance.deposit-manual', compact('amount', 'admin_bank'));
+    }
+
+    public function depositStoreValidate(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required',
+            'admin_bank_id' => 'required',
+            'transaction_id' => 'required|max:255|unique:investments,transaction_id',
+            'screenshot' => 'required|image|mimes:jpg,png,jpeg|max:1024',
+        ]);
+
+        return response()->json(['message' => 'Validation passed']);
+    }
+
+    public function depositStore(Request $request)
+    {
+        DB::beginTransaction();
+
+        $investment = new Investment();
+        $investment->amount = $request->amount;
+        $investment->start_date = now();
+        $investment->expiry_date = now()->addYear();
+        $investment->status = 'pending';
+        $investment->transaction_id = $request->transaction_id;
+        $investment->is_active = 'active';
+        $investment->user_id = Auth::user()->id;
+        $investment->admin_bank_id = $request->admin_bank_id;
+        $investment->referral_id = Auth::user()->referral_user_id;
+
+        $file = $request->file('screenshot');
+        $extension = $file->getClientOriginalExtension();
+        $screenshot = time() . rand() . '.' . $extension;
+        $file->move('assets/admin/investments/screenshots/', $screenshot);
+        $investment->screenshot = 'assets/admin/investments/screenshots/' . $screenshot;
+
+        $investment->save();
+
+
+        DB::commit();
+
+        return redirect()
+            ->route('front.deposit')
+            ->with('notification', [
+                'alert' => 'success',
+                'message' => 'Request submitted successfully!'
+            ]);
     }
 }

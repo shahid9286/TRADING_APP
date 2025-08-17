@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="{{ asset('front/css/swiper-bundle.min.css') }}">
 
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
 <!-- main css for template -->
 <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">

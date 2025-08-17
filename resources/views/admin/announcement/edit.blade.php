@@ -88,7 +88,7 @@
                                     <!-- Message -->
                                     <div class="col-md-12 mt-2">
                                         <label for="message">Message <span class="text-danger">*</span></label>
-                                        <textarea id="message" class="summernote form-control form-control-sm" name="message"
+                                        <textarea id="message" class="form-control form-control-sm" name="message"
                                             placeholder="{{ __('Enter Announcement Message') }}" required>{{ old('message', $announcement->message) }}</textarea>
 
                                         @if ($errors->has('message', $announcement->message))

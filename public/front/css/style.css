@@ -8056,12 +8056,12 @@ textarea:focus-within {
 }
 @media (min-width: 768px) {
   .cta__subscribe p {
-    margin-block-end: 15px;
+    /* margin-block-end: 15px; */
   }
 }
 @media (min-width: 992px) {
   .cta__subscribe p {
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
   }
 }
 .cta__shape-item--1 {

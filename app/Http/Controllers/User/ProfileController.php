@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,8 @@ class ProfileController extends Controller
 {
     public function dashboard()
     {
-        return view('user.dashboard');
+        $data['announcements'] = Announcement::where('status', 'active')->orderBy('order_no', 'ASC')->get();
+        return view('user.dashboard', $data);
     }
 
     public function editProfile()

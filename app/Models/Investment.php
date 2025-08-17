@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Investment extends Model
 {
-        use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'amount',
@@ -20,22 +20,21 @@ class Investment extends Model
         'is_active',
         'user_id',
         'referral_id',
-'admin_bank_id' ,  ];
+        'admin_bank_id',
+    ];
 
     protected $casts = [
         'start_date' => 'datetime',
         'expiry_date' => 'datetime',
     ];
 
-    
 
-    // Relationship to the user who made the investment
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relationship to the user who referred
     public function referral()
     {
         return $this->belongsTo(User::class, 'referral_id');
@@ -44,5 +43,4 @@ class Investment extends Model
     {
         return $this->belongsTo(AdminBank::class, 'admin_bank_id');
     }
-
 }

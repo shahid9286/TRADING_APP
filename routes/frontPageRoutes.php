@@ -16,6 +16,10 @@ Route::post('/contact-us', [FrontController::class, 'contactUsStore'])->name('fr
 Route::get('/privacy-policy', [FrontController::class, 'privacyPolicy'])->name('front.privacy.policy');
 Route::get('/withdraw', [FrontController::class, 'withdraw'])->name('front.withdraw');
 Route::get('/withdraw/store', [FrontController::class, 'withdraw'])->name('front.withdraw.store');
+Route::get('/deposit', [FrontController::class, 'deposit'])->name('front.deposit');
+Route::post('/deposit/manual', [FrontController::class, 'depositManual'])->name('front.deposit.manual');
+Route::post('/deposit/store/validate', [FrontController::class, 'depositStoreValidate'])->name('front.deposit.store.validate');
+Route::post('/deposit/store', [FrontController::class, 'depositStore'])->name('front.deposit.store');
 
 Route::get('/withdraw/history', [FrontController::class, 'withdraw_history'])->name('front.withdraw.history');
 

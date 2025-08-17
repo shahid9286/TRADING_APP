@@ -19,6 +19,7 @@
                                 <a href="#0">Finance</a>
                                 <ul class="submenu">
                                    <li> <a href="{{ route('front.plan') }}">Plan</a> </li>
+                                   <li> <a href="{{ route('front.deposit') }}">Deposite</a> </li>
                                    <li> <a href="{{ route('front.withdraw') }}">Withdraw</a> </li>
                                    <li> <a href="{{ route('front.transaction') }}">Transactions</a> </li>
                                    <li> <a href="{{ route('front.transaction') }}">User History</a> </li>

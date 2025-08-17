@@ -1,12 +1,12 @@
 // =================== preloader js  ================== //
-window.addEventListener('load', function () {
-    var preloader = document.querySelector('.preloader');
-    preloader.style.transition = 'opacity .5s ease';
-    preloader.style.opacity = '0';
-    setTimeout(function () {
-        preloader.style.display = 'none';
-    }, 1500);
-});
+// window.addEventListener('load', function () {
+//     var preloader = document.querySelector('.preloader');
+//     preloader.style.transition = 'opacity .5s ease';
+//     preloader.style.opacity = '0';
+//     setTimeout(function () {
+//         preloader.style.display = 'none';
+//     }, 1500);
+// });
 
 // =================== preloader js end ================== //
 
