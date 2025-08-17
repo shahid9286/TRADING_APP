@@ -7,6 +7,7 @@ use App\Http\Middleware\CheckUserStatus;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\CheckUserType;
 use App\Http\Middleware\CheckUserRoleStatus;
+use App\Http\Middleware\EnsureProfileIsComplete;
 
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -22,5 +23,6 @@ return Application::configure(basePath: dirname(__DIR__))
             "SetLocale" => SetLocale::class,
             "role" => CheckUserType::class,
             'approved.user' => CheckUserRoleStatus::class,
+            'user.profile' => EnsureProfileIsComplete::class,
         ]);
     }) ->withExceptions(function (Exceptions $exceptions) {})->create();
