@@ -6,8 +6,8 @@ use App\Http\Middleware\Localization;
 use App\Http\Middleware\CheckUserStatus;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\CheckUserType;
-use App\Http\Middleware\CheckBranchAccess;
-use App\Http\Middleware\CheckEventBelongsToBranch;
+use App\Http\Middleware\CheckUserRoleStatus;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,5 +21,6 @@ return Application::configure(basePath: dirname(__DIR__))
             "locale" => Localization::class,
             "SetLocale" => SetLocale::class,
             "role" => CheckUserType::class,
+            'approved.user' => CheckUserRoleStatus::class,
         ]);
     }) ->withExceptions(function (Exceptions $exceptions) {})->create();

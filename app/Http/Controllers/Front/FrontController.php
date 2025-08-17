@@ -26,12 +26,18 @@ class FrontController extends Controller
     {
         // ✅ Step 1: Validate input
         $request->validate([
-            'email'    => 'required|email',
+            'login'    => 'required|string', // can be email or username
             'password' => 'required|min:6',
         ]);
 
-        $credentials = $request->only('email', 'password');
-        $remember    = $request->filled('remember');
+        $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [
+            $loginType => $request->login,
+            'password' => $request->password,
+        ];
+
+        $remember = $request->filled('remember');
 
         // ✅ Step 2: Try login
         if (Auth::attempt($credentials, $remember)) {
@@ -41,27 +47,28 @@ class FrontController extends Controller
 
             // ✅ Step 3: Check if user has "user" role
             if ($user->hasRole('user')) {
-                return redirect()->intended('/dashboard') // user dashboard
+                return redirect()->intended('/user/dashboard') // user dashboard
                     ->with('success', 'You have logged in successfully!');
             }
 
             // 🚫 If role is not "user", logout immediately
             Auth::logout();
             return back()->withErrors([
-                'email' => 'You are not authorized to log in from here.',
+                'login' => 'You are not authorized to log in from here.',
             ]);
         }
 
         // ✅ Step 4: Wrong credentials
         return back()->withErrors([
-            'email' => 'Invalid email or password.',
-        ])->withInput($request->only('email', 'remember'));
+            'login' => 'Invalid username/email or password.',
+        ])->withInput($request->only('login', 'remember'));
     }
+
 
 
     public function signup($referral_username = null)
     {
-        
+
         return view('front.signup', compact('referral_username'));
     }
 
@@ -195,5 +202,10 @@ class FrontController extends Controller
     public function user_level()
     {
         return view('front.user_level');
+    }
+
+    public function blockedUser()
+    {
+        return view('front.blocked-user');
     }
 }

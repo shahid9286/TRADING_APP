@@ -17,12 +17,12 @@
                                     <!-- Email -->
                                     <div class="col-12">
                                         <div>
-                                            <label for="email" class="form-label">Email <span class="text-danger"> *
+                                            <label for="email" class="form-label">Email / Username<span class="text-danger"> *
                                                 </span></label>
-                                            <input type="email" name="email" id="email" value="{{ old('email') }}"
-                                                class="form-control @error('email') is-invalid @enderror"
-                                                placeholder="Enter your email" required autofocus>
-                                            @error('email')
+                                            <input type="text" name="login" id="email" value="{{ old('login') }}"
+                                                class="form-control @error('login') is-invalid @enderror"
+                                                placeholder="Enter your email/username" required autofocus>
+                                            @error('login')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
