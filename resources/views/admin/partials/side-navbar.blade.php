@@ -309,6 +309,21 @@
                     </ul>
                 </li>
                 {{-- user return End --}}
+                                {{-- BusinessRule --}}
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.business.rules.edit') }}"
+                        class="nav-link {{ Route::currentRouteName() == 'admin.business.rules.edit' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            {{ __('BusinessRule') }}
+                        </p>
+                    </a>
+                </li>
+
+                {{-- BusinessRule End --}}
+
+
 
                 {{-- Settings --}}
 
