@@ -26,38 +26,41 @@
                             <h3 class="card-title mt-1">{{ __('Business Rule') }}</h3>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('admin.business.rules.update') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('admin.business.rules.update') }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
 
                                 {{-- Min Deposit --}}
-                                <div class="form-group mb-3">
-                                    <label for="min_deposit">Minimum Deposit  <span
-                                            class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" name="min_deposit" id="min_deposit"
-                                        value="{{ old('min_deposit', $business_rules->min_deposit) }}"
-                                        class="form-control @error('min_deposit') is-invalid @enderror">
-                                    @error('min_deposit')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                <div class="row">
 
-                                {{-- Min Withdraw Limit --}}
-                                <div class="form-group mb-3">
-                                    <label for="min_withdraw_limit">Minimum Withdraw Limit <span
-                                            class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" name="min_withdraw_limit" id="min_withdraw_limit"
-                                        value="{{ old('min_withdraw_limit', $business_rules->min_withdraw_limit) }}"
-                                        class="form-control @error('min_withdraw_limit') is-invalid @enderror">
-                                    @error('min_withdraw_limit')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="min_deposit">Minimum Deposit <span class="text-danger">*</span></label>
+                                        <input type="number" step="0.01" name="min_deposit" id="min_deposit"
+                                            value="{{ old('min_deposit', $business_rules->min_deposit) }}"
+                                            class="form-control @error('min_deposit') is-invalid @enderror">
+                                        @error('min_deposit')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
 
+                                    {{-- Min Withdraw Limit --}}
+                                    <div class="col-md-6 mb-3">
+                                        <label for="min_withdraw_limit">Minimum Withdraw Limit <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" step="0.01" name="min_withdraw_limit"
+                                            id="min_withdraw_limit"
+                                            value="{{ old('min_withdraw_limit', $business_rules->min_withdraw_limit) }}"
+                                            class="form-control @error('min_withdraw_limit') is-invalid @enderror">
+                                        @error('min_withdraw_limit')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                                 {{-- Return Rates --}}
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="daily_return_rate">Daily Return Rate (%) <span
-                                            class="text-danger">*</span></label>
+                                                class="text-danger">*</span></label>
                                         <input type="number" step="0.01" name="daily_return_rate" id="daily_return_rate"
                                             value="{{ old('daily_return_rate', $business_rules->daily_return_rate) }}"
                                             class="form-control @error('daily_return_rate') is-invalid @enderror">
@@ -67,8 +70,9 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="monthly_return_rate">Monthly Return Rate (%) <span
-                                            class="text-danger">*</span></label>
-                                        <input type="number" step="0.01" name="monthly_return_rate" id="monthly_return_rate"
+                                                class="text-danger">*</span></label>
+                                        <input type="number" step="0.01" name="monthly_return_rate"
+                                            id="monthly_return_rate"
                                             value="{{ old('monthly_return_rate', $business_rules->monthly_return_rate) }}"
                                             class="form-control @error('monthly_return_rate') is-invalid @enderror">
                                         @error('monthly_return_rate')
@@ -78,12 +82,12 @@
                                 </div>
 
                                 {{-- Commission Rates --}}
-                                <h5 class="mt-4">Commission Rates (%)</h5>
+                                <h5 class="mt-4 fw-4">Commission Rates (%)</h5>
                                 <div class="row">
                                     @for ($i = 1; $i <= 7; $i++)
                                         <div class="col-md-3 mb-3">
-                                            <label for="level_{{ $i }}_comm_rate">Level {{ $i }} <span
-                                            class="text-danger">*</span></label>
+                                            <label for="level_{{ $i }}_comm_rate">Level {{ $i }}
+                                                <span class="text-danger">*</span></label>
                                             <input type="number" step="0.01" name="level_{{ $i }}_comm_rate"
                                                 id="level_{{ $i }}_comm_rate"
                                                 value="{{ old('level_' . $i . '_comm_rate', $business_rules->{'level_' . $i . '_comm_rate'}) }}"

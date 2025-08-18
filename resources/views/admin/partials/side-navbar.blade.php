@@ -8,7 +8,7 @@
 
         <div class="user-panel">
             <a href="{{ route('admin.dashboard') }}" class="name text-dark">
-                <img src="{{ asset('assets/admin/img/MhowLogo.png') }}" alt="" width="200px">
+                <img src="{{ asset('assets/admin/uploads/static/Logo.png') }}" alt="" width="200px">
             </a>
         </div>
 
