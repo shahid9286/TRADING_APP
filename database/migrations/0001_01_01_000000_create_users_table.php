@@ -29,6 +29,7 @@ return new class extends Migration
             $table->foreignId('level_7_user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('password');
             $table->decimal('net_balance', 12, 2)->default(0);
+            $table->decimal('locked_amount', 12, 2)->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
