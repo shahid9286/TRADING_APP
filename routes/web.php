@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\{
     UserReturnController,
     UserBankController,
     WithdrawalRequestController,
+    SettingController,
+
 };
 
 use App\Http\Controllers\Auth\{
@@ -122,6 +124,10 @@ Route::middleware(['auth', 'status'])->group(function () {
         // End of Enquiry
 
 
+        // Setting Routes
+        Route::get('/setting', [SettingController::class, 'edit'])->name('admin.setting.edit');
+        Route::post('/setting/update', [SettingController::class, 'update'])->name('admin.setting.update');
+        // End of Setting Routes
 
 
         // announcement routes
