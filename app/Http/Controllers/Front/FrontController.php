@@ -131,6 +131,12 @@ class FrontController extends Controller
             ->with('success', 'Account created successfully! Please login.');
     }
 
+    public function createProfile()
+    {
+        
+        return view('front.create-profile');
+    }
+
 
     public function resetPassword()
     {
