@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\{
     UserReturnController,
     UserBankController,
     WithdrawalRequestController,
+    SettingController,
+BusinessRuleController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -122,6 +124,15 @@ Route::middleware(['auth', 'status'])->group(function () {
         // End of Enquiry
 
 
+        // Setting Routes
+        Route::get('/setting', [SettingController::class, 'edit'])->name('admin.setting.edit');
+        Route::post('/setting/update', [SettingController::class, 'update'])->name('admin.setting.update');
+        // End of Setting Routes
+
+        // BusinessRule Routes
+        Route::get('/business-rules', [BusinessRuleController::class, 'edit'])->name('admin.business.rules.edit');
+        Route::post('/business-rules/update', [BusinessRuleController::class, 'update'])->name('admin.business.rules.update');
+        // End of BusinessRule Routes
 
 
         // announcement routes

@@ -135,10 +135,57 @@ class FrontController extends Controller
 
     public function createProfile()
     {
-
+        $profile = UserProfile::where('user_id', Auth::id())->first();
+        // if ($profile) {
+        //     return redirect()->route('front.profile.edit');
+        // }
         return view('front.create-profile');
     }
 
+    
+public function ProfileStore(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'first_name'    => 'required|string|max:255',
+        'last_name'     => 'required|string|max:255',
+        'country'       => 'required|string|max:255',
+        'city'          => 'required|string|max:255',
+        'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 'error',
+            'errors' => $validator->errors(),
+        ], 422);
+    }
+
+    // Get logged-in user
+    $user = Auth::user();
+
+    // Update profile details
+    $user->first_name = $request->first_name;
+    $user->last_name  = $request->last_name;
+    $user->country    = $request->country;
+    $user->city       = $request->city;
+
+    // Handle profile image upload
+    if ($request->hasFile('profile_image')) {
+        $image = $request->file('profile_image');
+        $filename = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('uploads/profile_images'), $filename);
+
+        // store only file path
+        $user->profile_image = 'uploads/profile_images/' . $filename;
+    }
+
+    $user->save();
+
+    return redirect()->back()->with([
+        'message' => 'Profile updated successfully!',
+        'alert'   => 'success',
+    ]);
+}
 
     public function about()
     {

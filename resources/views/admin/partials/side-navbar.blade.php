@@ -8,7 +8,7 @@
 
         <div class="user-panel">
             <a href="{{ route('admin.dashboard') }}" class="name text-dark">
-                <img src="{{ asset('assets/admin/img/MhowLogo.png') }}" alt="" width="200px">
+                <img src="{{ asset('assets/admin/uploads/static/Logo.png') }}" alt="" width="200px">
             </a>
         </div>
 
@@ -309,7 +309,35 @@
                     </ul>
                 </li>
                 {{-- user return End --}}
+                                {{-- BusinessRule --}}
 
+                <li class="nav-item">
+                    <a href="{{ route('admin.business.rules.edit') }}"
+                        class="nav-link {{ Route::currentRouteName() == 'admin.business.rules.edit' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            {{ __('BusinessRule') }}
+                        </p>
+                    </a>
+                </li>
+
+                {{-- BusinessRule End --}}
+
+
+
+                {{-- Settings --}}
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.setting.edit') }}"
+                        class="nav-link {{ Route::currentRouteName() == 'admin.setting.edit' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            {{ __('Settings') }}
+                        </p>
+                    </a>
+                </li>
+
+                {{-- Settings End --}}
 
                 {{-- Trash --}}
 
