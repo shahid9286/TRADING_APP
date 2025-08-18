@@ -9,7 +9,7 @@
 <script src="{{ asset('front/js/custom.js') }}"></script>
 
 <script>
-    @if (session()->has('notification'))
+    @if (session('success'))
         document.addEventListener("DOMContentLoaded", function() {
             var notyf = new Notyf({
                 duration: 4000,
@@ -18,17 +18,22 @@
                     y: 'top'
                 }
             });
+            notyf.success("{{ session('success') }}");
+        });
+    @endif
 
-            @php
-                $note = session('notification');
-            @endphp
-
-            @if ($note['alert'] === 'success')
-                notyf.success("{{ $note['message'] }}");
-            @elseif ($note['alert'] === 'error')
-                notyf.error("{{ $note['message'] }}");
-            @endif
+    @if (session('error'))
+        document.addEventListener("DOMContentLoaded", function() {
+            var notyf = new Notyf({
+                duration: 4000,
+                position: {
+                    x: 'right',
+                    y: 'top'
+                }
+            });
+            notyf.error("{{ session('error') }}");
         });
     @endif
 </script>
+
 @yield('js')
