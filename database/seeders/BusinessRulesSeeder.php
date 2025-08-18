@@ -1,0 +1,40 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\BusinessRule;
+
+class BusinessRulesSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        BusinessRule::updateOrCreate(
+            ['id' => 1], // condition → only one record with id=1
+            [
+                'min_deposit' => 100,
+                'min_withdraw_limit' => 500,
+                'daily_return_rate' => 0.5,
+                'monthly_return_rate' => 15,
+                'level_1_comm_rate' => 10,
+                'level_2_comm_rate' => 8,
+                'level_3_comm_rate' => 6,
+                'level_4_comm_rate' => 5,
+                'level_5_comm_rate' => 4,
+                'level_6_comm_rate' => 3,
+                'level_7_comm_rate' => 2,
+                'salary_date' => now()->toDateString(),
+                'salary_payout_date' => now()->addDays(5)->toDateString(),
+                'entry_approval_date' => now()->toDateString(),
+                'withdraw_last_date' => now()->addDays(10)->toDateString(),
+                'withdraw_payout_date' => now()->addDays(15)->toDateString(),
+                'withdraw_payout_date_2' => now()->addDays(20)->toDateString(),
+            ]
+        );
+    
+    }
+}
