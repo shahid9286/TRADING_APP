@@ -23,7 +23,7 @@
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
-                            <h3 class="card-title mt-1">{{ __('Business Rule') }}</h3>
+                            <h1 class="card-title mt-1">{{ __(' Edit Business Rule') }}</h1>
                         </div>
                         <div class="card-body">
                             <form action="{{ route('admin.business.rules.update') }}" method="POST"
@@ -102,15 +102,21 @@
                                 {{-- Dates --}}
                                 <h5 class="mt-4">Important Dates</h5>
                                 <div class="row">
-                                    <div class="col-md-4 mb-3">
-                                        <label for="salary_date">Salary Date</label>
-                                        <input type="date" name="salary_date" id="salary_date"
-                                            value="{{ old('salary_date', $business_rules->salary_date) }}"
-                                            class="form-control @error('salary_date') is-invalid @enderror">
-                                        @error('salary_date')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
+<div class="col-md-4 mb-3">
+    <label for="salary_day">Salary Day <span class="text-danger">*</span></label>
+    <select name="salary_day" id="salary_day"
+        class="form-control @error('salary_day') is-invalid @enderror">
+        <option value="">-- Select Day --</option>
+        @for ($d = 1; $d <= 31; $d++)
+            <option value="{{ $d }}" {{ old('salary_day', $business_rules->salary_day) == $d ? 'selected' : '' }}>
+                {{ $d }}
+            </option>
+        @endfor
+    </select>
+    @error('salary_day')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
                                     <div class="col-md-4 mb-3">
                                         <label for="salary_payout_date">Salary Payout Date</label>
                                         <input type="date" name="salary_payout_date" id="salary_payout_date"
