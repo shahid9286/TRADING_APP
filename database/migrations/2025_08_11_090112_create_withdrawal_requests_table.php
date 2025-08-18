@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('admin_bank_id')->nullable()->constrained('admin_banks')->onDelete('set null');
             $table->foreignId('user_bank_id')->nullable()->constrained('user_banks')->onDelete('set null');
+            $table->string('bank_name');
+            $table->string('account_no');
             $table->date('request_date');
             $table->decimal('requested_amount', 15, 2);
             $table->enum('status', ['pending', 'approved', 'rejected', 'completed'])->default('pending');

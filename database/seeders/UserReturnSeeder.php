@@ -14,7 +14,7 @@ class UserReturnSeeder extends Seeder
      */
     public function run(): void
     {
-                UserReturn::insert([
+        UserReturn::insert([
             [
                 'investment_id' => 1,
                 'user_id' => 1,
@@ -34,6 +34,5 @@ class UserReturnSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
         ]);
-
     }
 }

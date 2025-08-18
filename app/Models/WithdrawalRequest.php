@@ -36,6 +36,10 @@ class WithdrawalRequest extends Model
         'deleted_at'
     ];
 
+    protected $casts = [
+        'request_date' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
