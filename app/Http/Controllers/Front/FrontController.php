@@ -18,55 +18,64 @@ use Illuminate\Support\Facades\Hash;
 class FrontController extends Controller
 {
 
-    public function login()
-    {
-        if (Auth::check() && Auth::user()->hasRole('user')) {
+public function login()
+{
+    if (Auth::check() && Auth::user()->hasRole('user')) {
+        $profile = UserProfile::where('user_id', Auth::id())->first();
+
+        if ($profile) {
             return redirect()->route('user.dashboard');
+        } else {
+            return redirect()->route('front.CreateProfile');
         }
-        return view('front.login');
     }
-    public function loginUser(Request $request)
-    {
-        // ✅ Step 1: Validate input
-        $request->validate([
-            'login'    => 'required|string', // can be email or username
-            'password' => 'required|min:6',
-        ]);
+    return view('front.login');
+}
+public function loginUser(Request $request)
+{
+    $request->validate([
+        'login'    => 'required|string',
+        'password' => 'required|min:6',
+    ]);
 
-        $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+    $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        $credentials = [
-            $loginType => $request->login,
-            'password' => $request->password,
-        ];
+    $credentials = [
+        $loginType => $request->login,
+        'password' => $request->password,
+    ];
 
-        $remember = $request->filled('remember');
+    $remember = $request->filled('remember');
 
-        // ✅ Step 2: Try login
-        if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
+    if (Auth::attempt($credentials, $remember)) {
+        $request->session()->regenerate();
 
-            $user = Auth::user();
+        $user = Auth::user();
 
-            // ✅ Step 3: Check if user has "user" role
-            if ($user->hasRole('user')) {
-                return redirect()->intended('/user/dashboard') // user dashboard
+        if ($user->hasRole('user')) {
+            $profile = UserProfile::where('user_id', $user->id)->first();
+
+            if ($profile) {
+                // ✅ Go to dashboard if profile exists
+                return redirect()->route('user.dashboard')
                     ->with('success', 'You have logged in successfully!');
+            } else {
+                // ✅ Go to create profile if not created yet
+                return redirect()->route('front.CreateProfile')
+                    ->with('success', 'Please complete your profile.');
             }
-
-            // 🚫 If role is not "user", logout immediately
-            Auth::logout();
-            return back()->withErrors([
-                'login' => 'You are not authorized to log in from here.',
-            ]);
         }
 
-        // ✅ Step 4: Wrong credentials
+        Auth::logout();
         return back()->withErrors([
-            'login' => 'Invalid username/email or password.',
-        ])->withInput($request->only('login', 'remember'));
+            'login' => 'You are not authorized to log in from here.',
+        ]);
     }
 
+    return back()->withErrors([
+        'login' => 'Invalid username/email or password.',
+    ])->withInput($request->only('login', 'remember'));
+}
 
 
     public function signup($referral_username = null)
@@ -134,9 +143,9 @@ class FrontController extends Controller
     public function createProfile()
     {
         $profile = UserProfile::where('user_id', Auth::id())->first();
-        // if ($profile) {
-        //     return redirect()->route('front.profile.edit');
-        // }
+        if ($profile) {
+            return redirect()->route('front.edit-profile');
+        }
         return view('front.create-profile');
     }
 
@@ -158,32 +167,72 @@ public function ProfileStore(Request $request)
         ], 422);
     }
 
-    // Get logged-in user
     $user = Auth::user();
 
-    // Update profile details
-    $user->first_name = $request->first_name;
-    $user->last_name  = $request->last_name;
-    $user->country    = $request->country;
-    $user->city       = $request->city;
+    // Update or create user profile
+    $profile = UserProfile::updateOrCreate(
+        ['user_id' => $user->id], // condition → one profile per user
+        [
+            'first_name' => $request->first_name,
+            'last_name'  => $request->last_name,
+            'country'    => $request->country,
+            'city'       => $request->city,
+            'address' => $request->address ?? 'N/A',
 
-    // Handle profile image upload
+        ]
+    );
+
+    // Handle image upload
     if ($request->hasFile('profile_image')) {
         $image = $request->file('profile_image');
         $filename = time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('uploads/profile_images'), $filename);
 
-        // store only file path
-        $user->profile_image = 'uploads/profile_images/' . $filename;
+        $profile->profile_image = 'uploads/profile_images/' . $filename;
+        $profile->save();
     }
 
-    $user->save();
-
-    return redirect()->back()->with([
-        'message' => 'Profile updated successfully!',
+    return redirect()->route('user.dashboard')->with([
+        'message' => 'Profile saved successfully!',
         'alert'   => 'success',
     ]);
 }
+    public function editProfile()
+    {
+        $profile = UserProfile::where('user_id', Auth::id())->first();
+        return view('front.edit-profile', compact('profile'));
+    }
+    public function ProfileUpdate(Request $request)
+    {
+        $request->validate([
+            'first_name'    => 'required|string|max:255',
+            'last_name'     => 'required|string|max:255',
+            'country'       => 'required|string|max:255',
+            'city'          => 'required|string|max:255',
+            'address'       => 'nullable|string|max:500',
+            'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        ]);
+
+        $profile = UserProfile::firstOrNew(['user_id' => Auth::id()]);
+        $profile->first_name = $request->first_name;
+        $profile->last_name  = $request->last_name;
+        $profile->country    = $request->country;
+        $profile->city       = $request->city;
+        $profile->address    = $request->address;
+
+        // Handle image upload
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/profiles'), $filename);
+            $profile->profile_image = 'uploads/profiles/' . $filename;
+        }
+
+        $profile->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+    }
+
 
     public function resetPassword()
     {
