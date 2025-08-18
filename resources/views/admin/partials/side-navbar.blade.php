@@ -310,6 +310,19 @@
                 </li>
                 {{-- user return End --}}
 
+                {{-- Settings --}}
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.setting.edit') }}"
+                        class="nav-link {{ Route::currentRouteName() == 'admin.setting.edit' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            {{ __('Settings') }}
+                        </p>
+                    </a>
+                </li>
+
+                {{-- Settings End --}}
 
                 {{-- Trash --}}
 

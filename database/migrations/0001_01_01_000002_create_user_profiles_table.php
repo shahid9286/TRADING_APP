@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('profile_image')->nullable();
             $table->string('whatsapp_no')->nullable();
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
             $table->string('address');
             $table->timestamps();
         });
