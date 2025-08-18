@@ -27,7 +27,7 @@ class BusinessRulesSeeder extends Seeder
                 'level_5_comm_rate' => 4,
                 'level_6_comm_rate' => 3,
                 'level_7_comm_rate' => 2,
-                'salary_date' => now()->toDateString(),
+                'salary_day' => now()->day,  
                 'salary_payout_date' => now()->addDays(5)->toDateString(),
                 'entry_approval_date' => now()->toDateString(),
                 'withdraw_last_date' => now()->addDays(10)->toDateString(),
