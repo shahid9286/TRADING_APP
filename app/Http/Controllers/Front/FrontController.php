@@ -260,10 +260,7 @@ class FrontController extends Controller
 
         return redirect()
             ->route('front.deposit')
-            ->with('notification', [
-                'alert' => 'success',
-                'message' => 'Request submitted successfully!'
-            ]);
+            ->with('success', 'Request submitted Successfully!');
     }
     public function blockedUser()
     {

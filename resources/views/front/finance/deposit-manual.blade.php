@@ -17,8 +17,17 @@
                                 </div>
                                 <div class="col-12">
                                     <p class="p-0 m-0">You can Deposite on the given Addresses:</p>
-                                    <p class="p-0 m-0">
-                                        <b>{{ $admin_bank->account_no ?? "No Addresses available, can't deposite at this time. Try again later." }}</b>
+                                    <p class="p-0 m-0 d-flex align-items-center">
+                                        <b id="accountNo">
+                                            {{ $admin_bank->account_no ?? "No Addresses available, can't deposite at this time. Try again later." }}
+                                        </b>
+
+                                        @if (!empty($admin_bank->account_no))
+                                            <button class="btn btn-sm btn-light ms-2" onclick="copyAccountNo()"
+                                                title="Copy">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        @endif
                                     </p>
                                 </div>
                             </div>
@@ -63,6 +72,24 @@
     </section>
 @endsection
 @section('js')
+    <script>
+        function copyAccountNo() {
+            const accountNo = document.getElementById("accountNo").innerText;
+
+            navigator.clipboard.writeText(accountNo).then(() => {
+                var notyf = new Notyf({
+                    duration: 2000,
+                    position: {
+                        x: 'right',
+                        y: 'top'
+                    }
+                });
+                notyf.success("Account number copied!");
+            }).catch(err => {
+                alert("Failed to copy: " + err);
+            });
+        }
+    </script>
     <script>
         $(document).ready(function() {
             $('#depositForm').on('submit', function(e) {
