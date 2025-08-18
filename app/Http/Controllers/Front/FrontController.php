@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Front;
 
 use App\Models\Enquiry;
 use App\Models\Investment;
+use App\Models\UserBank;
+use App\Models\WithdrawalRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AdminBank;
@@ -133,15 +135,58 @@ class FrontController extends Controller
 
     public function createProfile()
     {
-        
+        $profile = UserProfile::where('user_id', Auth::id())->first();
+        // if ($profile) {
+        //     return redirect()->route('front.profile.edit');
+        // }
         return view('front.create-profile');
     }
 
+    
+public function ProfileStore(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'first_name'    => 'required|string|max:255',
+        'last_name'     => 'required|string|max:255',
+        'country'       => 'required|string|max:255',
+        'city'          => 'required|string|max:255',
+        'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+    ]);
 
-    public function resetPassword()
-    {
-        return view('front.reset.password');
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => 'error',
+            'errors' => $validator->errors(),
+        ], 422);
     }
+
+    // Get logged-in user
+    $user = Auth::user();
+
+    // Update profile details
+    $user->first_name = $request->first_name;
+    $user->last_name  = $request->last_name;
+    $user->country    = $request->country;
+    $user->city       = $request->city;
+
+    // Handle profile image upload
+    if ($request->hasFile('profile_image')) {
+        $image = $request->file('profile_image');
+        $filename = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('uploads/profile_images'), $filename);
+
+        // store only file path
+        $user->profile_image = 'uploads/profile_images/' . $filename;
+    }
+
+    $user->save();
+
+    return redirect()->back()->with([
+        'message' => 'Profile updated successfully!',
+        'alert'   => 'success',
+    ]);
+}
+
     public function about()
     {
         return view('front.about');
@@ -190,14 +235,51 @@ class FrontController extends Controller
 
         return back()->with('notification', $notification);
     }
-    public function withdraw()
+    public function withdrawRequest()
     {
-        return view('front.finance.withdraw');
+        $user_banks = UserBank::where('user_id', Auth::id())->get();
+        return view('front.finance.withdraw', compact('user_banks'));
     }
-    public function withdraw_history()
-    {
 
-        return view('front.finance.withdraw_history');
+    public function withdrawRequestStore(Request $request)
+    {
+        $available_balance = Auth::user()->net_balance - Auth::user()->locked_amount;
+
+        $validator = Validator::make($request->all(), [
+            'bank_account'  => 'required|exists:user_banks,id',
+            'amount' => 'required|numeric|min:1|max:'.$available_balance,
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'Validation failed, please recheck the form!');
+        }
+
+        DB::beginTransaction();
+
+        $user_bank = UserBank::find($request->bank_account);
+
+        $withdrawal_request = new WithdrawalRequest();
+        $withdrawal_request->account_no = $user_bank->account_no;
+        $withdrawal_request->bank_name = $user_bank->bank_name;
+        $withdrawal_request->user_bank_id = $user_bank->id;
+        $withdrawal_request->user_id = Auth::id();
+        $withdrawal_request->request_date = today();
+        $withdrawal_request->requested_amount = $request->amount;
+        $withdrawal_request->save();
+
+        $user = Auth::user();
+        $user->locked_amount = $user->locked_amount + $request->amount;
+        $user->save();
+
+        DB::commit();
+
+        return redirect()->route('front.withdraw.request.history')->with('success', 'Request Submitted Successfully!');
+    }
+
+    public function withdrawHistory()
+    {
+        $withdrawal_requests = WithdrawalRequest::where('user_id', Auth::id())->get();
+        return view('front.finance.withdraw_history', compact('withdrawal_requests'));
     }
 
     public function transaction()
@@ -267,6 +349,26 @@ class FrontController extends Controller
         return redirect()
             ->route('front.deposit')
             ->with('success', 'Request submitted Successfully!');
+    }
+
+    public function storeUserBank(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'bank_name'  => 'required|max:255',
+            'account_no' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'Something went wrong, please try again!');
+        }
+
+        $user_bank = new UserBank();
+        $user_bank->bank_name = $request->bank_name;
+        $user_bank->account_no = $request->account_no;
+        $user_bank->user_id = Auth::id();
+        $user_bank->save();
+
+        return redirect()->back()->with('success', 'Bank added Successfully!');
     }
     public function blockedUser()
     {

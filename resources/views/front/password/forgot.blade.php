@@ -1,5 +1,5 @@
 @extends('front.layouts.master')
-@section('title', 'Sing Up')
+@section('title', 'Forgot Password')
 @section('content')
 
     <section class="account padding-top padding-bottom sec-bg-color2">
@@ -11,12 +11,9 @@
 
                             <div class="account__header">
                                 <h2>Reset Your Password</h2>
-                                <p>Hey there! Forgot your password? No worries, just click "forgot password" and follow the
-                                    steps to
-                                    recover it. Easy peasy lemon squeezy!</p>
                             </div>
 
-                            <form method="POST" action="{{ route('password.email') }}"
+                            <form method="POST" action="{{ route('front.password.email') }}"
                                 class="account__form needs-validation" novalidate>
                                 @csrf
                                 <div class="row g-4">
