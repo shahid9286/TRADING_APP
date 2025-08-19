@@ -19,9 +19,10 @@ use App\Http\Controllers\Admin\{
     SalaryRulesController,
     UserReturnController,
     UserBankController,
+    AdminController,
     WithdrawalRequestController,
     SettingController,
-BusinessRuleController,
+    BusinessRuleController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -64,6 +65,8 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/edit-user/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
         Route::post('/update-user/{id}', [UserController::class, 'update'])->name('admin.user.update');
         Route::post('/delete-user/{id}', [UserController::class, 'delete'])->name('admin.user.delete');
+        
+        Route::get('/user-detail/{id}', [UserController::class, 'detail'])->name('admin.user.detail');
 
         Route::post('/makependingUser/{id}', [UserController::class, 'makependingUser'])->name('admin.user.makependingUser');
         Route::post('/makeapprovedUser/{id}', [UserController::class, 'makeapprovedUser'])->name('admin.user.makeapprovedUser');
@@ -72,6 +75,23 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/pendingUsers', [UserController::class, 'pendingUsers'])->name('admin.user.pendingUsers');
         Route::get('/approvedUsers', [UserController::class, 'approvedUsers'])->name('admin.user.approvedUsers');
         Route::get('/blockedUsers', [UserController::class, 'blockedUsers'])->name('admin.user.blockedUsers');
+
+        // admins
+        Route::get('/admins', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('/add-admin', [AdminController::class, 'add'])->name('admin.add');
+        Route::post('/store-admin', [AdminController::class, 'store'])->name('admin.store');
+        Route::get('/edit-admin/{id}', [AdminController::class, 'edit'])->name('admin.edit');
+        Route::post('/update-admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+        Route::post('/delete-admin/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+
+        Route::post('/makependingAdmin/{id}', [AdminController::class, 'makependingAdmin'])->name('admin.makependingAdmin');
+        Route::post('/makeapprovedAdmin/{id}', [AdminController::class, 'makeapprovedAdmin'])->name('admin.makeapprovedAdmin');
+        Route::post('/makeblockedAdmin/{id}', [AdminController::class, 'makeblockedAdmin'])->name('admin.makeblockedAdmin');
+
+        Route::get('/pendingAdmins', [AdminController::class, 'pendingAdmins'])->name('admin.pendingAdmins');
+        Route::get('/approvedAdmins', [AdminController::class, 'approvedAdmins'])->name('admin.approvedAdmins');
+        Route::get('/blockedAdmins', [AdminController::class, 'blockedAdmins'])->name('admin.blockedAdmins');
+
         // reward Routes
         Route::get('/reward', [RewardController::class, 'index'])->name('admin.reward.index');
         Route::get('/reward/add', [RewardController::class, 'add'])->name('admin.reward.add');

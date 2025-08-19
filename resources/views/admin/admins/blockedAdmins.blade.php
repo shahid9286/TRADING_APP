@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Blocked Users')
+@section('title', 'Blocked Admins')
 
 @section('content')
 
@@ -11,7 +11,12 @@
                     <div class="col-md-12 mt-2">
                         <div class="card card-primary card-outline">
                             <div class="card-header">
-                                <h3 class="card-title mt-1">{{ __('Blocked User List') }}</h3>
+                                <h3 class="card-title mt-1">{{ __('Blocked Admin List') }}</h3>
+                                <div class="card-tools d-flex">
+                                    <a href="{{ route('admin.add') }}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-plus"></i> {{ __('Add New Admin ') }}
+                                    </a>
+                                </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -48,7 +53,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if ($user->user_type !== 'superAdmin')
+                                                    @if ($user->id !== 1)
                                                         <div class="btn-group">
                                                             <button type="button"
                                                                 class="btn btn-success btn-sm">Action</button>
@@ -59,35 +64,34 @@
                                                             </button>
                                                             <div class="dropdown-menu" role="menu" style="">
                                                                 <form
-                                                                    action="{{ route('admin.user.makeapprovedUser', $user->id) }}"
+                                                                    action="{{ route('admin.makeapprovedAdmin', $user->id) }}"
                                                                     method="post">
                                                                     @csrf
                                                                     <button type="submit" class="dropdown-item">Approve
-                                                                        User</button>
+                                                                        Admin</button>
                                                                 </form>
                                                                 <form
-                                                                    action="{{ route('admin.user.makependingUser', $user->id) }}"
+                                                                    action="{{ route('admin.makependingAdmin', $user->id) }}"
                                                                     method="post">
                                                                     @csrf
                                                                     <button type="submit" class="dropdown-item">Pending
-                                                                        User</button>
+                                                                        Admin</button>
                                                                 </form>
                                                                 <form
-                                                                    action="{{ route('admin.user.makeblockedUser', $user->id) }}"
+                                                                    action="{{ route('admin.makeblockedAdmin', $user->id) }}"
                                                                     method="post">
                                                                     @csrf
                                                                     <button type="submit" class="dropdown-item">Block
-                                                                        User</button>
+                                                                        Admin</button>
                                                                 </form>
                                                                 {{-- <div class="dropdown-divider"></div>
                                                                 <a class="dropdown-item"
-                                                                    href="{{ route('admin.user.edit', $user->id) }}">Edit
-                                                                    User</a> --}}
+                                                                    href="{{ route('admin.edit', $user->id) }}">Edit
+                                                                    Admin</a> --}}
                                                             </div>
-                                                            <a href="{{ route('admin.user.detail', $user->id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Detail</a>
                                                         </div>
                                                         {{-- <form id="deleteform" class="deleteform d-inline-block"
-                                                            action="{{ route('admin.user.delete', $user->id) }}"
+                                                            action="{{ route('admin.delete', $user->id) }}"
                                                             method="post">
                                                             @csrf
                                                             <button type="submit" class="btn btn-danger btn-sm deletebtn"
