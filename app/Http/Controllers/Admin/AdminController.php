@@ -11,9 +11,8 @@ use App\Notifications\GeneralRoleDatabaseNotification;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\GD\Driver;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
-
 
     protected $notificationService;
 
@@ -25,13 +24,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::role('user')->orderBy('id', 'desc')->get();
-        return view("admin.user.index", compact("users"));
+        $users = User::role('admin')->orderBy('id', 'desc')->get();
+        return view("admin.admins.index", compact("users"));
     }
 
     public function add()
     {
-        return view("admin.user.add");
+        return view("admin.admins.add");
     }
 
     public function store(Request $request)
@@ -83,9 +82,9 @@ class UserController extends Controller
 
         // Notification to super admins
         $superAdminNotificationData = [
-            'title' => 'New User Created',
+            'title' => 'New Admin Created',
             'message' => 'A new user (' . $user->name . ') has been created in the system.',
-            'link' => route('admin.user.index'),
+            'link' => route('admin.admins.index'),
             'role' => 'superAdmin'
         ];
         $this->notificationService->notifyAllSuperAdmins('superAdmin', $superAdminNotificationData);
@@ -100,33 +99,16 @@ class UserController extends Controller
 
         $notification = array(
             'alert' => 'success',
-            'message' => 'User Added Successfuly!'
+            'message' => 'Admin Added Successfuly!'
         );
 
-        return redirect()->route('admin.user.index')->with('notification', $notification);
-    }
-
-    public function detail($id)
-    {
-        $user = User::find($id)->load([
-            'referral',
-            'level1',
-            'level2',
-            'level3',
-            'level4',
-            'level5',
-            'level6',
-            'level7'
-        ]);
-        if (!$user)
-            return redirect()->back()->with('notification', ['alert' => 'success', 'message' => 'User Not Found!']);
-        return view('admin.user.detail', compact('user'));
+        return redirect()->route('admin.admins.index')->with('notification', $notification);
     }
 
     public function edit($id)
     {
         $user = User::find($id);
-        return view("admin.user.edit", compact("user"));
+        return view("admin.admins.edit", compact("user"));
     }
 
     public function update(Request $request, $id)
@@ -175,10 +157,10 @@ class UserController extends Controller
 
         $notification = [
             'alert' => 'success',
-            'message' => 'User Updated Successfully!'
+            'message' => 'Admin Updated Successfully!'
         ];
 
-        return redirect()->route('admin.user.index')->with('notification', $notification);
+        return redirect()->route('admin.admins.index')->with('notification', $notification);
     }
 
     public function delete($id)
@@ -196,7 +178,7 @@ class UserController extends Controller
 
             $notification = [
                 'alert' => 'warning',
-                'message' => 'You Can not Delete Your User!'
+                'message' => 'You Can not Delete Your Admin!'
             ];
             return redirect()->back()->with('notification', $notification);
         } else {
@@ -206,13 +188,13 @@ class UserController extends Controller
             $user->delete();
             $notification = [
                 'alert' => 'success',
-                'message' => 'User Deleted Successfully!'
+                'message' => 'Admin Deleted Successfully!'
             ];
             return redirect()->back()->with('notification', $notification);
         }
     }
 
-    public function makependingUser($id)
+    public function makependingAdmin($id)
     {
         $user = User::find($id);
 
@@ -229,13 +211,13 @@ class UserController extends Controller
             $user->save();
             $notification = [
                 'alert' => 'success',
-                'message' => 'User Maked Pending Successfully!'
+                'message' => 'Admin Maked Pending Successfully!'
             ];
             return redirect()->back()->with('notification', $notification);
         }
     }
 
-    public function makeapprovedUser($id)
+    public function makeapprovedAdmin($id)
     {
         $user = User::find($id);
 
@@ -252,13 +234,13 @@ class UserController extends Controller
             $user->save();
             $notification = [
                 'alert' => 'success',
-                'message' => 'User Maked Approved Successfully!'
+                'message' => 'Admin Maked Approved Successfully!'
             ];
             return redirect()->back()->with('notification', $notification);
         }
     }
 
-    public function makeblockedUser($id)
+    public function makeblockedAdmin($id)
     {
         $user = User::find($id);
 
@@ -275,43 +257,43 @@ class UserController extends Controller
             $user->save();
             $notification = [
                 'alert' => 'success',
-                'message' => 'User Maked Blocked Successfully!'
+                'message' => 'Admin Maked Blocked Successfully!'
             ];
             return redirect()->back()->with('notification', $notification);
         }
     }
 
-    public function pendingUsers()
+    public function pendingAdmins()
     {
-        $users = User::role('user')->where('status', 'pending')->get();
-        return view("admin.user.pendingUsers", compact("users"));
+        $users = User::role('admin')->where('status', 'pending')->get();
+        return view("admin.admins.pendingAdmins", compact("users"));
     }
 
-    public function approvedUsers()
+    public function approvedAdmins()
     {
-        $users = User::role('user')->where('status', 'approved')->get();
-        return view("admin.user.approvedUsers", compact("users"));
+        $users = User::role('admin')->where('status', 'approved')->get();
+        return view("admin.admins.approvedAdmins", compact("users"));
     }
 
-    public function blockedUsers()
+    public function blockedAdmins()
     {
-        $users = User::role('user')->where('status', 'blocked')->get();
-        return view("admin.user.blockedUsers", compact("users"));
+        $users = User::role('admin')->where('status', 'blocked')->get();
+        return view("admin.admins.blockedAdmins", compact("users"));
     }
 
-    public function blockedUser()
+    public function blockedAdmin()
     {
-        return view('admin.user.block');
+        return view('admin.admins.block');
     }
 
-    public function pendingUser()
+    public function pendingAdmin()
     {
-        return view('admin.user.pending');
+        return view('admin.admins.pending');
     }
 
     public function editProfile()
     {
-        $user = User::role('user')->where('id', Auth::user()->id)->first();
+        $user = User::role('admin')->where('id', Auth::user()->id)->first();
         return view('user.partials.editProfile', compact('user'));
     }
 }

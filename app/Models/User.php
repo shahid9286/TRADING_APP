@@ -84,4 +84,44 @@ class User extends Authenticatable
     {
         return $this->hasMany(Investment::class);
     }
+
+    public function referral()
+    {
+        return $this->belongsTo(User::class, 'referral_user_id');
+    }
+
+    public function level1()
+    {
+        return $this->belongsTo(User::class, 'level_1_user_id');
+    }
+
+    public function level2()
+    {
+        return $this->belongsTo(User::class, 'level_2_user_id');
+    }
+
+    public function level3()
+    {
+        return $this->belongsTo(User::class, 'level_3_user_id');
+    }
+
+    public function level4()
+    {
+        return $this->belongsTo(User::class, 'level_4_user_id');
+    }
+
+    public function level5()
+    {
+        return $this->belongsTo(User::class, 'level_5_user_id');
+    }
+
+    public function level6()
+    {
+        return $this->belongsTo(User::class, 'level_6_user_id');
+    }
+
+    public function level7()
+    {
+        return $this->belongsTo(User::class, 'level_7_user_id');
+    }
 }
