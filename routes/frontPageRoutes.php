@@ -26,7 +26,11 @@ Route::get('/withdraw/history', [FrontController::class, 'withdrawHistory'])->na
 Route::get('/transaction', [FrontController::class, 'transaction'])->name('front.transaction');
 Route::get('/plan', [FrontController::class, 'plan'])->name('front.plan');
 
-Route::get('/user/profile-setting', [FrontController::class, 'createProfile'])->name('front.createProfile');
+Route::get('/user/create-profile', [FrontController::class, 'createProfile'])->name('front.CreateProfile');
+Route::post('/user/profilestore', [FrontController::class, 'ProfileStore'])->name('front.ProfileStore');
+
+Route::get('/user/profile-edit', [FrontController::class, 'editProfile'])->name('front.editProfile');
+Route::post('/user/profile-update', [FrontController::class, 'ProfileUpdate'])->name('front.ProfileUpdate');
 
 
 Route::get('/account-blocked', [FrontController::class, 'blockedUser'])->name('user.blocked');
