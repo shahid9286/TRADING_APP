@@ -15,7 +15,7 @@
                                     @csrf
                                     <div class="row">
                                         <!-- Transaction ID -->
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Search Transaction ID</label>
                                                 <select class="form-control select2" name="transaction_id">
@@ -30,14 +30,14 @@
                                         </div>
 
                                         <!-- Date Range Picker -->
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-3 mb-3">
                                             <label for="date_range" class="form-label">Date Range</label>
                                             <input type="text" class="form-control" name="date_range" id="date_range"
                                                 placeholder="Select Date Range">
                                         </div>
 
                                         <!-- Amount -->
-                                        <div class="col-md-4 mb-3">
+                                        <div class="col-md-3 mb-3">
                                             <label for="amount" class="form-label">Amount</label>
                                             <select class="form-control select2" name="amount">
                                                 <option value="">Search Amount</option>
@@ -49,9 +49,9 @@
                                         </div>
 
                                         <!-- Status -->
-                                        <div class="col-lg-3 mb-3">
+                                        <div class="col-md-3 mb-3">
                                             <label for="status" class="form-label">Status</label>
-                                            <select class="form-control select2" name="status">
+                                            <select class="form-control select2" name="is_active" id="is_active">
                                                 <option value="">Select Status</option>
                                                 <option value="active">Active</option>
                                                 <option value="expired">Expired</option>
@@ -128,14 +128,9 @@
 @endsection
 
 @section('js')
-    <!-- ✅ DateRangePicker scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <script>
         $(document).ready(function() {
-            // ✅ Initialize Date Range Picker
             $('#date_range').daterangepicker({
                 autoUpdateInput: false,
                 locale: {
@@ -153,7 +148,6 @@
                 $(this).val('');
             });
 
-            // ✅ AJAX search
             $('#searchForm').on('submit', function(e) {
                 e.preventDefault();
 
@@ -179,7 +173,6 @@
                 });
             });
 
-            // ✅ Refresh
             $('#refreshBtn').on('click', function() {
                 $('#searchForm')[0].reset();
                 $('#date_range').val('');
