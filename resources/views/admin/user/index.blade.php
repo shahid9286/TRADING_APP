@@ -10,11 +10,6 @@
                     <div class="card card-primary card-outline">
                         <div class="card-header">
                             <h3 class="card-title mt-1">{{ __('User List') }}</h3>
-                            <div class="card-tools d-flex">
-                                <a href="{{ route('admin.user.add') }}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-plus"></i> {{ __('Add New User ') }}
-                                </a>
-                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -22,7 +17,6 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Image</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Phone</th>
@@ -37,15 +31,11 @@
                                                 {{ ++$id }}
                                             </td>
                                             <td>
-                                                <img width="50px" src="{{ asset('admin/user/profile/' . $user->icon) }}"
-                                                    alt="">
-                                            </td>
-                                            <td>
-                                                <a href="#">{{ $user->name }} </a>
+                                                <a href="#">{{ $user->profile->first_name . ' ' . $user->profile->last_name }} </a>
                                                 <span class="badge bg-info">{{ $user->user_type }}</span>
                                             </td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $user->phone_no }}</td>
+                                            <td>{{ $user->phone }}</td>
                                             <td>
                                                 @if ($user->status == 'approved')
                                                     <span class="badge badge-success">Approved</span>
@@ -87,13 +77,14 @@
                                                                 <button type="submit" class="dropdown-item">Block
                                                                     User</button>
                                                             </form>
-                                                            <div class="dropdown-divider"></div>
+                                                            {{-- <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item"
                                                                 href="{{ route('admin.user.edit', $user->id) }}">Edit
-                                                                User</a>
+                                                                User</a> --}}
                                                         </div>
                                                     </div>
-                                                    <form id="deleteform" class="deleteform d-inline-block"
+                                                    <a href="{{ route('admin.user.detail', $user->id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Detail</a>
+                                                    {{-- <form id="deleteform" class="deleteform d-inline-block"
                                                         action="{{ route('admin.user.delete', $user->id) }}"
                                                         method="post">
                                                         @csrf
@@ -104,7 +95,7 @@
                                                             </span>
                                                             Delete
                                                         </button>
-                                                    </form>
+                                                    </form> --}}
                                                     @else
                                                     <span class="badge bg-warning">No operations to perform!</span>
                                                 @endif

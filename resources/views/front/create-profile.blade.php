@@ -39,7 +39,7 @@
       <!-- RIGHT: FORM (Create Profile) -->
       <div class="col-md-8">
         <div class="account__content account__content--style1 border p-3 rounded">
-          <form action="{{ route('profile.store') }}" method="POST" enctype="multipart/form-data" class="account__form needs-validation" novalidate>
+          <form action="{{ route('front.ProfileStore') }}" method="POST" enctype="multipart/form-data" class="account__form needs-validation" novalidate>
             @csrf
 
             <div class="row g-3">

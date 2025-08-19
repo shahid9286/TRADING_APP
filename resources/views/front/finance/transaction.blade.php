@@ -11,7 +11,7 @@
         <!-- Filter Bar -->
         <!-- Filter Bar -->
         <div class="container my-4">
-            <form method="GET" action="{{ route('front.withdraw.history') }}" class="p-3 rounded"
+            <form method="GET" action="{{ route('front.withdraw.request.history') }}" class="p-3 rounded"
                 style="border: 1px solid #ccc;">
                 <div class="row g-3 align-items-end">
 

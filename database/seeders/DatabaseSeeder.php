@@ -9,6 +9,19 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\AdminBankSeeder;
 use Database\Seeders\InvestmentSeeder;
 use Database\Seeders\BusinessRulesSeeder;
+use Database\Seeders\UserProfilesSeeder;
+use Database\Seeders\SalaryRulesSeeder;
+use Database\Seeders\UserBanksSeeder;
+use Database\Seeders\WithdrawalRequestsSeeder;
+use Database\Seeders\AnnouncementsSeeder;
+
+
+
+
+
+
+
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,5 +32,13 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminBankSeeder::class);
         $this->call(InvestmentSeeder::class);
         $this->call(SettingsTableSeeder::class);
+        $this->call(UserProfilesSeeder::class);
+        $this->call(SalaryRulesSeeder::class);
+        $this->call(UserBanksSeeder::class);
+        $this->call(WithdrawalRequestsSeeder::class);
+        $this->call(AnnouncementsSeeder::class);
+
+
+
     }
 }

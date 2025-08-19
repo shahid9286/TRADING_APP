@@ -18,9 +18,10 @@
                             <li>
                                 <a href="#0">Finance</a>
                                 <ul class="submenu">
-                                   <li> <a href="{{ route('front.plan') }}">Plan</a> </li>
+                                   {{-- <li> <a href="{{ route('front.plan') }}">Plan</a> </li> --}}
                                    <li> <a href="{{ route('front.deposit') }}">Deposite</a> </li>
-                                   <li> <a href="{{ route('front.withdraw') }}">Withdraw</a> </li>
+                                   <li> <a href="{{ route('front.withdraw.request') }}">Withdraw</a> </li>
+                                   <li> <a href="{{ route('front.withdraw.request.history') }}">Withdrawal History</a> </li>
                                    <li> <a href="{{ route('front.transaction') }}">Transactions</a> </li>
                                    <li> <a href="{{ route('front.transaction') }}">User History</a> </li>
                                    <li> <a href="{{ route('front.transaction') }}">User Level Earning</a> </li>
@@ -30,8 +31,9 @@
                             <li>
                                 <a href="#0">Account Settings</a>
                                 <ul class="submenu">
-                                   <li> <a href="{{ route('front.createProfile') }}">Profile Setting</a> </li>
-                                   <li> <a href="{{ route('front.withdraw') }}">Change Password</a> </li>
+                                   <li> <a href="{{ route('front.editProfile') }}">Profile Setting</a> </li>
+                                   {{-- <li> <a href="{{ route('front.withdraw') }}">Change Password</a> </li>
+                                   <li> <a href="{{ route('front.withdraw.request') }}">Change Password</a> </li> --}}
                                 </ul>
                             </li>
                             <li> <a href="{{ route('front.contact') }}">Contact Us</a> </li>

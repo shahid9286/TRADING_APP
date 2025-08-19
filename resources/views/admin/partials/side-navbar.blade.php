@@ -8,7 +8,8 @@
 
         <div class="user-panel">
             <a href="{{ route('admin.dashboard') }}" class="name text-dark">
-                <img src="{{ asset('assets/admin/uploads/static/Logo.png') }}" alt="" width="200px">
+                <img src="{{ asset('assets/admin/uploads/static/logo.png') }}"
+                    style="padding-top: 20px; width: 200px !important;">
             </a>
         </div>
 
@@ -33,6 +34,49 @@
                             {{ __('Profile') }}
                         </p>
                     </a>
+                </li>
+
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.index' || Route::currentRouteName() == 'admin.pendingAdmins' || Route::currentRouteName() == 'admin.approvedAdmins' || Route::currentRouteName() == 'admin.blockedAdmins' ? 'menu-open' : '' }}">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            {{ __('Admins') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('All Admins') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.pendingAdmins') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.pendingAdmins' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Pending Admins') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.approvedAdmins') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.approvedAdmins' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Approved Admins') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.blockedAdmins') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.blockedAdmins' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Blocked Admins') }}</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 {{-- users --}}
@@ -77,8 +121,9 @@
                             </a>
                         </li>
                     </ul>
+                </li>
 
-                    {{-- Announcement --}}
+                {{-- Announcement --}}
 
                 <li class="nav-item {{ Route::currentRouteName() == 'admin.announcement.index' ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.announcement.index') }}" class="nav-link">
@@ -270,13 +315,6 @@
                                 <p>{{ __('All Investment') }}</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.investment.add') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.investment.add' ? 'active' : '' }}">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{ __('Add Investment') }}</p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 {{-- investment End --}}
@@ -309,7 +347,7 @@
                     </ul>
                 </li>
                 {{-- user return End --}}
-                                {{-- BusinessRule --}}
+                {{-- BusinessRule --}}
 
                 <li class="nav-item">
                     <a href="{{ route('admin.business.rules.edit') }}"

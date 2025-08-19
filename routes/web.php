@@ -19,9 +19,10 @@ use App\Http\Controllers\Admin\{
     SalaryRulesController,
     UserReturnController,
     UserBankController,
+    AdminController,
     WithdrawalRequestController,
     SettingController,
-BusinessRuleController,
+    BusinessRuleController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -64,6 +65,8 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/edit-user/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
         Route::post('/update-user/{id}', [UserController::class, 'update'])->name('admin.user.update');
         Route::post('/delete-user/{id}', [UserController::class, 'delete'])->name('admin.user.delete');
+        
+        Route::get('/user-detail/{id}', [UserController::class, 'detail'])->name('admin.user.detail');
 
         Route::post('/makependingUser/{id}', [UserController::class, 'makependingUser'])->name('admin.user.makependingUser');
         Route::post('/makeapprovedUser/{id}', [UserController::class, 'makeapprovedUser'])->name('admin.user.makeapprovedUser');
@@ -72,6 +75,23 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/pendingUsers', [UserController::class, 'pendingUsers'])->name('admin.user.pendingUsers');
         Route::get('/approvedUsers', [UserController::class, 'approvedUsers'])->name('admin.user.approvedUsers');
         Route::get('/blockedUsers', [UserController::class, 'blockedUsers'])->name('admin.user.blockedUsers');
+
+        // admins
+        Route::get('/admins', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('/add-admin', [AdminController::class, 'add'])->name('admin.add');
+        Route::post('/store-admin', [AdminController::class, 'store'])->name('admin.store');
+        Route::get('/edit-admin/{id}', [AdminController::class, 'edit'])->name('admin.edit');
+        Route::post('/update-admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+        Route::post('/delete-admin/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+
+        Route::post('/makependingAdmin/{id}', [AdminController::class, 'makependingAdmin'])->name('admin.makependingAdmin');
+        Route::post('/makeapprovedAdmin/{id}', [AdminController::class, 'makeapprovedAdmin'])->name('admin.makeapprovedAdmin');
+        Route::post('/makeblockedAdmin/{id}', [AdminController::class, 'makeblockedAdmin'])->name('admin.makeblockedAdmin');
+
+        Route::get('/pendingAdmins', [AdminController::class, 'pendingAdmins'])->name('admin.pendingAdmins');
+        Route::get('/approvedAdmins', [AdminController::class, 'approvedAdmins'])->name('admin.approvedAdmins');
+        Route::get('/blockedAdmins', [AdminController::class, 'blockedAdmins'])->name('admin.blockedAdmins');
+
         // reward Routes
         Route::get('/reward', [RewardController::class, 'index'])->name('admin.reward.index');
         Route::get('/reward/add', [RewardController::class, 'add'])->name('admin.reward.add');
@@ -86,14 +106,8 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // investment Routes
         Route::get('/investment', [InvestmentController::class, 'index'])->name('admin.investment.index');
-        Route::get('/investment/add', [InvestmentController::class, 'add'])->name('admin.investment.add');
-        Route::post('/investment/store', [InvestmentController::class, 'store'])->name('admin.investment.store');
-        Route::get('investment/restore', [InvestmentController::class, 'restorePage'])->name('admin.investment.restore.page');
-        Route::get('/investment/edit/{id}', [InvestmentController::class, 'edit'])->name('admin.investment.edit');
-        Route::put('/investment/update/{id}', [InvestmentController::class, 'update'])->name('admin.investment.update');
-        Route::post('/investment/delete/{id}', [InvestmentController::class, 'delete'])->name('admin.investment.delete');
-        Route::get('investment/restore/{id}', [InvestmentController::class, 'restore'])->name('admin.investment.restore');
-        Route::post('investment/force_delete/{id}', [InvestmentController::class, 'forceDelete'])->name('admin.investment.force.delete');
+               Route::post('/search', [InvestmentController::class, 'search'])->name('admin.investment.search');
+
         // End of Investment
         // userreturn Routes
         Route::get('/UserReturn', [UserReturnController::class, 'index'])->name('admin.user_returns.index');
@@ -172,10 +186,7 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // Withdrawal Request routes
         Route::get('/withdrawal-requests', [WithdrawalRequestController::class, 'index'])->name('admin.withdrawal-request.index');
-        Route::get('/withdrawal-requests/add', [WithdrawalRequestController::class, 'add'])->name('admin.withdrawal-request.add');
-        Route::post('/withdrawal-requests/store', [WithdrawalRequestController::class, 'store'])->name('admin.withdrawal-request.store');
-        Route::get('/withdrawal-requests/{id}/edit', [WithdrawalRequestController::class, 'edit'])->name('admin.withdrawal-request.edit');
-        Route::post('/withdrawal-requests/{id}/update', [WithdrawalRequestController::class, 'update'])->name('admin.withdrawal-request.update');
+        
         Route::post('/withdrawal-requests/{id}/delete', [WithdrawalRequestController::class, 'delete'])->name('admin.withdrawal-request.delete');
 
         //end of Withdrawal Request routes

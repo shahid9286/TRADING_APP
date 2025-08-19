@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Front;
 
 use App\Models\Enquiry;
 use App\Models\Investment;
+use App\Models\UserBank;
+use App\Models\WithdrawalRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AdminBank;
@@ -18,55 +20,64 @@ use Illuminate\Support\Facades\Hash;
 class FrontController extends Controller
 {
 
-    public function login()
-    {
-        if (Auth::check() && Auth::user()->hasRole('user')) {
+public function login()
+{
+    if (Auth::check() && Auth::user()->hasRole('user')) {
+        $profile = UserProfile::where('user_id', Auth::id())->first();
+
+        if ($profile) {
             return redirect()->route('user.dashboard');
+        } else {
+            return redirect()->route('front.CreateProfile');
         }
-        return view('front.login');
     }
-    public function loginUser(Request $request)
-    {
-        // ✅ Step 1: Validate input
-        $request->validate([
-            'login'    => 'required|string', // can be email or username
-            'password' => 'required|min:6',
-        ]);
+    return view('front.login');
+}
+public function loginUser(Request $request)
+{
+    $request->validate([
+        'login'    => 'required|string',
+        'password' => 'required|min:6',
+    ]);
 
-        $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+    $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        $credentials = [
-            $loginType => $request->login,
-            'password' => $request->password,
-        ];
+    $credentials = [
+        $loginType => $request->login,
+        'password' => $request->password,
+    ];
 
-        $remember = $request->filled('remember');
+    $remember = $request->filled('remember');
 
-        // ✅ Step 2: Try login
-        if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
+    if (Auth::attempt($credentials, $remember)) {
+        $request->session()->regenerate();
 
-            $user = Auth::user();
+        $user = Auth::user();
 
-            // ✅ Step 3: Check if user has "user" role
-            if ($user->hasRole('user')) {
-                return redirect()->intended('/user/dashboard') // user dashboard
+        if ($user->hasRole('user')) {
+            $profile = UserProfile::where('user_id', $user->id)->first();
+
+            if ($profile) {
+                // ✅ Go to dashboard if profile exists
+                return redirect()->route('user.dashboard')
                     ->with('success', 'You have logged in successfully!');
+            } else {
+                // ✅ Go to create profile if not created yet
+                return redirect()->route('front.CreateProfile')
+                    ->with('success', 'Please complete your profile.');
             }
-
-            // 🚫 If role is not "user", logout immediately
-            Auth::logout();
-            return back()->withErrors([
-                'login' => 'You are not authorized to log in from here.',
-            ]);
         }
 
-        // ✅ Step 4: Wrong credentials
+        Auth::logout();
         return back()->withErrors([
-            'login' => 'Invalid username/email or password.',
-        ])->withInput($request->only('login', 'remember'));
+            'login' => 'You are not authorized to log in from here.',
+        ]);
     }
 
+    return back()->withErrors([
+        'login' => 'Invalid username/email or password.',
+    ])->withInput($request->only('login', 'remember'));
+}
 
 
     public function signup($referral_username = null)
@@ -134,9 +145,9 @@ class FrontController extends Controller
     public function createProfile()
     {
         $profile = UserProfile::where('user_id', Auth::id())->first();
-        // if ($profile) {
-        //     return redirect()->route('front.profile.edit');
-        // }
+        if ($profile) {
+            return redirect()->route('front.edit-profile');
+        }
         return view('front.create-profile');
     }
 
@@ -158,37 +169,73 @@ public function ProfileStore(Request $request)
         ], 422);
     }
 
-    // Get logged-in user
     $user = Auth::user();
 
-    // Update profile details
-    $user->first_name = $request->first_name;
-    $user->last_name  = $request->last_name;
-    $user->country    = $request->country;
-    $user->city       = $request->city;
+    // Update or create user profile
+    $profile = UserProfile::updateOrCreate(
+        ['user_id' => $user->id], // condition → one profile per user
+        [
+            'first_name' => $request->first_name,
+            'last_name'  => $request->last_name,
+            'country'    => $request->country,
+            'city'       => $request->city,
+            'address' => $request->address ?? 'N/A',
 
-    // Handle profile image upload
+        ]
+    );
+
+    // Handle image upload
     if ($request->hasFile('profile_image')) {
         $image = $request->file('profile_image');
         $filename = time() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('uploads/profile_images'), $filename);
 
-        // store only file path
-        $user->profile_image = 'uploads/profile_images/' . $filename;
+        $profile->profile_image = 'uploads/profile_images/' . $filename;
+        $profile->save();
     }
 
-    $user->save();
-
-    return redirect()->back()->with([
-        'message' => 'Profile updated successfully!',
+    return redirect()->route('user.dashboard')->with([
+        'message' => 'Profile saved successfully!',
         'alert'   => 'success',
     ]);
 }
-
-    public function resetPassword()
+    public function editProfile()
     {
-        return view('front.reset.password');
+        $profile = UserProfile::where('user_id', Auth::id())->first();
+        return view('front.edit-profile', compact('profile'));
     }
+    public function ProfileUpdate(Request $request)
+    {
+        $request->validate([
+            'first_name'    => 'required|string|max:255',
+            'last_name'     => 'required|string|max:255',
+            'country'       => 'required|string|max:255',
+            'city'          => 'required|string|max:255',
+            'address'       => 'nullable|string|max:500',
+            'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        ]);
+
+        $profile = UserProfile::firstOrNew(['user_id' => Auth::id()]);
+        $profile->first_name = $request->first_name;
+        $profile->last_name  = $request->last_name;
+        $profile->country    = $request->country;
+        $profile->city       = $request->city;
+        $profile->address    = $request->address;
+
+        // Handle image upload
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/profiles'), $filename);
+            $profile->profile_image = 'uploads/profiles/' . $filename;
+        }
+
+        $profile->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+    }
+
+
     public function about()
     {
         return view('front.about');
@@ -237,14 +284,51 @@ public function ProfileStore(Request $request)
 
         return back()->with('notification', $notification);
     }
-    public function withdraw()
+    public function withdrawRequest()
     {
-        return view('front.finance.withdraw');
+        $user_banks = UserBank::where('user_id', Auth::id())->get();
+        return view('front.finance.withdraw', compact('user_banks'));
     }
-    public function withdraw_history()
-    {
 
-        return view('front.finance.withdraw_history');
+    public function withdrawRequestStore(Request $request)
+    {
+        $available_balance = Auth::user()->net_balance - Auth::user()->locked_amount;
+
+        $validator = Validator::make($request->all(), [
+            'bank_account'  => 'required|exists:user_banks,id',
+            'amount' => 'required|numeric|min:1|max:'.$available_balance,
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'Validation failed, please recheck the form!');
+        }
+
+        DB::beginTransaction();
+
+        $user_bank = UserBank::find($request->bank_account);
+
+        $withdrawal_request = new WithdrawalRequest();
+        $withdrawal_request->account_no = $user_bank->account_no;
+        $withdrawal_request->bank_name = $user_bank->bank_name;
+        $withdrawal_request->user_bank_id = $user_bank->id;
+        $withdrawal_request->user_id = Auth::id();
+        $withdrawal_request->request_date = today();
+        $withdrawal_request->requested_amount = $request->amount;
+        $withdrawal_request->save();
+
+        $user = Auth::user();
+        $user->locked_amount = $user->locked_amount + $request->amount;
+        $user->save();
+
+        DB::commit();
+
+        return redirect()->route('front.withdraw.request.history')->with('success', 'Request Submitted Successfully!');
+    }
+
+    public function withdrawHistory()
+    {
+        $withdrawal_requests = WithdrawalRequest::where('user_id', Auth::id())->get();
+        return view('front.finance.withdraw_history', compact('withdrawal_requests'));
     }
 
     public function transaction()
@@ -314,6 +398,26 @@ public function ProfileStore(Request $request)
         return redirect()
             ->route('front.deposit')
             ->with('success', 'Request submitted Successfully!');
+    }
+
+    public function storeUserBank(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'bank_name'  => 'required|max:255',
+            'account_no' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->with('error', 'Something went wrong, please try again!');
+        }
+
+        $user_bank = new UserBank();
+        $user_bank->bank_name = $request->bank_name;
+        $user_bank->account_no = $request->account_no;
+        $user_bank->user_id = Auth::id();
+        $user_bank->save();
+
+        return redirect()->back()->with('success', 'Bank added Successfully!');
     }
     public function blockedUser()
     {

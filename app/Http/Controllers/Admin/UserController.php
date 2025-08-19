@@ -23,11 +23,9 @@ class UserController extends Controller
         $this->notificationService = $notificationService;
     }
 
-
-
     public function index()
     {
-        $users = User::all();
+        $users = User::role('user')->orderBy('id', 'desc')->get();
         return view("admin.user.index", compact("users"));
     }
 
@@ -81,7 +79,7 @@ class UserController extends Controller
         $user->save();
 
 
-    
+
 
         // Notification to super admins
         $superAdminNotificationData = [
@@ -90,7 +88,7 @@ class UserController extends Controller
             'link' => route('admin.user.index'),
             'role' => 'superAdmin'
         ];
-       $this->notificationService->notifyAllSuperAdmins('superAdmin', $superAdminNotificationData);
+        $this->notificationService->notifyAllSuperAdmins('superAdmin', $superAdminNotificationData);
 
         // Notification to the newly created user
         $userNotificationData = [
@@ -106,6 +104,25 @@ class UserController extends Controller
         );
 
         return redirect()->route('admin.user.index')->with('notification', $notification);
+    }
+
+    public function detail($id)
+    {
+        $user = User::find($id)->load([
+            'referral',
+            'level1',
+            'level2',
+            'level3',
+            'level4',
+            'level5',
+            'level6',
+            'level7',
+            'investments',
+            'withdrawalRequests'
+        ]);
+        if (!$user)
+            return redirect()->back()->with('notification', ['alert' => 'success', 'message' => 'User Not Found!']);
+        return view('admin.user.detail', compact('user'));
     }
 
     public function edit($id)
@@ -177,7 +194,6 @@ class UserController extends Controller
                 'message' => 'You Can not Delete Admin!'
             ];
             return redirect()->back()->with('notification', $notification);
-
         } elseif ($user->id == Auth::user()->id) {
 
             $notification = [
@@ -185,7 +201,6 @@ class UserController extends Controller
                 'message' => 'You Can not Delete Your User!'
             ];
             return redirect()->back()->with('notification', $notification);
-
         } else {
 
             @unlink('admin/user/profile/' . $user->icon);
@@ -196,7 +211,6 @@ class UserController extends Controller
                 'message' => 'User Deleted Successfully!'
             ];
             return redirect()->back()->with('notification', $notification);
-
         }
     }
 
@@ -211,7 +225,6 @@ class UserController extends Controller
                 'message' => 'You Can not change Status of Admin!'
             ];
             return redirect()->back()->with('notification', $notification);
-
         } else {
 
             $user->status = 'pending';
@@ -221,9 +234,7 @@ class UserController extends Controller
                 'message' => 'User Maked Pending Successfully!'
             ];
             return redirect()->back()->with('notification', $notification);
-
         }
-
     }
 
     public function makeapprovedUser($id)
@@ -237,7 +248,6 @@ class UserController extends Controller
                 'message' => 'You Can not change Status of Admin!'
             ];
             return redirect()->back()->with('notification', $notification);
-
         } else {
 
             $user->status = 'approved';
@@ -247,9 +257,7 @@ class UserController extends Controller
                 'message' => 'User Maked Approved Successfully!'
             ];
             return redirect()->back()->with('notification', $notification);
-
         }
-
     }
 
     public function makeblockedUser($id)
@@ -263,7 +271,6 @@ class UserController extends Controller
                 'message' => 'You Can not change Status of Admin!'
             ];
             return redirect()->back()->with('notification', $notification);
-
         } else {
 
             $user->status = 'blocked';
@@ -273,25 +280,24 @@ class UserController extends Controller
                 'message' => 'User Maked Blocked Successfully!'
             ];
             return redirect()->back()->with('notification', $notification);
-
         }
     }
 
     public function pendingUsers()
     {
-        $users = User::where('status', 'pending')->get();
+        $users = User::role('user')->where('status', 'pending')->get();
         return view("admin.user.pendingUsers", compact("users"));
     }
 
     public function approvedUsers()
     {
-        $users = User::where('status', 'approved')->get();
+        $users = User::role('user')->where('status', 'approved')->get();
         return view("admin.user.approvedUsers", compact("users"));
     }
 
     public function blockedUsers()
     {
-        $users = User::where('status', 'blocked')->get();
+        $users = User::role('user')->where('status', 'blocked')->get();
         return view("admin.user.blockedUsers", compact("users"));
     }
 
@@ -307,7 +313,7 @@ class UserController extends Controller
 
     public function editProfile()
     {
-        $user = User::where('id', Auth::user()->id)->first();
+        $user = User::role('user')->where('id', Auth::user()->id)->first();
         return view('user.partials.editProfile', compact('user'));
     }
 }

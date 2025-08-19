@@ -53,12 +53,5 @@
                 </div>
             </div>
         </div>
-
-        <!-- Decorative Shapes -->
-        <div class="account__shape">
-            <span class="account__shape-item account__shape-item--1">
-                <img src="assets/images/contact/4.png" alt="shape-icon">
-            </span>
-        </div>
     </section>
 @endsection
