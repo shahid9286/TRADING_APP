@@ -48,10 +48,10 @@
 
 
                                                 {{-- User --}}
-                                                <td>{{ $withdrawal_request->user->name ?? 'N/A' }}</td>
+                                                <td>{{ $withdrawal_request->user->username ?? 'N/A' }}</td>
 
                                                 {{-- Request Date --}}
-                                                <td>{{ $withdrawal_request->request_date }}</td>
+                                                <td>{{ $withdrawal_request->request_date->format('d M, Y') }}</td>
 
                                                 {{-- Requested Amount --}}
                                                 <td>{{ number_format($withdrawal_request->requested_amount, 2) }}</td>

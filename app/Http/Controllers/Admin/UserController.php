@@ -116,7 +116,9 @@ class UserController extends Controller
             'level4',
             'level5',
             'level6',
-            'level7'
+            'level7',
+            'investments',
+            'withdrawalRequests'
         ]);
         if (!$user)
             return redirect()->back()->with('notification', ['alert' => 'success', 'message' => 'User Not Found!']);
