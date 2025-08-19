@@ -171,14 +171,14 @@
     text-align: center;
     display: inline-block;
 }
-.user-panel .name img{
-    /* max-height: 50px; */
-    width: auto;
-    /* height: auto; */
-    max-height: 50px;
+/* .user-panel .name img{
+    max-height: 50px; */
+    /* width: auto; */
+    /* height: auto;
+    max-height: 100px;
     display: inline-block;
     padding-top: 7px;
-}
+} */
 .bootstrap-switch .bootstrap-switch-handle-off, 
 .bootstrap-switch .bootstrap-switch-handle-on, 
 .bootstrap-switch .bootstrap-switch-label {

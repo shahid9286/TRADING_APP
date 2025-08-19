@@ -31,6 +31,8 @@ class UserSeeder extends Seeder
             'last_name'    => 'User',
             'profile_image' => null,
             'whatsapp_no'  => '+923758365729',
+            'country'  => 'Pakistan',
+            'city'  => 'Gujranwala',
             'address'      => 'Gujranwala',
         ]);
 
@@ -51,6 +53,8 @@ class UserSeeder extends Seeder
             'last_name'    => 'User',
             'profile_image' => null,
             'whatsapp_no'  => '+923758365729',
+            'country'  => 'Pakistan',
+            'city'  => 'Gujranwala',
             'address'      => 'Gujranwala',
         ]);
 
