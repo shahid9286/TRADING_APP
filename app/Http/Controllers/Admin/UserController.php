@@ -23,11 +23,9 @@ class UserController extends Controller
         $this->notificationService = $notificationService;
     }
 
-
-
     public function index()
     {
-        $users = User::all();
+        $users = User::role('user')->orderBy('id','desc')->get();
         return view("admin.user.index", compact("users"));
     }
 

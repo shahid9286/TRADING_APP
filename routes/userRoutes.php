@@ -13,11 +13,6 @@ Route::middleware(['approved.user','user.profile'])->group(function () {
     Route::post('/user/updateProfile', [ProfileController::class, 'updateProfile'])->name('user.profile.update');
     Route::post('/user/updatePassword', [ProfileController::class, 'updatePassword'])->name('user.password.update');
 
-
-
-
-
-    Route::get('profile/create', [FrontController::class, 'createProfile'])->name('user.profile.create');
-
+    Route::get('/profile/create', [FrontController::class, 'createProfile'])->name('user.profile.create');
 
 });
