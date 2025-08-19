@@ -16,17 +16,9 @@
                                     <div class="row">
                                         <!-- Transaction ID -->
                                         <div class="col-md-3">
-                                            <div class="form-group">
                                                 <label>Search Transaction ID</label>
-                                                <select class="form-control select2" name="transaction_id">
-                                                    <option value="">Select Transaction ID</option>
-                                                    @foreach ($investments as $investment)
-                                                        <option value="{{ $investment->transaction_id }}">
-                                                            {{ $investment->transaction_id }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                            <input type="text" class="form-control" name="transaction_id" id="transaction_id"
+                                                placeholder="Enter Transaction Id">
                                         </div>
 
                                         <!-- Date Range Picker -->
@@ -39,13 +31,8 @@
                                         <!-- Amount -->
                                         <div class="col-md-3 mb-3">
                                             <label for="amount" class="form-label">Amount</label>
-                                            <select class="form-control select2" name="amount">
-                                                <option value="">Search Amount</option>
-                                                @foreach ($investments as $investment)
-                                                    <option value="{{ $investment->amount }}">{{ $investment->amount }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" class="form-control" name="amount" id="amount"
+                                                placeholder="Enter Amount">
                                         </div>
 
                                         <!-- Status -->
