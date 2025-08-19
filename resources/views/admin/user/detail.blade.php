@@ -21,17 +21,22 @@
                                     <b>Username</b> <a class="float-right text-primary">{{ $user->username }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Name</b> <a class="float-right text-primary">{{ $user->profile->first_name }}</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Father Name</b> <a
-                                        class="float-right text-primary">{{ $user->profile->last_name }}</a>
+                                    <b>Name</b> <a class="float-right btn-info btn-sm btn text-white">{{ $user->profile->first_name . ' ' . $user->profile->last_name }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Phone No</b> <a class="float-right text-primary">{{ $user->phone }}</a>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Email</b> <a class="float-right text-primary">{{ $user->email }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Net Balance</b> <a class="float-right text-primary">{{ $user->net_balance }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Locked Amount</b> <a class="float-right text-primary">{{ $user->locked_amount }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Available Withdrawal</b> <a class="float-right text-primary">{{ $user->net_balance - $user->locked_amount }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -51,51 +56,7 @@
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class="active tab-pane" id="investments">
-                                    <table class="table">
-                                        <thead>
-                                            <tr class="bg-secondary">
-                                                <th>{{ __('ID') }}</th>
-                                                <th>{{ __('Image') }}</th>
-                                                <th>{{ __('Amount') }}</th>
-                                                <th>{{ __('Actions') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($user->investments as $investment)
-                                                <tr>
-                                                    <td>{{ $investment->id }}</td>
-                                                    <td>
-                                                        @if ($investment->screenshot)
-                                                            <img src="{{ $investment->screenshot }}" alt="Investment"
-                                                                width="50" height="50">
-                                                        @endif
-                                                    </td>
-
-                                                    <td>{{ $investment->amount }}</td>
-                                                    <td>
-                                                        <a href="{{ route('admin.investment.edit', $investment->id) }}"
-                                                            class="btn btn-warning btn-sm">
-                                                            <i class="fas fa-edit"></i>
-                                                        </a>
-                                                        <form id="deleteform" class="d-inline-block"
-                                                            action="{{ route('admin.investment.delete', $investment->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                id="delete">
-                                                                <i class="fas fa-trash"></i>{{ __('') }}
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="13" class="text-center">{{ __('No investment found.') }}
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
+                                    
                                 </div>
 
                                 <div class="tab-pane" id="withdrawals">
