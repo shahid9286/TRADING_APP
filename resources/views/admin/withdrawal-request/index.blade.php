@@ -10,9 +10,9 @@
                         <div class="card-header">
                             <h3 class="card-title mt-1"><b>{{ __('List of Withdrawal Requests') }}</b></h3>
                             <div class="card-tools d-flex">
-                                <a href="{{ route('admin.withdrawal-request.add') }}" class="btn btn-primary btn-sm mx-1">
-                                    <i class="fas fa-plus"></i> {{ __('Add Withdrawal Request') }}
-                                </a>
+                                
+                                
+                                
                             </div>
                         </div>
 
@@ -72,20 +72,23 @@
 
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                        <a href="{{ route('admin.withdrawal-request.edit', $withdrawal_request->id) }}"
-                                                            class="btn btn-info btn-sm mx-1">
-                                                            <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
-                                                        </a>
+                                                       
 
-                                                        <form id="deleteform" class="d-inline-block"
-                                                            action="{{ route('admin.withdrawal-request.delete', $withdrawal_request->id) }}"
-                                                            method="post">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                                id="delete">
-                                                                <i class="fas fa-trash"></i>{{ __('Delete') }}
-                                                            </button>
-                                                        </form>
+                                                        @if($withdrawal_request->status === 'pending')
+                                                  <form id="deleteform" class="d-inline-block"
+                                        action="{{ route('admin.withdrawal-request.delete', $withdrawal_request->id) }}"
+                                      method="post">
+                                                 @csrf
+                                                     <button type="submit" class="btn btn-danger btn-sm" id="delete">
+                                                   <i class="fas fa-trash"></i>{{ __('Delete') }}
+                                                   </button>
+                                                 </form>
+                                                 @else
+    <button class="btn btn-secondary btn-sm" disabled>
+        <i class="fas fa-ban"></i> Cannot Delete
+    </button>
+@endif
+
                                                     </div>
                                                 </td>
                                             </tr>

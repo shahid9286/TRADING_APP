@@ -172,10 +172,7 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // Withdrawal Request routes
         Route::get('/withdrawal-requests', [WithdrawalRequestController::class, 'index'])->name('admin.withdrawal-request.index');
-        Route::get('/withdrawal-requests/add', [WithdrawalRequestController::class, 'add'])->name('admin.withdrawal-request.add');
-        Route::post('/withdrawal-requests/store', [WithdrawalRequestController::class, 'store'])->name('admin.withdrawal-request.store');
-        Route::get('/withdrawal-requests/{id}/edit', [WithdrawalRequestController::class, 'edit'])->name('admin.withdrawal-request.edit');
-        Route::post('/withdrawal-requests/{id}/update', [WithdrawalRequestController::class, 'update'])->name('admin.withdrawal-request.update');
+        
         Route::post('/withdrawal-requests/{id}/delete', [WithdrawalRequestController::class, 'delete'])->name('admin.withdrawal-request.delete');
 
         //end of Withdrawal Request routes
