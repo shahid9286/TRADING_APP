@@ -13,7 +13,7 @@ class AnnouncementsSeeder extends Seeder
     public function run(): void
     {
         Announcement::updateOrCreate(
-            ['id' => 1], // condition: agar id = 1 hai to update kare, warna create kare
+            ['id' => 1],
             [
                 'title' => 'Welcome to our Investment Platform',
                 'message' => 'Daily 0.5% return on your investments for one year.',
