@@ -13,7 +13,7 @@
             <ul class="list-group">
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div><i class="fas fa-user px-1"></i> Name</div>
-                <span class="fw-bold">{{ Auth::user()->name }}</span>
+                <span class="fw-bold">{{ Auth::user()->name ??'-' }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div><i class="fas fa-user px-1"></i> Username</div>
@@ -21,7 +21,7 @@
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div><i class="fas fa-envelope px-1"></i> Email</div>
-                <span class="fw-bold">{{ Auth::user()->email }}</span>
+                <span class="fw-bold">{{ Auth::user()->email ?? '-' }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div><i class="fas fa-phone px-1"></i> Phone</div>

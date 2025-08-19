@@ -315,13 +315,6 @@
                                 <p>{{ __('All Investment') }}</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.investment.add') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.investment.add' ? 'active' : '' }}">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{ __('Add Investment') }}</p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 {{-- investment End --}}

@@ -106,14 +106,8 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // investment Routes
         Route::get('/investment', [InvestmentController::class, 'index'])->name('admin.investment.index');
-        Route::get('/investment/add', [InvestmentController::class, 'add'])->name('admin.investment.add');
-        Route::post('/investment/store', [InvestmentController::class, 'store'])->name('admin.investment.store');
-        Route::get('investment/restore', [InvestmentController::class, 'restorePage'])->name('admin.investment.restore.page');
-        Route::get('/investment/edit/{id}', [InvestmentController::class, 'edit'])->name('admin.investment.edit');
-        Route::put('/investment/update/{id}', [InvestmentController::class, 'update'])->name('admin.investment.update');
-        Route::post('/investment/delete/{id}', [InvestmentController::class, 'delete'])->name('admin.investment.delete');
-        Route::get('investment/restore/{id}', [InvestmentController::class, 'restore'])->name('admin.investment.restore');
-        Route::post('investment/force_delete/{id}', [InvestmentController::class, 'forceDelete'])->name('admin.investment.force.delete');
+               Route::post('/search', [InvestmentController::class, 'search'])->name('admin.investment.search');
+
         // End of Investment
         // userreturn Routes
         Route::get('/UserReturn', [UserReturnController::class, 'index'])->name('admin.user_returns.index');
@@ -192,10 +186,7 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // Withdrawal Request routes
         Route::get('/withdrawal-requests', [WithdrawalRequestController::class, 'index'])->name('admin.withdrawal-request.index');
-        Route::get('/withdrawal-requests/add', [WithdrawalRequestController::class, 'add'])->name('admin.withdrawal-request.add');
-        Route::post('/withdrawal-requests/store', [WithdrawalRequestController::class, 'store'])->name('admin.withdrawal-request.store');
-        Route::get('/withdrawal-requests/{id}/edit', [WithdrawalRequestController::class, 'edit'])->name('admin.withdrawal-request.edit');
-        Route::post('/withdrawal-requests/{id}/update', [WithdrawalRequestController::class, 'update'])->name('admin.withdrawal-request.update');
+        
         Route::post('/withdrawal-requests/{id}/delete', [WithdrawalRequestController::class, 'delete'])->name('admin.withdrawal-request.delete');
 
         //end of Withdrawal Request routes

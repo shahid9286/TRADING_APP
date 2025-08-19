@@ -32,8 +32,8 @@
                                 <a href="#0">Account Settings</a>
                                 <ul class="submenu">
                                    <li> <a href="{{ route('front.editProfile') }}">Profile Setting</a> </li>
-                                   <li> <a href="{{ route('front.withdraw.request') }}">Change Password</a> </li>
-                                   <li> <a href="{{ route('front.withdraw.request') }}">Change Password</a> </li>
+                                   {{-- <li> <a href="{{ route('front.withdraw') }}">Change Password</a> </li>
+                                   <li> <a href="{{ route('front.withdraw.request') }}">Change Password</a> </li> --}}
                                 </ul>
                             </li>
                             <li> <a href="{{ route('front.contact') }}">Contact Us</a> </li>
