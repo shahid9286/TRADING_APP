@@ -20,37 +20,34 @@ public function search(Request $request)
 {
     $query = Investment::query();
 
+    // Filter by Transaction ID
     if ($request->filled('transaction_id')) {
         $query->where('transaction_id', $request->transaction_id);
     }
 
     if ($request->filled('date_range')) {
-        $dates = explode(' - ', $request->date_range); // ["2025-08-01", "2025-08-19"]
-
+        $dates = explode(' - ', $request->date_range);
         if (count($dates) === 2) {
-            $startDate = $dates[0];
-            $endDate = $dates[1];
+            $startDate = \Carbon\Carbon::parse($dates[0])->startOfDay();
+            $endDate   = \Carbon\Carbon::parse($dates[1])->endOfDay();
 
             $query->whereBetween('start_date', [$startDate, $endDate]);
         }
     }
 
-    // ✅ Filter by Amount
+    // Filter by Amount
     if ($request->filled('amount')) {
         $query->where('amount', $request->amount);
     }
 
-    // ✅ Filter by Status
-    if ($request->filled('status')) {
-        $query->where('is_active', $request->status); // ✅ matches your Blade
+    // Filter by Status
+    if ($request->filled('is_active')) {
+        $query->where('is_active', $request->is_active);
     }
 
-    // Get results
     $investments = $query->get();
 
-    // Return partial table HTML
     $html = view('admin.investment.table', compact('investments'))->render();
-
     return response()->json(['html' => $html]);
 }
 }
