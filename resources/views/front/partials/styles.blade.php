@@ -1,4 +1,4 @@
-<link rel="shortcut icon" href="{{ asset('front/images/favicon.png') }}" type="image/x-icon">
+<link rel="shortcut icon" href="{{ asset($setting->fav_icon) }}" type="image/x-icon">
 
 <link rel="stylesheet" href="{{ asset('front/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('front/css/aos.css') }}">

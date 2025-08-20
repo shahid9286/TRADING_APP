@@ -30,6 +30,11 @@ class EnsureProfileIsComplete
             }
         }
 
+        if(!$user)
+        {
+            return redirect()->route('front.login');
+        }
+
         return $next($request);
     }
 }

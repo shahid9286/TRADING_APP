@@ -8,7 +8,7 @@
 
         <div class="user-panel">
             <a href="{{ route('admin.dashboard') }}" class="name text-dark">
-                <img src="{{ asset('assets/admin/uploads/static/logo.png') }}"
+                <img src="{{ asset($setting->footer_logo) }}"
                     style="padding-top: 20px; width: 200px !important;">
             </a>
         </div>
