@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title') | MHOW.org</title>
+    <title>@yield('title') | Safe Capital</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,7 +16,7 @@
 <body @php
     use Illuminate\Support\Facades\Session; @endphp {{ Session::has('notification') ? 'data-notification' : '' }}
     @if (Session::has('notification')) data-notification-message='{{ json_encode(Session::get('notification')) }} @endif'
-    class=" hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+    class="dark-modedark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed hold-transition">
     <div class="wrapper">
         @include('admin.partials.top-navbar')
         @include('admin.partials.side-navbar')

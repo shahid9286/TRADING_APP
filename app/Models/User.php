@@ -85,6 +85,12 @@ class User extends Authenticatable
         return $this->hasMany(Investment::class);
     }
 
+    public function referralInvestments()
+    {
+        return $this->hasMany(Investment::class, 'referral_id');
+    }
+
+
     public function referral()
     {
         return $this->belongsTo(User::class, 'referral_user_id');
