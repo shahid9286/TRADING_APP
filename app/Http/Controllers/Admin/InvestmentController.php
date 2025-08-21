@@ -5,137 +5,49 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Models\AdminBank;
 use App\Models\Investment;
-use App\Helpers\FileHelper;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class InvestmentController extends Controller
 {
     public function index()
     {
-        $investments = Investment::with('user')->get();
+        $investments = Investment::with('user')->orderBy('id', 'desc')->get();
         return view('admin.investment.index', compact('investments'));
     }
 
-public function add()
+public function search(Request $request)
 {
-    $users = User::select('id', 'username', 'email')->get();
-    $bankAccounts = AdminBank::all();
-    
-    return view('admin.investment.add', compact('users', 'bankAccounts'));
-}
+    $query = Investment::query();
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'amount'         => 'required|numeric|min:0',
-            'is_active'      => 'required|in:active,expired',
-            'transaction_id' => 'required|string|max:255|unique:investments,transaction_id',
-            'screenshot'     => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'user_id'        => 'required|exists:users,id',
-            'referral_id'    => 'nullable|exists:users,id',
-            'admin_bank_id' => 'required|exists:admin_banks,id',
-            'status'         => 'required|in:pending,approved,rejected',
-        ]);
+    // Filter by Transaction ID
+    if ($request->filled('transaction_id')) {
+        $query->where('transaction_id', $request->transaction_id);
+    }
 
-        $investment = new Investment();
-        $investment->amount = $request->amount;
-        $investment->start_date = now();
-        $investment->expiry_date = Carbon::now()->addYear();
-        $investment->status = $request->status;
-        $investment->transaction_id = $request->transaction_id;
-        $investment->user_id = $request->user_id;
-        $investment->referral_id = $request->referral_id;
-        $investment->is_active = $request->is_active;
-        $investment->admin_bank_id = $request->admin_bank_id;
+    if ($request->filled('date_range')) {
+        $dates = explode(' - ', $request->date_range);
+        if (count($dates) === 2) {
+            $startDate = \Carbon\Carbon::parse($dates[0])->startOfDay();
+            $endDate   = \Carbon\Carbon::parse($dates[1])->endOfDay();
 
-        if ($request->hasFile('screenshot')) {
-            $investment->screenshot = FileHelper::upload(
-                $request->file('screenshot'),
-                'assets/admin/uploads/investments/screenshots'
-            );
+            $query->whereBetween('start_date', [$startDate, $endDate]);
         }
-
-        $investment->save();
-
-        return redirect()->route('admin.investment.index')
-            ->with(['message' => 'Investment Added Successfully!', 'alert' => 'success']);
     }
 
-public function edit($id)
-{
-    $investment = Investment::findOrFail($id);
-    $users = User::select('id', 'username', 'email')->get();
-    $bankAccounts = AdminBank::all();
+    // Filter by Amount
+    if ($request->filled('amount')) {
+        $query->where('amount', $request->amount);
+    }
 
-    return view('admin.investment.edit', compact('investment', 'users', 'bankAccounts'));
+    // Filter by Status
+    if ($request->filled('is_active')) {
+        $query->where('is_active', $request->is_active);
+    }
+
+    $investments = $query->orderBy('id', 'desc')->get();
+
+    $html = view('admin.investment.table', compact('investments'))->render();
+    return response()->json(['html' => $html]);
 }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'amount'         => 'required|numeric|min:0',
-            'is_active'      => 'required|in:active,expired',
-            'transaction_id' => 'required|string|max:255|unique:investments,transaction_id,' . $id,
-            'screenshot'     => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'user_id'        => 'required|exists:users,id',
-            'referral_id'    => 'nullable|exists:users,id',
-            'admin_bank_id' => 'required|exists:admin_banks,id',
-            'status'         => 'required|in:pending,approved,rejected',
-        ]);
-
-        $investment = Investment::findOrFail($id);
-
-        $investment->amount = $request->amount;
-        $investment->status = $request->status;
-        $investment->transaction_id = $request->transaction_id;
-        $investment->user_id = $request->user_id;
-        $investment->referral_id = $request->referral_id;
-        $investment->is_active = $request->is_active;
-        $investment->admin_bank_id = $request->admin_bank_id;
-
-        if ($request->hasFile('screenshot')) {
-            $investment->screenshot = FileHelper::update(
-                $investment->screenshot,
-                $request->file('screenshot'),
-                'assets/admin/uploads/investments/screenshots'
-            );
-        }
-
-        $investment->save();
-
-        return redirect()->route('admin.investment.index')
-            ->with(['message' => 'Investment Updated Successfully!', 'alert' => 'success']);
-    }
-
-    public function delete($id)
-    {
-        $investment = Investment::findOrFail($id);
-        $investment->delete();
-
-        return back()->with(['message' => 'Investment Deleted Successfully!', 'alert' => 'success']);
-    }
-
-    public function restorePage()
-    {
-        $investments = Investment::onlyTrashed()->get();
-        return view('admin.investment.restore', compact('investments'));
-    }
-
-    public function restore($id)
-    {
-        $investment = Investment::withTrashed()->findOrFail($id);
-        $investment->restore();
-
-        return back()->with(['message' => 'Investment Restored Successfully!', 'alert' => 'success']);
-    }
-
-    public function forceDelete($id)
-    {
-        $investment = Investment::withTrashed()->findOrFail($id);
-        $investment->forceDelete();
-
-        return back()->with(['message' => 'Investment Permanently Deleted Successfully!', 'alert' => 'success']);
-    }
 }

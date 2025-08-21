@@ -14,26 +14,10 @@ Route::get('/about-us', [FrontController::class, 'about'])->name('front.about');
 Route::get('/contact-us', [FrontController::class, 'contact'])->name('front.contact');
 Route::post('/contact-us', [FrontController::class, 'contactUsStore'])->name('front.contact.store');
 Route::get('/privacy-policy', [FrontController::class, 'privacyPolicy'])->name('front.privacy.policy');
-Route::get('/withdraw-request', [FrontController::class, 'withdrawRequest'])->name('front.withdraw.request');
-Route::post('/withdraw-request/store', [FrontController::class, 'withdrawRequestStore'])->name('front.withdraw.request.store');
-Route::get('/deposit', [FrontController::class, 'deposit'])->name('front.deposit');
-Route::post('/deposit/manual', [FrontController::class, 'depositManual'])->name('front.deposit.manual');
-Route::post('/deposit/store/validate', [FrontController::class, 'depositStoreValidate'])->name('front.deposit.store.validate');
-Route::post('/deposit/store', [FrontController::class, 'depositStore'])->name('front.deposit.store');
-Route::post('/user-bank/store', [FrontController::class, 'storeUserBank'])->name('front.user-bank.store');
-Route::get('/withdraw/history', [FrontController::class, 'withdrawHistory'])->name('front.withdraw.request.history');
 
-Route::get('/transaction', [FrontController::class, 'transaction'])->name('front.transaction');
 Route::get('/plan', [FrontController::class, 'plan'])->name('front.plan');
 
-Route::get('/user/create-profile', [FrontController::class, 'createProfile'])->name('front.CreateProfile');
-Route::post('/user/profilestore', [FrontController::class, 'ProfileStore'])->name('front.ProfileStore');
 
-Route::get('/user/profile-edit', [FrontController::class, 'editProfile'])->name('front.editProfile');
-Route::post('/user/profile-update', [FrontController::class, 'ProfileUpdate'])->name('front.ProfileUpdate');
-
-
-Route::get('/account-blocked', [FrontController::class, 'blockedUser'])->name('user.blocked');
 Route::get('/check-status', function () {
     $user = auth()->user();
     return response()->json(['status' => $user->status]);

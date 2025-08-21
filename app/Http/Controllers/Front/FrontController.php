@@ -20,64 +20,64 @@ use Illuminate\Support\Facades\Hash;
 class FrontController extends Controller
 {
 
-public function login()
-{
-    if (Auth::check() && Auth::user()->hasRole('user')) {
-        $profile = UserProfile::where('user_id', Auth::id())->first();
-
-        if ($profile) {
-            return redirect()->route('user.dashboard');
-        } else {
-            return redirect()->route('front.CreateProfile');
-        }
-    }
-    return view('front.login');
-}
-public function loginUser(Request $request)
-{
-    $request->validate([
-        'login'    => 'required|string',
-        'password' => 'required|min:6',
-    ]);
-
-    $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
-    $credentials = [
-        $loginType => $request->login,
-        'password' => $request->password,
-    ];
-
-    $remember = $request->filled('remember');
-
-    if (Auth::attempt($credentials, $remember)) {
-        $request->session()->regenerate();
-
-        $user = Auth::user();
-
-        if ($user->hasRole('user')) {
-            $profile = UserProfile::where('user_id', $user->id)->first();
+    public function login()
+    {
+        if (Auth::check() && Auth::user()->hasRole('user')) {
+            $profile = UserProfile::where('user_id', Auth::id())->first();
 
             if ($profile) {
-                // ✅ Go to dashboard if profile exists
-                return redirect()->route('user.dashboard')
-                    ->with('success', 'You have logged in successfully!');
+                return redirect()->route('user.dashboard');
             } else {
-                // ✅ Go to create profile if not created yet
-                return redirect()->route('front.CreateProfile')
-                    ->with('success', 'Please complete your profile.');
+                return redirect()->route('front.CreateProfile');
             }
         }
-
-        Auth::logout();
-        return back()->withErrors([
-            'login' => 'You are not authorized to log in from here.',
-        ]);
+        return view('front.login');
     }
+    public function loginUser(Request $request)
+    {
+        $request->validate([
+            'login'    => 'required|string',
+            'password' => 'required|min:6',
+        ]);
 
-    return back()->withErrors([
-        'login' => 'Invalid username/email or password.',
-    ])->withInput($request->only('login', 'remember'));
-}
+        $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [
+            $loginType => $request->login,
+            'password' => $request->password,
+        ];
+
+        $remember = $request->filled('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            if ($user->hasRole('user')) {
+                $profile = UserProfile::where('user_id', $user->id)->first();
+
+                if ($profile) {
+                    // ✅ Go to dashboard if profile exists
+                    return redirect()->route('user.dashboard')
+                        ->with('success', 'You have logged in successfully!');
+                } else {
+                    // ✅ Go to create profile if not created yet
+                    return redirect()->route('front.CreateProfile')
+                        ->with('success', 'Please complete your profile.');
+                }
+            }
+
+            Auth::logout();
+            return back()->withErrors([
+                'login' => 'You are not authorized to log in from here.',
+            ]);
+        }
+
+        return back()->withErrors([
+            'login' => 'Invalid username/email or password.',
+        ])->withInput($request->only('login', 'remember'));
+    }
 
 
     public function signup($referral_username = null)
@@ -122,7 +122,7 @@ public function loginUser(Request $request)
             'email'             => $request->email,
             'phone'             => $request->phone,
             'password'          => Hash::make($request->password),
-            'status'            => 'pending',
+            'status'            => 'approved',
             'net_balance'       => 0,
             'referral_username' => $referral_user->username ?? null,
             'referral_user_id'  => $referral_user->id ?? null,
@@ -146,59 +146,59 @@ public function loginUser(Request $request)
     {
         $profile = UserProfile::where('user_id', Auth::id())->first();
         if ($profile) {
-            return redirect()->route('front.edit-profile');
+            return redirect()->route('front.editProfile');
         }
         return view('front.create-profile');
     }
 
-    
-public function ProfileStore(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'first_name'    => 'required|string|max:255',
-        'last_name'     => 'required|string|max:255',
-        'country'       => 'required|string|max:255',
-        'city'          => 'required|string|max:255',
-        'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-    ]);
 
-    if ($validator->fails()) {
-        return response()->json([
-            'status' => 'error',
-            'errors' => $validator->errors(),
-        ], 422);
+    public function ProfileStore(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'first_name'    => 'required|string|max:255',
+            'last_name'     => 'required|string|max:255',
+            'country'       => 'required|string|max:255',
+            'city'          => 'required|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $user = Auth::user();
+
+        // Update or create user profile
+        $profile = UserProfile::updateOrCreate(
+            ['user_id' => $user->id], // condition → one profile per user
+            [
+                'first_name' => $request->first_name,
+                'last_name'  => $request->last_name,
+                'country'    => $request->country,
+                'city'       => $request->city,
+                'address' => $request->address ?? 'N/A',
+
+            ]
+        );
+
+        // Handle image upload
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/profile_images'), $filename);
+
+            $profile->profile_image = 'uploads/profile_images/' . $filename;
+            $profile->save();
+        }
+
+        return redirect()->route('user.dashboard')->with([
+            'message' => 'Profile saved successfully!',
+            'alert'   => 'success',
+        ]);
     }
-
-    $user = Auth::user();
-
-    // Update or create user profile
-    $profile = UserProfile::updateOrCreate(
-        ['user_id' => $user->id], // condition → one profile per user
-        [
-            'first_name' => $request->first_name,
-            'last_name'  => $request->last_name,
-            'country'    => $request->country,
-            'city'       => $request->city,
-            'address' => $request->address ?? 'N/A',
-
-        ]
-    );
-
-    // Handle image upload
-    if ($request->hasFile('profile_image')) {
-        $image = $request->file('profile_image');
-        $filename = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('uploads/profile_images'), $filename);
-
-        $profile->profile_image = 'uploads/profile_images/' . $filename;
-        $profile->save();
-    }
-
-    return redirect()->route('user.dashboard')->with([
-        'message' => 'Profile saved successfully!',
-        'alert'   => 'success',
-    ]);
-}
     public function editProfile()
     {
         $profile = UserProfile::where('user_id', Auth::id())->first();
@@ -296,7 +296,7 @@ public function ProfileStore(Request $request)
 
         $validator = Validator::make($request->all(), [
             'bank_account'  => 'required|exists:user_banks,id',
-            'amount' => 'required|numeric|min:1|max:'.$available_balance,
+            'amount' => 'required|numeric|min:1|max:' . $available_balance,
         ]);
 
         if ($validator->fails()) {
@@ -422,5 +422,37 @@ public function ProfileStore(Request $request)
     public function blockedUser()
     {
         return view('front.blocked-user');
+    }
+
+    public function changePassword()
+    {
+        return view('front.password.change');
+    }
+
+    public function changePasswordStore(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'password'     => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&]/'
+            ],
+        ]);
+
+        $user = Auth::user();
+
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return redirect()->back()->with('success', 'Password Updated Successfully');
+        }
+
+        return redirect()->back()->with('error', 'Current password does not match!');
     }
 }

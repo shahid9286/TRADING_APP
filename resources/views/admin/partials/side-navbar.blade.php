@@ -1,4 +1,4 @@
-<aside class="main-sidebar elevation-4 main-sidebar elevation-4 sidebar-primary-primary">
+<aside class="main-sidebar sidebar-dark-primary main-sidebar elevation-4">
     <!-- Sidebar -->
     @php
         use Illuminate\Support\Facades\Route;
@@ -8,7 +8,7 @@
 
         <div class="user-panel">
             <a href="{{ route('admin.dashboard') }}" class="name text-dark">
-                <img src="{{ asset('assets/admin/uploads/static/logo.png') }}"
+                <img src="{{ asset($setting->footer_logo) }}"
                     style="padding-top: 20px; width: 200px !important;">
             </a>
         </div>
@@ -26,15 +26,30 @@
                     </a>
                 </li>
 
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.profile.edit' ? 'menu-open' : '' }}">
-                    <a href="{{ route('admin.profile.edit') }}"
-                        class="nav-link {{ Route::currentRouteName() == 'admin.profile.edit' ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-user"></i>
+                     {{-- investment --}}
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.investment.index' || Route::currentRouteName() == 'admin.investment.add' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.investment.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-trophy"></i>
                         <p>
-                            {{ __('Profile') }}
+                            {{ __('Investment') }}
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.investment.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.investment.index' ? 'active' : '' }}">
+                                <i class="fas fa-trophy nav-icon"></i>
+                                <p>{{ __('All Investment') }}</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+                {{-- investment End --}}
+
+               
 
                 <li
                     class="nav-item {{ Route::currentRouteName() == 'admin.index' || Route::currentRouteName() == 'admin.pendingAdmins' || Route::currentRouteName() == 'admin.approvedAdmins' || Route::currentRouteName() == 'admin.blockedAdmins' ? 'menu-open' : '' }}">
@@ -296,35 +311,7 @@
                     </ul>
                 </li>
                 {{-- Reward End --}}
-                {{-- investment --}}
-                <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.investment.index' || Route::currentRouteName() == 'admin.investment.add' ? 'menu-open' : '' }}">
-                    <a href="{{ route('admin.investment.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-trophy"></i>
-                        <p>
-                            {{ __('Investment') }}
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-
-                        <li class="nav-item">
-                            <a href="{{ route('admin.investment.index') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.investment.index' ? 'active' : '' }}">
-                                <i class="fas fa-trophy nav-icon"></i>
-                                <p>{{ __('All Investment') }}</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.investment.add') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.investment.add' ? 'active' : '' }}">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{ __('Add Investment') }}</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- investment End --}}
+           
                 {{-- user return start --}}
                 <li
                     class="nav-item {{ Route::currentRouteName() == 'admin.user_returns.index' || Route::currentRouteName() == 'admin.user_returns.add' ? 'menu-open' : '' }}">
