@@ -6,12 +6,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">{{ __('Welcome back,') }} {{ auth()->user()->username }}!</h1>
+                    <h1 class="m-0 text-dark">Welcome back, {{ auth()->user()->username }}!</h1>
                 </div>
             </div>
             <div class="row mt-2">
 
-                <!-- Running Announcements -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="info-box bg-info">
                         <span class="info-box-icon"><i class="fas fa-bullhorn"></i></span>
@@ -22,7 +21,6 @@
                     </div>
                 </div>
 
-                <!-- Running Offers -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="info-box bg-warning">
                         <span class="info-box-icon"><i class="fas fa-gift"></i></span>
@@ -33,7 +31,6 @@
                     </div>
                 </div>
 
-                <!-- Total Users -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="info-box bg-success">
                         <span class="info-box-icon"><i class="fas fa-users"></i></span>
@@ -44,7 +41,6 @@
                     </div>
                 </div>
 
-                <!-- Cash in Hand -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="info-box bg-dark">
                         <span class="info-box-icon"><i class="far fa-money-bill-alt"></i></span>
@@ -55,7 +51,6 @@
                     </div>
                 </div>
 
-                <!-- Monthly Salaries to Give -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="info-box bg-danger">
                         <span class="info-box-icon"><i class="fas fa-hand-holding-usd"></i></span>
@@ -66,7 +61,6 @@
                     </div>
                 </div>
 
-                <!-- Pending Enquiries -->
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="info-box bg-secondary">
                         <span class="info-box-icon"><i class="fas fa-question-circle"></i></span>
@@ -77,7 +71,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Withdrawal Requests -->
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-primary">
                         <div class="inner">
@@ -91,7 +84,6 @@
                     </div>
                 </div>
 
-                <!-- Pending Withdrawal Requests -->
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-danger">
                         <div class="inner">
@@ -105,7 +97,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Investments -->
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-success">
                         <div class="inner">
@@ -119,7 +110,6 @@
                     </div>
                 </div>
 
-                <!-- Pending Investments -->
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-teal">
                         <div class="inner">
