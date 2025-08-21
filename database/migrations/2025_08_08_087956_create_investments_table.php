@@ -32,7 +32,6 @@ return new class extends Migration
             $table->index('user_id');
             $table->index('referral_id');
             $table->index('admin_bank_id');
-
             $table->softDeletes();
             $table->timestamps();
         });

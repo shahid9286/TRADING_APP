@@ -107,6 +107,10 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // investment Routes
         Route::get('/investment', [InvestmentController::class, 'index'])->name('admin.investment.index');
+
+        Route::post('/investment-approved/{id}', [InvestmentController::class, 'investmentApproved'])->name('admin.investment.approved');
+
+
         Route::post('/investment-search', [InvestmentController::class, 'search'])->name('admin.investment.search');
 
         // End of Investment

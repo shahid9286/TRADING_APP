@@ -14,7 +14,6 @@ Route::middleware(['approved.user', 'user.profile'])->group(function () {
     Route::post('/user/updatePassword', [ProfileController::class, 'updatePassword'])->name('user.password.update');
 
     Route::get('/profile/create', [FrontController::class, 'createProfile'])->name('user.profile.create');
-
     Route::get('/withdraw-request', [FrontController::class, 'withdrawRequest'])->name('front.withdraw.request');
     Route::post('/withdraw-request/store', [FrontController::class, 'withdrawRequestStore'])->name('front.withdraw.request.store');
     Route::get('/deposit-history', [FrontController::class, 'depositHistory'])->name('front.deposit.history');
@@ -27,7 +26,7 @@ Route::middleware(['approved.user', 'user.profile'])->group(function () {
 
     Route::get('/transaction', [FrontController::class, 'transaction'])->name('front.transaction');
     Route::get('/user/create-profile', [FrontController::class, 'createProfile'])->name('front.CreateProfile');
-    Route::post('/user/profilestore', [FrontController::class, 'ProfileStore'])->name('front.ProfileStore');
+   
 
     Route::get('/user/profile-edit', [FrontController::class, 'editProfile'])->name('front.editProfile');
     Route::post('/user/profile-update', [FrontController::class, 'ProfileUpdate'])->name('front.ProfileUpdate');
@@ -39,3 +38,4 @@ Route::middleware(['approved.user', 'user.profile'])->group(function () {
 
     Route::get('/deposit-detail/{transaction_id}', [FrontController::class, 'depositDetail'])->name('front.deposit.detail');
 });
+ Route::post('/user/profilestore', [FrontController::class, 'ProfileStore'])->name('front.ProfileStore');

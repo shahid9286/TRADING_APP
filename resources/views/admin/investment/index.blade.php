@@ -118,10 +118,10 @@
                                                 <span class="sr-only">Toggle Dropdown</span>
                                             </button>
                                             <div class="dropdown-menu" role="menu" style="">
-                                                <form action="#"
-                                                    method="get" class="approve-form">
+                                                <form action="{{route("admin.investment.approved",$investment->id)}}"
+                                                    method="post" class="approve-form">
                                                     @csrf
-                                                    <button type="submit"
+                                                    <button  type="submit"
                                                         class="dropdown-item approve-btn">Approve</button>
                                                 </form>
                                                 <form action="{{ route('admin.user.makeblockedUser', $investment->id) }}"
