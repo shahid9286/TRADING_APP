@@ -5,7 +5,7 @@
             <div class="header-wrapper">
                 <div class="logo">
                     <a href="{{route('front.login')}}">
-                        <img src="{{ asset('front/images/logo/logo-dark.png') }}" alt="logo">
+                        <img src="{{ asset($setting->logo) }}" alt="logo" width="250px">
                     </a>
                 </div>
                 <div class="header-content d-flex align-items-center">
@@ -19,7 +19,8 @@
                                 <a href="#0">Finance</a>
                                 <ul class="submenu">
                                    {{-- <li> <a href="{{ route('front.plan') }}">Plan</a> </li> --}}
-                                   <li> <a href="{{ route('front.deposit') }}">Deposite</a> </li>
+                                   <li> <a href="{{ route('front.deposit') }}">Deposit</a> </li>
+                                   <li> <a href="{{ route('front.deposit.history') }}">Deposit History</a> </li>
                                    <li> <a href="{{ route('front.withdraw.request') }}">Withdraw</a> </li>
                                    <li> <a href="{{ route('front.withdraw.request.history') }}">Withdrawal History</a> </li>
                                    <li> <a href="{{ route('front.transaction') }}">Transactions</a> </li>
@@ -32,8 +33,8 @@
                                 <a href="#0">Account Settings</a>
                                 <ul class="submenu">
                                    <li> <a href="{{ route('front.editProfile') }}">Profile Setting</a> </li>
-                                   {{-- <li> <a href="{{ route('front.withdraw') }}">Change Password</a> </li>
-                                   <li> <a href="{{ route('front.withdraw.request') }}">Change Password</a> </li> --}}
+                                   <li> <a href="{{ route('front.change.password') }}">Change Password</a> </li>
+                                   {{-- <li> <a href="{{ route('front.withdraw.request') }}">Change Password</a> </li> --}}
                                 </ul>
                             </li>
                             <li> <a href="{{ route('front.contact') }}">Contact Us</a> </li>

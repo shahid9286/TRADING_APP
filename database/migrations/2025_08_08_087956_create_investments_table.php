@@ -18,7 +18,11 @@ return new class extends Migration
             $table->dateTime('expiry_date');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->string('transaction_id')->unique();
-            $table->string('screenshot'); 
+            $table->string('screenshot');
+            $table->boolean('is_refferal_pending')->default(true);
+            $table->string('admin_bank_address')->nullable();
+            $table->dateTime('approved_at')->nullable();
+            $table->date('monthly_commission_start_date')->nullable();
             $table->enum('is_active', ['active', 'expired'])->default('active');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('referral_id')->nullable()->constrained('users')->nullOnDelete();

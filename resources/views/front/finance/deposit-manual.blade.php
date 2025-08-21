@@ -12,7 +12,7 @@
                                 <div class="col-12 text-center">
                                     <h3><i class="fas fa-wallet"></i> USDT Payment</h3>
                                     <h6>You have requested <b>{{ $amount ?? '1.00' }} USD</b>, Please pay
-                                        <b>{{ $amount ?? '1.00' }} USDT</b> USDT for successful payment
+                                        <b>{{ $amount ?? '1.00' }} USDT</b> for successful payment
                                     </h6>
                                 </div>
                                 <div class="col-12">

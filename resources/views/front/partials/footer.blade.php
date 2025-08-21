@@ -1,4 +1,4 @@
-<footer class="footer brand-1">
+<footer class="footer brand-1 mt-2">
     <div class="container">
       <div class="footer__wrapper">
         
@@ -17,10 +17,5 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="footer__shape">
-      <span class="footer__shape-item footer__shape-item--1"><img src="{{ asset('front/images/footer/1.png')}}"
-          alt="shape icon"></span>
-      <span class="footer__shape-item footer__shape-item--2"> <span></span> </span>
     </div>
   </footer>

@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AdminBank;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\BusinessRule;
 use Illuminate\Support\Facades\Validator;
 use App\Models\UserProfile;
 use Illuminate\Support\Facades\DB;
@@ -20,64 +21,64 @@ use Illuminate\Support\Facades\Hash;
 class FrontController extends Controller
 {
 
-public function login()
-{
-    if (Auth::check() && Auth::user()->hasRole('user')) {
-        $profile = UserProfile::where('user_id', Auth::id())->first();
-
-        if ($profile) {
-            return redirect()->route('user.dashboard');
-        } else {
-            return redirect()->route('front.CreateProfile');
-        }
-    }
-    return view('front.login');
-}
-public function loginUser(Request $request)
-{
-    $request->validate([
-        'login'    => 'required|string',
-        'password' => 'required|min:6',
-    ]);
-
-    $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
-    $credentials = [
-        $loginType => $request->login,
-        'password' => $request->password,
-    ];
-
-    $remember = $request->filled('remember');
-
-    if (Auth::attempt($credentials, $remember)) {
-        $request->session()->regenerate();
-
-        $user = Auth::user();
-
-        if ($user->hasRole('user')) {
-            $profile = UserProfile::where('user_id', $user->id)->first();
+    public function login()
+    {
+        if (Auth::check() && Auth::user()->hasRole('user')) {
+            $profile = UserProfile::where('user_id', Auth::id())->first();
 
             if ($profile) {
-                // ✅ Go to dashboard if profile exists
-                return redirect()->route('user.dashboard')
-                    ->with('success', 'You have logged in successfully!');
+                return redirect()->route('user.dashboard');
             } else {
-                // ✅ Go to create profile if not created yet
-                return redirect()->route('front.CreateProfile')
-                    ->with('success', 'Please complete your profile.');
+                return redirect()->route('front.CreateProfile');
             }
         }
-
-        Auth::logout();
-        return back()->withErrors([
-            'login' => 'You are not authorized to log in from here.',
-        ]);
+        return view('front.login');
     }
+    public function loginUser(Request $request)
+    {
+        $request->validate([
+            'login'    => 'required|string',
+            'password' => 'required|min:6',
+        ]);
 
-    return back()->withErrors([
-        'login' => 'Invalid username/email or password.',
-    ])->withInput($request->only('login', 'remember'));
-}
+        $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [
+            $loginType => $request->login,
+            'password' => $request->password,
+        ];
+
+        $remember = $request->filled('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            if ($user->hasRole('user')) {
+                $profile = UserProfile::where('user_id', $user->id)->first();
+
+                if ($profile) {
+                    // ✅ Go to dashboard if profile exists
+                    return redirect()->route('user.dashboard')
+                        ->with('success', 'You have logged in successfully!');
+                } else {
+                    // ✅ Go to create profile if not created yet
+                    return redirect()->route('front.CreateProfile')
+                        ->with('success', 'Please complete your profile.');
+                }
+            }
+
+            Auth::logout();
+            return back()->withErrors([
+                'login' => 'You are not authorized to log in from here.',
+            ]);
+        }
+
+        return back()->withErrors([
+            'login' => 'Invalid username/email or password.',
+        ])->withInput($request->only('login', 'remember'));
+    }
 
 
     public function signup($referral_username = null)
@@ -122,7 +123,7 @@ public function loginUser(Request $request)
             'email'             => $request->email,
             'phone'             => $request->phone,
             'password'          => Hash::make($request->password),
-            'status'            => 'pending',
+            'status'            => 'approved',
             'net_balance'       => 0,
             'referral_username' => $referral_user->username ?? null,
             'referral_user_id'  => $referral_user->id ?? null,
@@ -146,59 +147,59 @@ public function loginUser(Request $request)
     {
         $profile = UserProfile::where('user_id', Auth::id())->first();
         if ($profile) {
-            return redirect()->route('front.edit-profile');
+            return redirect()->route('front.editProfile');
         }
         return view('front.create-profile');
     }
 
-    
-public function ProfileStore(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'first_name'    => 'required|string|max:255',
-        'last_name'     => 'required|string|max:255',
-        'country'       => 'required|string|max:255',
-        'city'          => 'required|string|max:255',
-        'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-    ]);
 
-    if ($validator->fails()) {
-        return response()->json([
-            'status' => 'error',
-            'errors' => $validator->errors(),
-        ], 422);
+    public function ProfileStore(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'first_name'    => 'required|string|max:255',
+            'last_name'     => 'required|string|max:255',
+            'country'       => 'required|string|max:255',
+            'city'          => 'required|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $user = Auth::user();
+
+        // Update or create user profile
+        $profile = UserProfile::updateOrCreate(
+            ['user_id' => $user->id], // condition → one profile per user
+            [
+                'first_name' => $request->first_name,
+                'last_name'  => $request->last_name,
+                'country'    => $request->country,
+                'city'       => $request->city,
+                'address' => $request->address ?? 'N/A',
+
+            ]
+        );
+
+        // Handle image upload
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/profile_images'), $filename);
+
+            $profile->profile_image = 'uploads/profile_images/' . $filename;
+            $profile->save();
+        }
+
+        return redirect()->route('user.dashboard')->with([
+            'message' => 'Profile saved successfully!',
+            'alert'   => 'success',
+        ]);
     }
-
-    $user = Auth::user();
-
-    // Update or create user profile
-    $profile = UserProfile::updateOrCreate(
-        ['user_id' => $user->id], // condition → one profile per user
-        [
-            'first_name' => $request->first_name,
-            'last_name'  => $request->last_name,
-            'country'    => $request->country,
-            'city'       => $request->city,
-            'address' => $request->address ?? 'N/A',
-
-        ]
-    );
-
-    // Handle image upload
-    if ($request->hasFile('profile_image')) {
-        $image = $request->file('profile_image');
-        $filename = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('uploads/profile_images'), $filename);
-
-        $profile->profile_image = 'uploads/profile_images/' . $filename;
-        $profile->save();
-    }
-
-    return redirect()->route('user.dashboard')->with([
-        'message' => 'Profile saved successfully!',
-        'alert'   => 'success',
-    ]);
-}
     public function editProfile()
     {
         $profile = UserProfile::where('user_id', Auth::id())->first();
@@ -293,14 +294,15 @@ public function ProfileStore(Request $request)
     public function withdrawRequestStore(Request $request)
     {
         $available_balance = Auth::user()->net_balance - Auth::user()->locked_amount;
-
+        $min_withdraw_limit = BusinessRule::first()->min_withdraw_limit;
         $validator = Validator::make($request->all(), [
             'bank_account'  => 'required|exists:user_banks,id',
-            'amount' => 'required|numeric|min:1|max:'.$available_balance,
+            'amount' => 'required|numeric|min:' . $min_withdraw_limit . '|max:' . $available_balance,
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->with('error', 'Validation failed, please recheck the form!');
+            $errors = implode('<br>', $validator->errors()->all());
+            return redirect()->back()->with('error', $errors)->withInput();
         }
 
         DB::beginTransaction();
@@ -349,9 +351,22 @@ public function ProfileStore(Request $request)
         return view('front.finance.deposit');
     }
 
+    public function depositDetail($transaction_id)
+    {
+        $investment = Investment::where('transaction_id', $transaction_id)->first();
+        return view('front.finance.deposit-detail', compact('investment'));
+    }
+
+    public function depositHistory()
+    {
+        $investments = Investment::where('user_id', Auth::id())->get();
+        return view('front.finance.deposit_history', compact('investments'));
+    }
+
     public function depositManual(Request $request)
     {
-        $request->validate(['amount' => 'required']);
+        $min_deposit = BusinessRule::first()->min_deposit;
+        $request->validate(['amount' => 'required|numeric|min:' . $min_deposit]);
         $amount = $request->amount;
         $admin_bank = AdminBank::where('status', 'active')->orderBy('order_no', 'ASC')->first();
         return view('front.finance.deposit-manual', compact('amount', 'admin_bank'));
@@ -373,6 +388,8 @@ public function ProfileStore(Request $request)
     {
         DB::beginTransaction();
 
+        $admin_bank_address = AdminBank::find($request->admin_bank_id)->account_no;
+
         $investment = new Investment();
         $investment->amount = $request->amount;
         $investment->start_date = now();
@@ -382,6 +399,7 @@ public function ProfileStore(Request $request)
         $investment->is_active = 'active';
         $investment->user_id = Auth::user()->id;
         $investment->admin_bank_id = $request->admin_bank_id;
+        $investment->admin_bank_address = $admin_bank_address;
         $investment->referral_id = Auth::user()->referral_user_id;
 
         $file = $request->file('screenshot');
@@ -392,11 +410,10 @@ public function ProfileStore(Request $request)
 
         $investment->save();
 
-
         DB::commit();
 
         return redirect()
-            ->route('front.deposit')
+            ->route('front.deposit.history')
             ->with('success', 'Request submitted Successfully!');
     }
 
@@ -422,5 +439,37 @@ public function ProfileStore(Request $request)
     public function blockedUser()
     {
         return view('front.blocked-user');
+    }
+
+    public function changePassword()
+    {
+        return view('front.password.change');
+    }
+
+    public function changePasswordStore(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'password'     => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&]/'
+            ],
+        ]);
+
+        $user = Auth::user();
+
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return redirect()->back()->with('success', 'Password Updated Successfully');
+        }
+
+        return redirect()->back()->with('error', 'Current password does not match!');
     }
 }

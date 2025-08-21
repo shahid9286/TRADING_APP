@@ -6,8 +6,20 @@
 <script src="{{ asset('front/js/purecounter_vanilla.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset('front/js/custom.js') }}"></script>
-
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable({
+            pagingType: 'simple_numbers',
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search here...",
+                lengthMenu: "Show _MENU_ entries"
+            }
+        });
+    });
+</script>
 <script>
     @if (session('success'))
         document.addEventListener("DOMContentLoaded", function() {
@@ -18,7 +30,7 @@
                     y: 'top'
                 }
             });
-            notyf.success("{{ session('success') }}");
+            notyf.success("{!! session('success') !!}");
         });
     @endif
 
@@ -31,7 +43,7 @@
                     y: 'top'
                 }
             });
-            notyf.error("{{ session('error') }}");
+            notyf.error("{!! session('error') !!}");
         });
     @endif
 </script>

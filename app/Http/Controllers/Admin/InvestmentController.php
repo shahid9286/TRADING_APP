@@ -12,7 +12,7 @@ class InvestmentController extends Controller
 {
     public function index()
     {
-        $investments = Investment::with('user')->get();
+        $investments = Investment::with('user')->orderBy('id', 'desc')->get();
         return view('admin.investment.index', compact('investments'));
     }
 
@@ -45,7 +45,7 @@ public function search(Request $request)
         $query->where('is_active', $request->is_active);
     }
 
-    $investments = $query->get();
+    $investments = $query->orderBy('id', 'desc')->get();
 
     $html = view('admin.investment.table', compact('investments'))->render();
     return response()->json(['html' => $html]);

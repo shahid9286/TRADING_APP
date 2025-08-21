@@ -123,12 +123,6 @@
             </div>
         </div>
 
-        <!-- background shape -->
-        <div class="account__shape">
-            <span class="account__shape-item account__shape-item--1">
-                <img src="{{ asset('front/images/contact/4.png') }}" alt="shape-icon">
-            </span>
-        </div>
     </section>
 @endsection
 @section('js')

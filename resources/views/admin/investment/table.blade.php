@@ -2,6 +2,7 @@
                         <thead>
                             <tr>
                                 <th>{{ __('ID') }}</th>
+                                <th>{{ __('User') }}</th>
                                 <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Start/Expiry Date & Status') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -10,7 +11,8 @@
                         <tbody>
                             @forelse ($investments as $investment)
                                 <tr>
-                                    <td>{{ $investment->id }}</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $investment->user->username }}</td>
                                     <td>{{ $investment->amount }}</td>
                                     <td>
                                         {{ \Carbon\Carbon::parse($investment->start_date)->format('d M Y') }} -

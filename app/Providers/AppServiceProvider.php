@@ -20,10 +20,10 @@ class AppServiceProvider extends ServiceProvider
     {
         // Only share 'setting' view data if the table exists
         
-        // if (Schema::hasTable('settings')) {
-        //     $setting = Setting::first();
-        //     View::share('setting', $setting);
-        // }
+        if (Schema::hasTable('settings')) {
+            $setting = Setting::first();
+            View::share('setting', $setting);
+        }
 
         if (Schema::hasTable('business_rules')) {
             $bussiness_rule = BusinessRule::first();

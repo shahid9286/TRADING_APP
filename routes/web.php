@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\{
     WithdrawalRequestController,
     SettingController,
     BusinessRuleController,
+    EmailTemplateController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -65,7 +66,7 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/edit-user/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
         Route::post('/update-user/{id}', [UserController::class, 'update'])->name('admin.user.update');
         Route::post('/delete-user/{id}', [UserController::class, 'delete'])->name('admin.user.delete');
-        
+
         Route::get('/user-detail/{id}', [UserController::class, 'detail'])->name('admin.user.detail');
 
         Route::post('/makependingUser/{id}', [UserController::class, 'makependingUser'])->name('admin.user.makependingUser');
@@ -106,7 +107,7 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // investment Routes
         Route::get('/investment', [InvestmentController::class, 'index'])->name('admin.investment.index');
-               Route::post('/search', [InvestmentController::class, 'search'])->name('admin.investment.search');
+        Route::post('/investment-search', [InvestmentController::class, 'search'])->name('admin.investment.search');
 
         // End of Investment
         // userreturn Routes
@@ -174,6 +175,20 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         //end of admin bank routes
 
+        Route::prefix('admin/email-templates')->name('admin.email-templates.')->middleware(['auth'])->group(function () {
+            Route::get('/', [EmailTemplateController::class, 'index'])->name('index');
+            Route::get('/add', [EmailTemplateController::class, 'add'])->name('add');
+            Route::post('/', [EmailTemplateController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [EmailTemplateController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [EmailTemplateController::class, 'update'])->name('update');
+            Route::delete('/{id}', [EmailTemplateController::class, 'destroy'])->name('delete');
+            Route::get('/{id}/detail', [EmailTemplateController::class, 'show'])->name('show');
+
+            // Route::delete('/email-attachments/{id}', [EmailTemplateController::class, 'destroyAttachment'])->name('email-attachments.destroy');
+
+            Route::post('/upload-attachment', [EmailTemplateController::class, 'uploadAttachment'])->name('upload.attachment');
+        });
+
         // user bank routes
         Route::get('/user-banks', [UserBankController::class, 'index'])->name('admin.user-banks.index');
         Route::get('/user-banks/add', [UserBankController::class, 'add'])->name('admin.user-banks.add');
@@ -186,7 +201,7 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // Withdrawal Request routes
         Route::get('/withdrawal-requests', [WithdrawalRequestController::class, 'index'])->name('admin.withdrawal-request.index');
-        
+        Route::post('/search', [WithdrawalRequestController::class, 'search'])->name('admin.withdrawal-request.search');
         Route::post('/withdrawal-requests/{id}/delete', [WithdrawalRequestController::class, 'delete'])->name('admin.withdrawal-request.delete');
 
         //end of Withdrawal Request routes
