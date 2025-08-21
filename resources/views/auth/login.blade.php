@@ -94,7 +94,7 @@
 <body class="login-page" style="min-height: 496.781px;" cz-shortcut-listen="true">
     <div class="login-box">
         <div class="login-logo">
-            <img src="{{ asset('assets/admin/uploads/static/Logo.png') }}" width="300px">
+            <img src="{{ asset($setting->footer_logo) }}" width="300px">
         </div>
 
         <div class="card">

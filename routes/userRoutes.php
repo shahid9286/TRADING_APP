@@ -17,6 +17,7 @@ Route::middleware(['approved.user', 'user.profile'])->group(function () {
 
     Route::get('/withdraw-request', [FrontController::class, 'withdrawRequest'])->name('front.withdraw.request');
     Route::post('/withdraw-request/store', [FrontController::class, 'withdrawRequestStore'])->name('front.withdraw.request.store');
+    Route::get('/deposit-history', [FrontController::class, 'depositHistory'])->name('front.deposit.history');
     Route::get('/deposit', [FrontController::class, 'deposit'])->name('front.deposit');
     Route::post('/deposit/manual', [FrontController::class, 'depositManual'])->name('front.deposit.manual');
     Route::post('/deposit/store/validate', [FrontController::class, 'depositStoreValidate'])->name('front.deposit.store.validate');
@@ -35,4 +36,6 @@ Route::middleware(['approved.user', 'user.profile'])->group(function () {
     Route::post('/user/change-password/store', [FrontController::class, 'changePasswordStore'])->name('front.change.password.store');
 
     Route::get('/account-blocked', [FrontController::class, 'blockedUser'])->name('user.blocked');
+
+    Route::get('/deposit-detail/{transaction_id}', [FrontController::class, 'depositDetail'])->name('front.deposit.detail');
 });

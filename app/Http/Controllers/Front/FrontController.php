@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AdminBank;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\BusinessRule;
 use Illuminate\Support\Facades\Validator;
 use App\Models\UserProfile;
 use Illuminate\Support\Facades\DB;
@@ -293,14 +294,15 @@ class FrontController extends Controller
     public function withdrawRequestStore(Request $request)
     {
         $available_balance = Auth::user()->net_balance - Auth::user()->locked_amount;
-
+        $min_withdraw_limit = BusinessRule::first()->min_withdraw_limit;
         $validator = Validator::make($request->all(), [
             'bank_account'  => 'required|exists:user_banks,id',
-            'amount' => 'required|numeric|min:1|max:' . $available_balance,
+            'amount' => 'required|numeric|min:' . $min_withdraw_limit . '|max:' . $available_balance,
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->with('error', 'Validation failed, please recheck the form!');
+            $errors = implode('<br>', $validator->errors()->all());
+            return redirect()->back()->with('error', $errors)->withInput();
         }
 
         DB::beginTransaction();
@@ -349,9 +351,22 @@ class FrontController extends Controller
         return view('front.finance.deposit');
     }
 
+    public function depositDetail($transaction_id)
+    {
+        $investment = Investment::where('transaction_id', $transaction_id)->first();
+        return view('front.finance.deposit-detail', compact('investment'));
+    }
+
+    public function depositHistory()
+    {
+        $investments = Investment::where('user_id', Auth::id())->get();
+        return view('front.finance.deposit_history', compact('investments'));
+    }
+
     public function depositManual(Request $request)
     {
-        $request->validate(['amount' => 'required']);
+        $min_deposit = BusinessRule::first()->min_deposit;
+        $request->validate(['amount' => 'required|numeric|min:' . $min_deposit]);
         $amount = $request->amount;
         $admin_bank = AdminBank::where('status', 'active')->orderBy('order_no', 'ASC')->first();
         return view('front.finance.deposit-manual', compact('amount', 'admin_bank'));
@@ -373,6 +388,8 @@ class FrontController extends Controller
     {
         DB::beginTransaction();
 
+        $admin_bank_address = AdminBank::find($request->admin_bank_id)->account_no;
+
         $investment = new Investment();
         $investment->amount = $request->amount;
         $investment->start_date = now();
@@ -382,6 +399,7 @@ class FrontController extends Controller
         $investment->is_active = 'active';
         $investment->user_id = Auth::user()->id;
         $investment->admin_bank_id = $request->admin_bank_id;
+        $investment->admin_bank_address = $admin_bank_address;
         $investment->referral_id = Auth::user()->referral_user_id;
 
         $file = $request->file('screenshot');
@@ -392,11 +410,10 @@ class FrontController extends Controller
 
         $investment->save();
 
-
         DB::commit();
 
         return redirect()
-            ->route('front.deposit')
+            ->route('front.deposit.history')
             ->with('success', 'Request submitted Successfully!');
     }
 
