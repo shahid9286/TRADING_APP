@@ -27,23 +27,13 @@
                                         <div class="row">
 
                                             <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="name">Name <span class="text-danger">*</span></label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i
-                                                                    class="fas fa-user"></i></span>
-                                                        </div>
-
-                                                        <input type="text" class="form-control" name="name"
-                                                            id="name" placeholder="Enter Name"
-                                                            value="{{ old('name') }}" required>
-                                                    </div>
-
-                                                    @if ($errors->has('name'))
-                                                        <p class="text-danger"> {{ $errors->first('name') }} </p>
-                                                    @endif
-                                                </div>
+                                               <label for="name">{{ __('User Name') }} <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" name="user_name" id="user_name" placeholder="Enter Name"
+                                            class="form-control" value="{{ old('user_name') }}" required>
+                                        @if ($errors->has('user_name'))
+                                            <p class="text-danger">{{ $errors->first('user_name') }}</p>
+                                        @endif
                                             </div>
 
                                             <div class="col-lg-6">
@@ -75,7 +65,7 @@
                                                                     class="fas fa-phone"></i></span>
                                                         </div>
 
-                                                        <input type="text" class="form-control" name="phone_no"
+                                                        <input type="text" class="form-control" name="Phone_no"
                                                             id="phone_no" placeholder="Enter Phone No"
                                                             value="{{ old('phone_no') }}">
                                                     </div>
@@ -86,47 +76,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="whatsapp_no">WhatsApp No</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fab fa-whatsapp"></i></span>
-                                        </div>
-
-                                                        <input type="text" class="form-control" name="whatsapp_no"
-                                                            placeholder="Enter WhatsApp No"
-                                                            value="{{ old('whatsapp_no') }}">
-                                                    </div>
-
-                                                    @if ($errors->has('whatsapp_no'))
-                                                        <p class="text-danger"> {{ $errors->first('whatsapp_no') }} </p>
-                                                    @endif
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="password">Password <span
-                                                            class="text-danger">*</span></label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i
-                                                                    class="fas fa-lock"></i></span>
-                                                        </div>
-
-                                                        <input type="password" class="form-control" id="password"
-                                                            name="password" placeholder="Enter password"
-                                                            value="{{ old('password') }}" required>
-                                                    </div>
-
-                                                    @if ($errors->has('password'))
-                                                        <p class="text-danger"> {{ $errors->first('password') }} </p>
-                                                    @endif
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
+                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="status">
                                                         {{ __('Status') }} <span class="text-danger">*</span>
@@ -151,33 +101,117 @@
 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="user_type">User Type<span
+                                                    <label for="password">Password <span
                                                             class="text-danger">*</span></label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text">
-                                                                <i class="fas fa-user-shield"></i> {{-- You can change this icon as needed --}}
-                                                            </span>
+                                                            <span class="input-group-text"><i
+                                                                    class="fas fa-lock"></i></span>
                                                         </div>
-                                                        <select class="form-control" name="user_type" required>
-                                                            <option value="-1" disabled selected>
-                                                                {{ __('Select User Type') }}
-                                                            </option>
-                                                            @if (auth()->user()->user_type == 'superAdmin')
-                                                                <option value="superAdmin">{{ __('Super Admin') }}
-                                                                </option>
-                                                            @endif
-                                                            <option value="admin">{{ __('Admin') }}</option>
-                                                            <option value="user">{{ __('User') }}</option>
-                                                            {{-- Add more roles if needed --}}
-                                                        </select>
+
+                                                        <input type="password" class="form-control" id="password"
+                                                            name="password" placeholder=" password"
+                                                            value="{{ old('password') }}" required>
                                                     </div>
-                                                    @if ($errors->has('user_type'))
-                                                        <p class="text-danger"> {{ $errors->first('user_type') }} </p>
+
+                                                    @if ($errors->has('password'))
+                                                        <p class="text-danger"> {{ $errors->first('password') }} </p>
                                                     @endif
                                                 </div>
                                             </div>
+                                             <div class="col-lg-6">
+                                               <label for="name">{{ __('First Name') }} <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" name="first Name" id="first Name" placeholder="Enter Name"
+                                            class="form-control" value="{{ old('first Name') }}" required>
+                                        @if ($errors->has('first Name'))
+                                            <p class="text-danger">{{ $errors->first('first Name') }}</p>
+                                        @endif
+                                            </div> <div class="col-lg-6">
+                                               <label for="name">{{ __('Last name') }} <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" name="last name" id="last name" placeholder="Enter name"
+                                            class="form-control" value="{{ old('last name') }}" required>
+                                        @if ($errors->has('last name'))
+                                            <p class="text-danger">{{ $errors->first('last name') }}</p>
+                                        @endif
+                                            </div>
+                                               <div class="col-lg-6">
+                                                <label for="icon">{{ __('Profile Image') }}</label>
+                                        <div class="input-group input-group">
+                                            <span class="input-group-text p-1 px-2"><i class="fas fa-image"></i></span>
+                                            <input type="file" name="image" id="image"
+                                                class="form-control form-control up-img">
+                                        </div>
 
+
+                                        <img class="mw-400 mt-1 mb-2 show-img img-demo"
+                                            src="{{ asset('assets/uploads/core/img-demo.jpg') }}" 
+                                            alt="">
+                                                        @if ($errors->has('image'))
+                                                            <p class="text-danger"> {{ $errors->first('image') }} </p>
+                                                        @endif
+                                                        </div>
+
+                                                    
+                                                </div>
+                                            </div>
+                                              <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="phone_no">whatsapp No</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text"><i
+                                                                    class="fas fa-phone"></i></span>
+                                                        </div>
+
+                                                        <input type="text" class="form-control" name="whatsapp No"
+                                                            id="whatsapp No" placeholder="Enter No"
+                                                            value="{{ old('whatsapp_No') }}">
+                                                    </div>
+
+                                                    @if ($errors->has('whatsapp No'))
+                                                        <p class="text-danger"> {{ $errors->first('whatsapp No') }} </p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+    <div class="form-group">
+        <label for="city">City</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fas fa-city"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control" id="city"
+                   name="city" placeholder="Enter City"
+                   value="{{ old('city') }}">
+        </div>
+        @if ($errors->has('city'))
+            <p class="text-danger"> {{ $errors->first('city') }} </p>
+        @endif
+    </div>
+</div>
+
+<div class="col-lg-6">
+    <div class="form-group">
+        <label for="country">Country</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fas fa-flag"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control" id="country"
+                   name="country" placeholder="Enter Country"
+                   value="{{ old('country') }}">
+        </div>
+        @if ($errors->has('country'))
+            <p class="text-danger"> {{ $errors->first('country') }} </p>
+        @endif
+    </div>
+</div>
 
 
                                             <div class="col-lg-6">
@@ -201,22 +235,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-12">
-                                                <label for="icon">{{ __('Upload Image') }}</label>
-                                        <div class="input-group input-group">
-                                            <span class="input-group-text p-1 px-2"><i class="fas fa-image"></i></span>
-                                            <input type="file" name="image" id="image"
-                                                class="form-control form-control up-img">
-                                        </div>
-
-
-                                        <img class="mw-400 mt-1 mb-2 show-img img-demo"
-                                            src="{{ asset('assets/uploads/core/img-demo.jpg') }}" 
-                                            alt="">
-                                                        @if ($errors->has('image'))
-                                                            <p class="text-danger"> {{ $errors->first('image') }} </p>
-                                                        @endif
-                                                        </div>
+                                           
 
                                                     </div>
                                                 </div>

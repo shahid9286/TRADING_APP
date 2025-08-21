@@ -25,15 +25,30 @@
                     </a>
                 </li>
 
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.profile.edit' ? 'menu-open' : '' }}">
-                    <a href="{{ route('admin.profile.edit') }}"
-                        class="nav-link {{ Route::currentRouteName() == 'admin.profile.edit' ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-user"></i>
+                     {{-- investment --}}
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.investment.index' || Route::currentRouteName() == 'admin.investment.add' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.investment.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-trophy"></i>
                         <p>
-                            {{ __('Profile') }}
+                            {{ __('Investment') }}
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.investment.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.investment.index' ? 'active' : '' }}">
+                                <i class="fas fa-trophy nav-icon"></i>
+                                <p>{{ __('All Investment') }}</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+                {{-- investment End --}}
+
+               
 
                 <li
                     class="nav-item {{ Route::currentRouteName() == 'admin.index' || Route::currentRouteName() == 'admin.pendingAdmins' || Route::currentRouteName() == 'admin.approvedAdmins' || Route::currentRouteName() == 'admin.blockedAdmins' ? 'menu-open' : '' }}">
@@ -315,28 +330,7 @@
                     </ul>
                 </li>
                 {{-- Reward End --}}
-                {{-- investment --}}
-                <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.investment.index' || Route::currentRouteName() == 'admin.investment.add' ? 'menu-open' : '' }}">
-                    <a href="{{ route('admin.investment.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-trophy"></i>
-                        <p>
-                            {{ __('Investment') }}
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-
-                        <li class="nav-item">
-                            <a href="{{ route('admin.investment.index') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.investment.index' ? 'active' : '' }}">
-                                <i class="fas fa-trophy nav-icon"></i>
-                                <p>{{ __('All Investment') }}</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- investment End --}}
+           
                 {{-- user return start --}}
                 <li
                     class="nav-item {{ Route::currentRouteName() == 'admin.user_returns.index' || Route::currentRouteName() == 'admin.user_returns.add' ? 'menu-open' : '' }}">
