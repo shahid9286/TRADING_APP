@@ -71,7 +71,7 @@
                     <h3 class="card-title">{{ __('Investment List') }}</h3>
                 </div>
                 <div class="card-body table-responsive tableContent">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered table-striped data_table">
                         <thead>
                             <tr>
                                 <th>{{ __('ID') }}</th>

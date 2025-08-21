@@ -106,7 +106,7 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // investment Routes
         Route::get('/investment', [InvestmentController::class, 'index'])->name('admin.investment.index');
-               Route::post('/search', [InvestmentController::class, 'search'])->name('admin.investment.search');
+        Route::post('/search', [InvestmentController::class, 'search'])->name('admin.investment.search');
 
         // End of Investment
         // userreturn Routes
@@ -186,7 +186,7 @@ Route::middleware(['auth', 'status'])->group(function () {
 
         // Withdrawal Request routes
         Route::get('/withdrawal-requests', [WithdrawalRequestController::class, 'index'])->name('admin.withdrawal-request.index');
-        
+        Route::post('/search', [WithdrawalRequestController::class, 'search'])->name('admin.withdrawal-request.search');
         Route::post('/withdrawal-requests/{id}/delete', [WithdrawalRequestController::class, 'delete'])->name('admin.withdrawal-request.delete');
 
         //end of Withdrawal Request routes
