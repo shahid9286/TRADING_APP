@@ -11,21 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_wallets', function (Blueprint $table) {
+         Schema::create('user_totals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
 
-            // Financial fields
             $table->decimal('total_invested', 15, 2)->default(0);
-            $table->decimal('total_refferal_commision', 15, 2)->default(0);
+            $table->decimal('total_referral_commission', 15, 2)->default(0);
             $table->decimal('total_salaries', 15, 2)->default(0);
             $table->decimal('total_rewards', 15, 2)->default(0);
+            $table->decimal('total_withdraws', 15, 2)->default(0);
             $table->decimal('total_fee', 15, 2)->default(0);
 
-            // Direct referrals
             $table->integer('direct_count')->default(0);
-
-            // Level investments
             $table->decimal('level_1_investment', 15, 2)->default(0);
             $table->decimal('level_2_investment', 15, 2)->default(0);
             $table->decimal('level_3_investment', 15, 2)->default(0);
@@ -35,6 +32,7 @@ return new class extends Migration
             $table->decimal('level_7_investment', 15, 2)->default(0);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -43,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_wallets');
+        Schema::dropIfExists('user_totals');
     }
 };

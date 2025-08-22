@@ -130,4 +130,24 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'level_7_user_id');
     }
+
+    public function userTotal()
+    {
+        return $this->hasOne(UserTotal::class);
+    }
+
+    public function userReturns()
+    {
+        return $this->hasMany(UserReturn::class);
+    }
+
+    public function referralReturns()
+    {
+        return $this->hasMany(UserReturn::class, 'referral_id');
+    }
+
+    public function ledgers()
+    {
+        return $this->hasMany(UserLedger::class);
+    }
 }

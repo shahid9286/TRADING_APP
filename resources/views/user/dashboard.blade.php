@@ -1,7 +1,7 @@
 @extends('front.layouts.master')
 @section('title', 'Dashboard')
 @section('content')
-    
+
 
     <section class="service py-3 bg-color">
         <div class="container">
@@ -19,9 +19,8 @@
                                                 alt="s">
                                         </div>
                                         <div class="service__item-content">
-                                            <h5>My Invest
-                                            </h5>
-                                            <h4 class="text-muted p-0 m-0">$0</h4>
+                                            <h5>Net Balance</h5>
+                                            <h4 class="text-muted p-0 m-0">$ {{ auth()->user()->net_balance ?? 0 }}</h4>
                                         </div>
                                     </div>
                                     <div class="col-md-4 text-center">
@@ -31,9 +30,9 @@
                                                 alt="s">
                                         </div>
                                         <div class="service__item-content">
-                                            <h5>Direct Referrals
+                                            <h5>Locked Amount
                                             </h5>
-                                            <h4 class="text-muted p-0 m-0">0</h4>
+                                            <h4 class="text-muted p-0 m-0">$ {{ auth()->user()->locked_amount ?? 0 }}</h4>
                                         </div>
                                     </div>
                                     <div class="col-md-4 text-center">
@@ -43,9 +42,9 @@
                                                 alt="s">
                                         </div>
                                         <div class="service__item-content">
-                                            <h5>Team Invest
+                                            <h5>Total Invested
                                             </h5>
-                                            <h4 class="text-muted p-0 m-0">$0</h4>
+                                            <h4 class="text-muted p-0 m-0">$ {{ auth()->user()->userTotal->total_invested ?? 0 }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -96,9 +95,8 @@
                                         alt="s">
                                 </div>
                                 <div class="service__item-content">
-                                    <h5> <a class="stretched-link" href="#">Deposit Wallet Balance</a>
-                                    </h5>
-                                    <span class="text-muted">$0</span>
+                                    <h6> <a class="stretched-link" href="#">Current Month Salary</a></h6>
+                                    <h4 class="text-muted p-0 m-0">$ {{ auth()->user()->current_month_salary ?? 0 }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -113,9 +111,9 @@
                                         alt="s">
                                 </div>
                                 <div class="service__item-content">
-                                    <h5> <a class="stretched-link" href="#">Profit Wallet Balance</a>
+                                    <h5> <a class="stretched-link" href="#">Next Month Salary</a>
                                     </h5>
-                                    <span class="text-muted">$0</span>
+                                    <h4 class="text-muted p-0 m-0">$ {{ auth()->user()->next_month_salary ?? 0 }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -130,13 +128,14 @@
                                         alt="s">
                                 </div>
                                 <div class="service__item-content">
-                                    <h5> <a class="stretched-link" href="#">Referral Earnings</a>
-                                    </h5>
-                                    <span class="text-muted">$0</span>
+                                    <h5> <a class="stretched-link" href="#">Salaries Received</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->total_salaries ?? 0 }}</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
                             data-aos-duration="800">
@@ -147,9 +146,8 @@
                                         alt="s">
                                 </div>
                                 <div class="service__item-content">
-                                    <h5> <a class="stretched-link" href="#">Total Deposit</a>
-                                    </h5>
-                                    <span class="text-muted">$0</span>
+                                    <h5> <a class="stretched-link" href="#">Total Refferal Commision</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->total_refferal_commision ?? 0 }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -164,9 +162,8 @@
                                         alt="s">
                                 </div>
                                 <div class="service__item-content">
-                                    <h5> <a class="stretched-link" href="#">Total Invest</a>
-                                    </h5>
-                                    <span class="text-muted">$0</span>
+                                    <h5> <a class="stretched-link" href="#">Total Rewards</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->total_rewards ?? 0 }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -181,13 +178,207 @@
                                         alt="s">
                                 </div>
                                 <div class="service__item-content">
-                                    <h5> <a class="stretched-link" href="#">Total Withdraw</a>
-                                    </h5>
-                                    <span class="text-muted">$0</span>
+                                    <h5> <a class="stretched-link" href="#">Total Withdraws</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->total_withdraws ?? 0 }}</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+                     <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/tdeposit.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">Total Refferal Commision</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->total_refferal_commision ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/invest.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">Total Rewards</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->total_rewards ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/twithdraw.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">Total Withdraws</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->total_withdraws ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                     <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/tdeposit.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">Total Fee</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->total_fee ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/twithdraw.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">level_1_investment</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->level_1_investment ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                     <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/tdeposit.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">level_2_investment</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->level_2_investment ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/invest.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">level_3_investment</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->level_3_investment ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/twithdraw.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">level_4_investment</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->level_4_investment ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/twithdraw.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">level_5_investment</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->level_5_investment ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/twithdraw.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">level_6_investment</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->level_6_investment ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="service__item service__item--style1 aos-init aos-animate" data-aos="fade-up"
+                            data-aos-duration="800">
+                            <div class="service__item-inner px-5 pt-5 pb-4">
+                                <div class="service__item-thumb mb-20">
+                                    <img width="50px"
+                                        src="https://app.supertradeway.com/assets/templates/bit_gold/dashboard/images/twithdraw.svg"
+                                        alt="s">
+                                </div>
+                                <div class="service__item-content">
+                                    <h5> <a class="stretched-link" href="#">level_7_investment</a></h5>
+                                    <h4 class="text-muted p-0 m-0">{{ auth()->user()->userTotal->level_7_investment ?? 0 }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
                 </div>
             </div>
         </div>

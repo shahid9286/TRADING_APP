@@ -59,5 +59,28 @@ class UserSeeder extends Seeder
         ]);
 
         $user->assignRole($user_role);
+
+
+        $user2 = User::create([
+            'username' => 'papu',
+            'email' => 'papu@papupan.com',
+            'phone' => '+923758365729',
+            'status' => 'approved',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+        ]);
+
+        UserProfile::create([
+            'user_id'      => $user2->id,
+            'first_name'   => 'Regular',
+            'last_name'    => 'User',
+            'profile_image' => null,
+            'whatsapp_no'  => '+923758365729',
+            'country'  => 'Pakistan',
+            'city'  => 'Gujranwala',
+            'address'      => 'Gujranwala',
+        ]);
+
+        $user2->assignRole($user_role);
     }
 }
