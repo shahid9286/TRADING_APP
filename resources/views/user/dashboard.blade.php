@@ -125,7 +125,7 @@
 
                     <div class="input-group shadow-sm">
                         <input type="text" id="referralLink" class="form-control text-center"
-                            value="{{ url('/') }}/{{ Auth::user()->username }}" readonly>
+                            value="{{ url('/') }}/user-signup/{{ Auth::user()->username }}" readonly>
                         <button class="trk-btn trk-btn--primary" id="copyBtn" type="button">
                             <i class="fas fa-copy"></i>
                         </button>
