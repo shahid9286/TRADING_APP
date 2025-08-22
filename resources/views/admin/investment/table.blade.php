@@ -2,6 +2,7 @@
                         <thead>
                             <tr>
                                 <th>{{ __('ID') }}</th>
+                                <th>{{ __('User') }}</th>
                                 <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Start/Expiry Date & Status') }}</th>
                                 <th>{{ __('Action') }}</th>

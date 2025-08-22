@@ -87,6 +87,7 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <p class="p-0 m-0">Minimum Withdrawal: <b>${{ $bussiness_rule->min_withdraw_limit }}</b></p>
                                     <p class="p-0 m-0">Net Balance: <b>${{ auth()->user()->net_balance }}</b></p>
                                     <p class="p-0 m-0">Locked Amount: <b>${{ auth()->user()->locked_amount }}</b></p>
                                     <p class="p-0 m-0">Available Amount:

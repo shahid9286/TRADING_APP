@@ -2,15 +2,12 @@
 @section('title', 'Withdraw History')
 
 @section('content')
-    <section class="page-header">
-        {{-- Add breadcrumb here if needed --}}
-    </section>
 
-    <section class="py-5">
+    <section class="padding-top">
         <div class="container">
 
             <!-- Search -->
-            <div class="d-flex justify-content-end mb-4">
+            {{-- <div class="d-flex justify-content-end mb-4">
                 <form method="GET" action="#" class="d-flex" style="max-width: 300px;">
                     <input type="text" name="search" placeholder="Search by transactions" class="form-control"
                         style="color: #fff; border: none; border-radius: 8px 0 0 8px;">
@@ -19,11 +16,11 @@
                         <i class="fas fa-search" style="color: #000;"></i>
                     </button>
                 </form>
-            </div>
+            </div> --}}
 
             <!-- History Table -->
-            <div class="table-responsive">
-                <table class="table table-borderless align-middle text-white">
+            {{-- <div class="table-responsive"> --}}
+                <table id="myTable" class="table table-borderless align-middle text-white">
                     <thead style="border-bottom: 1px solid #4a4a4a;" class="table-heading">
                         <tr>
                             <th class="fs-5">User Bank</th>
@@ -31,7 +28,7 @@
                             <th class="fs-5">Amount</th>
                             {{-- <th class="fs-5">Conversion</th> --}}
                             <th class="fs-5">Status</th>
-                            <th class="fs-5">Details</th>
+                            <th class="fs-5">Action</th>
 
                         </tr>
                     </thead>
@@ -96,7 +93,7 @@
 
                     </tbody>
                 </table>
-            </div>
+            {{-- </div> --}}
 
         </div>
     </section>
@@ -108,9 +105,9 @@
         }
     </style>
 
-    <div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+    <div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true" >
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #00150F;">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="withdrawModalLabel">Transaction Details</h5>
@@ -124,7 +121,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="trk-btn trk-btn--border text-white" data-bs-dismiss="modal">Close</button>
                 </div>
 
             </div>

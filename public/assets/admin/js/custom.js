@@ -114,14 +114,18 @@ $(function ($) {
 
     //  Datatable js
 
-        $('.data_table').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'excelHtml5'
-            ],
-            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            info: true
-        });
+    $(".data_table").DataTable({
+        dom: "Bfrtip",
+        buttons: ["copy", "excelHtml5"],
+        lengthMenu: [
+            [10, 25, 50, -1],
+            [10, 25, 50, "All"],
+        ],
+        info: true,
+        createdRow: function (row, data, dataIndex) {
+            $(row).addClass("table-dark"); // Add Bootstrap dark class to each row
+        },
+    });
 
     // $('.data_table').DataTable({
     //     dom: 'Bfrtip',

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('message'); // Editor text
+            $table->text('message');
             $table->string('link_text')->nullable();
             $table->string('link_url', 500)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');

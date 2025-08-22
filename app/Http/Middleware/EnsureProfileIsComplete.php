@@ -23,7 +23,7 @@ class EnsureProfileIsComplete
 
             // Agar profile missing ya required fields empty hain
             if (!$profile || !$profile->first_name || !$profile->last_name) {
-                if (!$request->is('profile/*')) {
+                if (!$request->is('user/profile/*')) {
                     return redirect()->route('user.profile.create')
                         ->with('error', 'Please complete your profile before accessing other pages.');
                 }

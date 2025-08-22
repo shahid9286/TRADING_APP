@@ -17,7 +17,7 @@
                         </div>
 
                         <div class="card-body">
-                            <table class="table table-sm table-striped table-bordered data_table">
+                            <table class="table table-sm table-striped table-bordered table-dark data_table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
