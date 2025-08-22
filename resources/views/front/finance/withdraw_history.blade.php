@@ -115,7 +115,7 @@
     <div class="modal fade" id="withdrawalRequestDetail" tabindex="-1" aria-labelledby="withdrawModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="background-color: #00150F;">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="withdrawModalLabel">Transaction Details</h5>
@@ -166,7 +166,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="trk-btn trk-btn--border text-white" data-bs-dismiss="modal">Close</button>
                 </div>
 
             </div>

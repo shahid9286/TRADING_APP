@@ -27,43 +27,31 @@
                                         <div class="row">
 
                                             <div class="col-lg-6">
-                                               <label for="name">{{ __('User Name') }} <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" name="user_name" id="user_name" placeholder="Enter Name"
-                                            class="form-control" value="{{ old('user_name') }}" required>
-                                        @if ($errors->has('user_name'))
-                                            <p class="text-danger">{{ $errors->first('user_name') }}</p>
-                                        @endif
+                                               <label for="user_name">
+    {{ __('User Name') }} <span class="text-danger">*</span>
+</label>
+
+<div class="input-group">
+    <span class="input-group-text">
+        <i class="fas fa-user"></i> 
+    </span>
+    <input type="text" name="user_name" id="user_name" placeholder="Enter Name"
+        class="form-control" value="{{ old('user_name') }}" required>
+</div>
+
+@if ($errors->has('user_name'))
+    <p class="text-danger">{{ $errors->first('user_name') }}</p>
+@endif
+
                                             </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <label for="email">Email <span class="text-danger">*</span></label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text"><i
-                                                                    class="fas fa-envelope"></i></span>
-                                                        </div>
-
-                                                        <input type="text" class="form-control" name="email"
-                                                            name="email" placeholder="Enter Email"
-                                                            value="{{ old('email') }}" required>
-                                                    </div>
-
-                                                    @if ($errors->has('email'))
-                                                        <p class="text-danger"> {{ $errors->first('email') }} </p>
-                                                    @endif
-                                                </div>
-                                            </div>
-
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="phone_no">Phone No</label>
                                                     <div class="input-group">
-                                                        <div class="input-group-prepend">
+                                                        
                                                             <span class="input-group-text"><i
                                                                     class="fas fa-phone"></i></span>
-                                                        </div>
+                                                       
 
                                                         <input type="text" class="form-control" name="Phone_no"
                                                             id="phone_no" placeholder="Enter Phone No"
@@ -76,38 +64,34 @@
                                                 </div>
                                             </div>
 
-                                             <div class="col-lg-6">
+                                            <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="status">
-                                                        {{ __('Status') }} <span class="text-danger">*</span>
-                                                    </label>
+                                                    <label for="email">Email <span class="text-danger">*</span></label>
                                                     <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text">
-                                                                <i class="fas fa-toggle-on"></i>
-                                                            </span>
-                                                        </div>
-                                                        <select class="form-control" name="status" id="status">
-                                                            <option value="approved">{{ __('Approved') }}</option>
-                                                            <option value="pending">{{ __('Pending') }}</option>
-                                                            <option value="blocked">{{ __('Blocked') }}</option>
-                                                        </select>
+                                                       
+                                                            <span class="input-group-text"><i
+                                                                    class="fas fa-envelope"></i></span>
+                                                       
+
+                                                        <input type="text" class="form-control" name="email"
+                                                            name="email" placeholder="Enter Email"
+                                                            value="{{ old('email') }}" required>
                                                     </div>
-                                                    @if ($errors->has('status'))
-                                                        <p class="text-danger"> {{ $errors->first('status') }} </p>
+
+                                                    @if ($errors->has('email'))
+                                                        <p class="text-danger"> {{ $errors->first('email') }} </p>
                                                     @endif
                                                 </div>
                                             </div>
-
-                                            <div class="col-lg-6">
+                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label for="password">Password <span
                                                             class="text-danger">*</span></label>
                                                     <div class="input-group">
-                                                        <div class="input-group-prepend">
+                                                      
                                                             <span class="input-group-text"><i
                                                                     class="fas fa-lock"></i></span>
-                                                        </div>
+                                                        
 
                                                         <input type="password" class="form-control" id="password"
                                                             name="password" placeholder=" password"
@@ -119,55 +103,81 @@
                                                     @endif
                                                 </div>
                                             </div>
+
+                                           
+
+                                             
+
+                                            
                                              <div class="col-lg-6">
-                                               <label for="name">{{ __('First Name') }} <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" name="first Name" id="first Name" placeholder="Enter Name"
-                                            class="form-control" value="{{ old('first Name') }}" required>
-                                        @if ($errors->has('first Name'))
-                                            <p class="text-danger">{{ $errors->first('first Name') }}</p>
-                                        @endif
-                                            </div> <div class="col-lg-6">
-                                               <label for="name">{{ __('Last name') }} <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" name="last name" id="last name" placeholder="Enter name"
-                                            class="form-control" value="{{ old('last name') }}" required>
-                                        @if ($errors->has('last name'))
-                                            <p class="text-danger">{{ $errors->first('last name') }}</p>
-                                        @endif
-                                            </div>
-                                               <div class="col-lg-6">
-                                                <label for="icon">{{ __('Profile Image') }}</label>
-                                        <div class="input-group input-group">
-                                            <span class="input-group-text p-1 px-2"><i class="fas fa-image"></i></span>
-                                            <input type="file" name="image" id="image"
-                                                class="form-control form-control up-img">
-                                        </div>
+    <div class="form-group">
+        <label for="first_name">
+            {{ __('First Name') }} <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text">
+                <i class="fas fa-user"></i>
+            </span>
+            <input type="text" name="first_name" id="first_name" placeholder="Enter First Name"
+                   class="form-control" value="{{ old('first_name') }}" required>
+        </div>
+        @if ($errors->has('first_name'))
+            <p class="text-danger">{{ $errors->first('first_name') }}</p>
+        @endif
+    </div>
+</div>
 
+<div class="col-lg-6">
+    <div class="form-group">
+        <label for="last_name">
+            {{ __('Last Name') }} <span class="text-danger">*</span>
+        </label>
+        <div class="input-group">
+            <span class="input-group-text">
+                <i class="fas fa-user"></i>
+            </span>
+            <input type="text" name="last_name" id="last_name" placeholder="Enter Last Name"
+                   class="form-control" value="{{ old('last_name') }}" required>
+        </div>
+        @if ($errors->has('last_name'))
+            <p class="text-danger">{{ $errors->first('last_name') }}</p>
+        @endif
+    </div>
+</div>
 
-                                        <img class="mw-400 mt-1 mb-2 show-img img-demo"
-                                            src="{{ asset('assets/uploads/core/img-demo.jpg') }}" 
-                                            alt="">
-                                                        @if ($errors->has('image'))
-                                                            <p class="text-danger"> {{ $errors->first('image') }} </p>
-                                                        @endif
-                                                        </div>
+<div class="col-lg-12 ">
+    <div class="form-group">
+        <label for="icon">{{ __('Profile Image') }}</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-image"></i></span>
+            <input type="file" name="image" id="image"
+                   class="form-control form-control up-img">
+        </div>
+
+        <img class="mw-400 mt-1 mb-2 show-img img-demo"
+             src="{{ asset('assets/uploads/core/img-demo.jpg') }}" 
+             alt="">
+
+        @if ($errors->has('image'))
+            <p class="text-danger"> {{ $errors->first('image') }} </p>
+        @endif
+    </div>
+</div>
 
                                                     
-                                                </div>
-                                            </div>
+                                            
                                               <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="phone_no">whatsapp No</label>
+                                                    <label for="phone_no">Whatsapp No</label>
                                                     <div class="input-group">
-                                                        <div class="input-group-prepend">
+                                                       
                                                             <span class="input-group-text"><i
                                                                     class="fas fa-phone"></i></span>
-                                                        </div>
+                                                        
 
                                                         <input type="text" class="form-control" name="whatsapp No"
-                                                            id="whatsapp No" placeholder="Enter No"
-                                                            value="{{ old('whatsapp_No') }}">
+                                                            id="whatsapp No" placeholder="Enter whatsapp No "
+                                                            value="{{ old('whatsapp No') }}">
                                                     </div>
 
                                                     @if ($errors->has('whatsapp No'))
@@ -175,15 +185,37 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                             <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="status">
+                                                        {{ __('Status') }} <span class="text-danger">*</span>
+                                                    </label>
+                                                    <div class="input-group">
+                                                       
+                                                            <span class="input-group-text">
+                                                                <i class="fas fa-toggle-on"></i>
+                                                            </span>
+                                                       
+                                                        <select class="form-control" name="status" id="status">
+                                                            <option value="approved">{{ __('Approved') }}</option>
+                                                            <option value="pending">{{ __('Pending') }}</option>
+                                                            <option value="blocked">{{ __('Blocked') }}</option>
+                                                        </select>
+                                                    </div>
+                                                    @if ($errors->has('status'))
+                                                        <p class="text-danger"> {{ $errors->first('status') }} </p>
+                                                    @endif
+                                                </div>
+                                            </div>
                                             <div class="col-lg-6">
     <div class="form-group">
         <label for="city">City</label>
         <div class="input-group">
-            <div class="input-group-prepend">
+            
                 <span class="input-group-text">
                     <i class="fas fa-city"></i>
                 </span>
-            </div>
+           
             <input type="text" class="form-control" id="city"
                    name="city" placeholder="Enter City"
                    value="{{ old('city') }}">
@@ -198,11 +230,11 @@
     <div class="form-group">
         <label for="country">Country</label>
         <div class="input-group">
-            <div class="input-group-prepend">
+           
                 <span class="input-group-text">
                     <i class="fas fa-flag"></i>
                 </span>
-            </div>
+            
             <input type="text" class="form-control" id="country"
                    name="country" placeholder="Enter Country"
                    value="{{ old('country') }}">
@@ -214,15 +246,14 @@
 </div>
 
 
-                                            <div class="col-lg-6">
+                                            
+                                <div class="col-lg-12 ">
                                                 <div class="form-group">
                                                     <label for="address">Address </label>
                                                     <div class="input-group">
-                                                        <div class="input-group-prepend">
                                                             <span class="input-group-text">
                                                                 <i class="fas fa-map-marker-alt"></i>
                                                             </span>
-                                                        </div>
 
                                                         <input type="text" class="form-control" id="address"
                                                             name="address" placeholder="Enter Address"
@@ -234,13 +265,7 @@
                                                     @endif
                                                 </div>
                                             </div>
-
                                            
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
 
                                         <div class="row ">
                                             <div class="col">
