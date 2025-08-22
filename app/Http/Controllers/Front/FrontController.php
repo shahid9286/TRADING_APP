@@ -139,8 +139,10 @@ class FrontController extends Controller
         // ✅ Assign role
         $user->assignRole('user');
 
-        return redirect()->route('front.login')
-            ->with('success', 'Account created successfully! Please login.');
+          Auth::login($user);
+
+        return redirect()->route('user.profile.create')
+            ->with('success', 'Account created successfully! Please complete your Profile !.');
     }
 
     public function createProfile()
@@ -181,6 +183,7 @@ class FrontController extends Controller
                 'country'    => $request->country,
                 'city'       => $request->city,
                 'address' => $request->address ?? 'N/A',
+                'whatsapp_no'       => $request->whatsapp_no,
 
             ]
         );
@@ -222,6 +225,7 @@ class FrontController extends Controller
         $profile->country    = $request->country;
         $profile->city       = $request->city;
         $profile->address    = $request->address;
+        $profile->address  = $request->whatsapp_no;
 
         // Handle image upload
         if ($request->hasFile('profile_image')) {
