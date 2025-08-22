@@ -31,7 +31,10 @@
                                                 {{ ++$id }}
                                             </td>
                                             <td>
-                                                <a href="#">{{ $user->profile->first_name . ' ' . $user->profile->last_name }} </a>
+                                                <a href="#">
+    {{ ($user->profile->first_name ?? '') . ' ' . ($user->profile->last_name ?? '') }}
+
+                                                </a>
                                                 <span class="badge bg-info">{{ $user->user_type }}</span>
                                             </td>
                                             <td>{{ $user->email }}</td>
