@@ -240,6 +240,11 @@ class FrontController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
+     public function userReferral()
+    {
+        return view('front.user-referral');
+    }
+
 
     public function about()
     {

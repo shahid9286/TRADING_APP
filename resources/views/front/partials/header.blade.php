@@ -28,13 +28,13 @@
                                    <li> <a href="{{ route('front.transaction') }}">User Level Earning</a> </li>
                                 </ul>
                             </li>
-                            <li> <a href="{{ route('front.plan') }}">Referral</a> </li>
+                            <li> <a href="{{ route('user.userreferral') }}">My Referral</a> </li>
                             <li>
                                 <a href="#0">Account Settings</a>
                                 <ul class="submenu">
                                    <li> <a href="{{ route('front.editProfile') }}">Profile Setting</a> </li>
                                    <li> <a href="{{ route('front.change.password') }}">Change Password</a> </li>
-                                   {{-- <li> <a href="{{ route('front.withdraw.request') }}">Change Password</a> </li> --}}
+                                   <li> <a href="{{ route('user.userreferral') }}">My Referral</a> </li>
                                 </ul>
                             </li>
                             <li> <a href="{{ route('front.contact') }}">Contact Us</a> </li>
