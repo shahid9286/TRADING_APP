@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->string('transaction_id')->unique();
             $table->string('screenshot');
-            $table->boolean('is_refferal_pending')->default(true);
+            $table->boolean('is_refferal_paid')->default(false);
             $table->string('admin_bank_address')->nullable();
             $table->dateTime('approved_at')->nullable();
             $table->date('monthly_commission_start_date')->nullable();

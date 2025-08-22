@@ -363,7 +363,8 @@ class FrontController extends Controller
 
     public function depositHistory()
     {
-        $investments = Investment::where('user_id', Auth::id())->get();
+        $investments = Investment::where('user_id', Auth::id())->orderByRaw("FIELD(status, 'pending', 'approved', 'rejected')")->get();
+        // return $investments;
         return view('front.finance.deposit_history', compact('investments'));
     }
 

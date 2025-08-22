@@ -34,7 +34,43 @@
     <!-- FullCalendar CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
 
+    <style>
+        /* Dark pagination */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            background: #212529 !important;
+            color: #f8f9fa !important;
+            border: none !important;
+        }
 
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: #007bff !important;
+            color: #fff !important;
+        }
+
+        /* Dark search box & length menu */
+        .dataTables_wrapper .dataTables_filter input,
+        .dataTables_wrapper .dataTables_length select {
+            background-color: #212529 !important;
+            color: #f8f9fa !important;
+            border: 1px solid #444 !important;
+        }
+
+        /* Dark info text */
+        /* .dataTables_wrapper .dataTables_info {
+            color: #f8f9fa !important;
+        } */
+
+        .dataTables_wrapper table.dataTable tbody td {
+            background-color: #262a2e !important;
+            color: #f8f9fa !important;
+        }
+
+        .dt-buttons button {
+            background: #212529 !important;
+            color: #f8f9fa !important;
+            border: none !important;
+        }
+    </style>
 
     <style>
         /* Validation styles */
@@ -80,7 +116,7 @@
 
         /* Dark background for Toastr notifications */
         body.dark-mode .toast {
-            background-color: #1e1e2f !important;
+            background-color: #212529 !important;
             /* dark background */
             color: #f8f9fa !important;
             /* text color */
@@ -93,7 +129,7 @@
         }
 
         body.dark-mode .swal2-popup {
-            background: #1e1e2f !important;
+            background: #212529 !important;
             color: #f8f9fa !important;
         }
 

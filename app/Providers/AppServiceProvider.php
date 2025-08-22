@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
@@ -19,17 +20,22 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Only share 'setting' view data if the table exists
-        
+
         if (Schema::hasTable('settings')) {
             $setting = Setting::first();
             View::share('setting', $setting);
+        }
+
+        View::share('pendingInvestments', \App\Models\Investment::where('status', 'pending')->count());
+
+        if (Schema::hasTable('announcements')) {
+            $activeAnnouncements = \App\Models\Announcement::where('status', 'active')->orderBy('order_no', 'ASC')->get();
+            View::share('announcements', $activeAnnouncements);
         }
 
         if (Schema::hasTable('business_rules')) {
             $bussiness_rule = BusinessRule::first();
             View::share('bussiness_rule', $bussiness_rule);
         }
-
     }
-
 }

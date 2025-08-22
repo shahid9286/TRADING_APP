@@ -1,64 +1,7 @@
 @extends('front.layouts.master')
 @section('title', 'Dashboard')
-@section('css')
-    <style>
-        /* p {
-                            margin: 0 !important;
-                        } */
-
-        .announcement-link:hover {
-            color: #ffffff;
-        }
-
-        .custom-marquee {
-            background: #032830;
-            border: 1px solid #087990;
-            color: #6EDFF6;
-            padding: 10px 20px;
-            font-weight: 500;
-            font-size: 16px;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-        }
-
-        .custom-marquee a {
-            text-decoration: underline;
-            color: #00e1ff;
-        }
-
-        marquee span {
-            margin-right: 40px;
-        }
-    </style>
-@endsection
 @section('content')
-    <section class="cta padding-top bg-color">
-        <div class="container">
-            {{-- @foreach ($announcements as $announcement)
-                <div class="cta__wrapper mb-2">
-                    <div class="cta__newsletter justify-content-center">
-                        <div class="cta__newsletter-inner aos-init aos-animate p-4 m-0 w-100">
-                            <div class="cta__subscribe">
-                                <h4 class="mb-0"> {{ $announcement->title ?? '' }} (<a target="_blank"
-                                        href="{{ $announcement->link_url }}"
-                                        class="announcement-link">{{ $announcement->link_text }}</a>)</h4>
-                                {!! $announcement->message ?? '' !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach --}}
-            <marquee behavior="scroll" direction="left" scrollamount="5" class="custom-marquee">
-                @foreach ($announcements as $announcement)
-                    <span><b>{{ $announcement->title }}: </b>(<a target="_blank" href="{{ $announcement->link_url }}"
-                            class="announcement-link">{{ $announcement->link_text }}</a>) {!! $announcement->message !!}</span>
-                @endforeach
-            </marquee>
-            {{-- <div class="alert alert-info" role="alert">
-                sdf
-            </div> --}}
-        </div>
-    </section>
+    
 
     <section class="service py-3 bg-color">
         <div class="container">

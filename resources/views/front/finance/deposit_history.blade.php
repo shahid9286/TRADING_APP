@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <section class="padding-top">
+    <section class="pt-4">
         <div class="container">
 
             <!-- Search -->

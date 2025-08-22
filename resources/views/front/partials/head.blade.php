@@ -7,7 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('front.partials.styles')
     <style>
-      
+        /* p {
+                            margin: 0 !important;
+                        } */
+
+        .announcement-link:hover {
+            color: #ffffff;
+        }
+
+        .custom-marquee {
+            background: #032830;
+            border: 1px solid #087990;
+            color: #6EDFF6;
+            padding: 10px 20px;
+            font-weight: 500;
+            font-size: 16px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .custom-marquee a {
+            text-decoration: underline;
+            color: #00e1ff;
+        }
+
+        marquee span {
+            margin-right: 40px;
+        }
+    </style>
+    <style>
         #customTable {
             background-color: #1e1e1e;
             color: #ddd;

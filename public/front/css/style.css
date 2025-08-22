@@ -7948,7 +7948,8 @@ textarea:focus-within {
 
 .cta__newsletter-inner {
   gap: 30px;
-  background-color: var(--brand-color);
+  /* background-color: var(--brand-color); */
+  border: solid var(--brand-color);
   border-radius: 24px;
   width: 98%;
   margin: 0 auto;

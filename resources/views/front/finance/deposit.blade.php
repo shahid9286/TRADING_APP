@@ -1,7 +1,7 @@
 @extends('front.layouts.master')
 @section('title', 'User Login')
 @section('content')
-    <section class="account padding-top padding-bottom sec-bg-color2">
+    <section class="account padding-top padding-bottom bg-color">
         <div class="container">
             <div class="account__wrapper">
                 <div class="row">
