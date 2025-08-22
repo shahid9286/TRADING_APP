@@ -16,6 +16,8 @@ Route::middleware(['approved.user', 'user.profile'])->group(function () {
     Route::post('/user/profile/updateProfile', [ProfileController::class, 'updateProfile'])->name('user.profile.update');
     Route::post('/user/profile/updatePassword', [ProfileController::class, 'updatePassword'])->name('user.password.update');
 
+    Route::get('/user/levels', [FrontController::class, 'userLevels'])->name('front.user.levels');
+    Route::get('/user/level/earning', [FrontController::class, 'userLevelEarning'])->name('front.user.level.earning');
     
     Route::get('/withdraw-request', [FrontController::class, 'withdrawRequest'])->name('front.withdraw.request');
     Route::post('/withdraw-request/store', [FrontController::class, 'withdrawRequestStore'])->name('front.withdraw.request.store');

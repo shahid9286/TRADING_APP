@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('admin_bank_address')->nullable();
             $table->dateTime('approved_at')->nullable();
             $table->date('monthly_commission_start_date')->nullable();
-            $table->enum('is_active', ['active', 'expired'])->default('active');
+            $table->enum('is_active', ['inactive', 'active', 'expired'])->default('inactive');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('referral_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('admin_bank_id')->constrained('admin_banks')->onDelete('cascade');

@@ -14,6 +14,7 @@ use Database\Seeders\SalaryRulesSeeder;
 use Database\Seeders\UserBanksSeeder;
 use Database\Seeders\WithdrawalRequestsSeeder;
 use Database\Seeders\AnnouncementsSeeder;
+use Database\Seeders\UserWalletSeeder;
 
 
 
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserBanksSeeder::class);
         $this->call(WithdrawalRequestsSeeder::class);
         $this->call(AnnouncementsSeeder::class);
+        $this->call(UserWalletSeeder::class);
 
 
 

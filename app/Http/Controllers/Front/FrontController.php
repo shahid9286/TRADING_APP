@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\BusinessRule;
 use Illuminate\Support\Facades\Validator;
 use App\Models\UserProfile;
+use App\Models\UserWallet;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
@@ -139,7 +140,11 @@ class FrontController extends Controller
         // ✅ Assign role
         $user->assignRole('user');
 
-          Auth::login($user);
+        UserWallet::create([
+            'user_id' => $user->id,
+        ]);
+
+        Auth::login($user);
 
         return redirect()->route('user.profile.create')
             ->with('success', 'Account created successfully! Please complete your Profile !.');
@@ -240,7 +245,7 @@ class FrontController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
-     public function userReferral()
+    public function userReferral()
     {
         return view('front.user-referral');
     }
@@ -260,6 +265,58 @@ class FrontController extends Controller
     public function contact()
     {
         return view('front.contact');
+    }
+
+    public function userLevels()
+    {
+        $authId = Auth::id();
+        $levels = [];
+        $previousLevelUserIds = [$authId];
+
+        for ($i = 1; $i <= 7; $i++) {
+            $levelUsers = User::whereIn('referral_user_id', $previousLevelUserIds)->pluck('id')->toArray();
+
+            $totalUsers = count($levelUsers);
+
+            $totalInvestments = UserWallet::whereIn('user_id', $levelUsers)->sum('total_invested');
+
+            $levels[$i] = [
+                'users' => $totalUsers,
+                'investments' => $totalInvestments
+            ];
+
+            $previousLevelUserIds = $levelUsers;
+        }
+
+        $totalUsersAll = array_sum(array_column($levels, 'users'));
+        $totalInvestmentsAll = array_sum(array_column($levels, 'investments'));
+
+        return view('front.finance.user-levels', compact('levels', 'totalUsersAll', 'totalInvestmentsAll'));
+    }
+
+    public function userLevelEarning()
+    {
+        $authId = Auth::id();
+        $levelsData = [];
+        $previousLevelUserIds = [$authId];
+
+        for ($i = 1; $i <= 7; $i++) {
+            $levelUsers = User::whereIn('referral_user_id', $previousLevelUserIds)->pluck('id')->toArray();
+
+            $investments = Investment::where('status', 'approved')->whereIn('user_id', $levelUsers)
+                ->select('id', 'user_id', 'amount', 'created_at')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $levelsData[$i] = [
+                'investments' => $investments,
+                'total_transactions' => $investments->count(),
+                'total_amount' => $investments->sum('amount'),
+            ];
+
+            $previousLevelUserIds = $levelUsers;
+        }
+        return view('front.finance.user-level-earning', compact('levelsData'));
     }
 
     public function contactUsStore(Request $request)

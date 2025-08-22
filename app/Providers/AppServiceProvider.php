@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
             View::share('setting', $setting);
         }
 
-        View::share('pendingInvestments', \App\Models\Investment::where('status', 'pending')->count());
+        View::share('pendingInvestments', \App\Models\Investment::where('status', 'pending')->where('user_id', auth()->id())->count());
 
         if (Schema::hasTable('announcements')) {
             $activeAnnouncements = \App\Models\Announcement::where('status', 'active')->orderBy('order_no', 'ASC')->get();

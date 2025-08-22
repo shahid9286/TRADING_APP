@@ -70,7 +70,15 @@
                             </td>
                             <td>
                                 <a href="{{ route('front.deposit.detail', $investment->transaction_id) }}"
-                                    class="icon-btn bg--base text-white d-flex align-items-center">
+                                    data-bs-toggle="modal" data-bs-target="#investmentDetail"
+                                    data-amount="{{ $investment->amount }}"
+                                    data-start_date="{{ \Carbon\Carbon::parse($investment->start_date)->format('d M Y') }}"
+                                    data-expiry_date="{{ \Carbon\Carbon::parse($investment->expiry_date)->format('d M Y') }}"
+                                    data-status="{{ $investment->status }}"
+                                    data-transaction_id="{{ $investment->transaction_id }}"
+                                    data-screenshot="{{ asset($investment->screenshot) }}"
+                                    data-active_status="{{ $investment->is_active }}"
+                                    class="btn btn-success">
                                     <i class="fa fa-eye"></i> <span class="ps-1">Detail</span>
                                 </a>
                             </td>
@@ -91,7 +99,7 @@
         }
     </style>
 
-    <div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+    <div class="modal fade" id="investmentDetail" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -101,9 +109,28 @@
                 </div>
 
                 <div class="modal-body">
-                    <p><strong>Trx ID:</strong> <span id="trxId"></span></p>
-                    <p><strong>Screenshot:</strong></p>
-                    <img id="screenshotImg" src="" alt="Screenshot" class="img-fluid border">
+                    <dl class="row">
+                        <dt class="col-sm-4">Amount</dt>
+                        <dd class="col-sm-8" id="modal-amount"></dd>
+
+                        <dt class="col-sm-4">Start Date</dt>
+                        <dd class="col-sm-8" id="modal-start-date"></dd>
+
+                        <dt class="col-sm-4">Expiry Date</dt>
+                        <dd class="col-sm-8" id="modal-expiry-date"></dd>
+
+                        <dt class="col-sm-4">Status</dt>
+                        <dd class="col-sm-8"><span id="modal-status" class="badge"></span></dd>
+
+                        <dt class="col-sm-4">Transaction ID</dt>
+                        <dd class="col-sm-8" id="modal-transaction-id"></dd>
+
+                        <dt class="col-sm-4">Screenshot</dt>
+                        <dd class="col-sm-8" id="modal-screenshot"></dd>
+
+                        <dt class="col-sm-4">Active Status</dt>
+                        <dd class="col-sm-8"><span id="modal-active-status" class="badge"></span></dd>
+                    </dl>
                 </div>
 
                 <div class="modal-footer">
@@ -113,16 +140,5 @@
             </div>
         </div>
     </div>
-    <script>
-        document.querySelectorAll('.detailBtn').forEach(button => {
-            button.addEventListener('click', function() {
-                let trx = this.getAttribute('data-trx');
-                let screenshot = this.getAttribute('data-screenshot');
-
-                document.getElementById('trxId').textContent = trx;
-                document.getElementById('screenshotImg').src = screenshot;
-            });
-        });
-    </script>
 
 @endsection

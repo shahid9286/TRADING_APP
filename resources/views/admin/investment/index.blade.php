@@ -77,7 +77,9 @@
                                 <th>{{ __('ID') }}</th>
                                 <th>{{ __('User') }}</th>
                                 <th>{{ __('Amount') }}</th>
-                                <th>{{ __('Start/Expiry Date & Status') }}</th>
+                                <th>{{ __('Start/Expiry Date') }}</th>
+                                <th>Status</th>
+                                <th>Activity</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
                         </thead>
@@ -90,13 +92,24 @@
                                     <td>
                                         {{ \Carbon\Carbon::parse($investment->start_date)->format('d M Y') }} -
                                         {{ \Carbon\Carbon::parse($investment->expiry_date)->format('d M Y') }}
-
+                                        
+                                    </td>
+                                    <td>
                                         @if ($investment->status === 'pending')
                                             <span class="badge badge-warning">{{ __('Pending') }}</span>
                                         @elseif($investment->status === 'rejected')
                                             <span class="badge badge-danger">{{ __('Rejected') }}</span>
                                         @else
                                             <span class="badge badge-success">Approved</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($investment->status === 'inactive')
+                                            <span class="badge badge-warning">{{ __('Inactive') }}</span>
+                                        @elseif($investment->status === 'expired')
+                                            <span class="badge badge-danger">{{ __('Expired') }}</span>
+                                        @else
+                                            <span class="badge badge-success">Active</span>
                                         @endif
                                     </td>
                                     <td>
