@@ -27,6 +27,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('referral_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('admin_bank_id')->constrained('admin_banks')->onDelete('cascade');
+
+            
             $table->index('expiry_date');
             $table->index('transaction_id');
             $table->index('user_id');

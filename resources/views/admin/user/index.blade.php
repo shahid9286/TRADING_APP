@@ -32,7 +32,7 @@
                                             </td>
                                             <td>
                                                 <a href="#">
-    {{ ($user->profile->first_name ?? '') . ' ' . ($user->profile->last_name ?? '') }}
+                                                    {{ ($user->profile->first_name ?? '') . ' ' . ($user->profile->last_name ?? '') }}
                                                 </a>
                                                 <span class="badge bg-info">{{ $user->user_type }}</span>
                                             </td>
@@ -85,7 +85,8 @@
                                                                 User</a> --}}
                                                         </div>
                                                     </div>
-                                                    <a href="{{ route('admin.user.detail', $user->id) }}" class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Detail</a>
+                                                    <a href="{{ route('admin.user.detail', $user->id) }}"
+                                                        class="btn btn-sm btn-info"><i class="bi bi-eye"></i> Detail</a>
                                                     {{-- <form id="deleteform" class="deleteform d-inline-block"
                                                         action="{{ route('admin.user.delete', $user->id) }}"
                                                         method="post">
@@ -98,7 +99,7 @@
                                                             Delete
                                                         </button>
                                                     </form> --}}
-                                                    @else
+                                                @else
                                                     <span class="badge bg-warning">No operations to perform!</span>
                                                 @endif
                                             </td>
