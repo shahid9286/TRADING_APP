@@ -1,7 +1,7 @@
 @extends('front.layouts.master')
 @section('title', 'User Login')
 @section('content')
-    <section class="account padding-top padding-bottom sec-bg-color2">
+    <section class="account padding-top padding-bottom bg-color">
         <div class="container">
             <div class="account__wrapper">
                 <div class="row">
@@ -34,13 +34,14 @@
                                     <div class="input-group">
                                         <input type="number" step="any" name="amount" id="amount"
                                             value="{{ old('amount') }}"
-                                            class="form-control @error('amount') is-invalid @enderror" required>
+                                            class="form-control @error('amount') is-invalid @enderror" min="{{ $bussiness_rule->min_deposit }}" required>
                                         <span class="input-group-text bg-success text-white">USD</span>
                                         @error('amount')
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
+                                <p class="p-0 m-0 text-muted"><b>Minimun Deposit: </b>${{ $bussiness_rule->min_deposit }}</p>
 
                                 {{-- Submit --}}
                                 <button type="submit" class="trk-btn trk-btn--border trk-btn--primary mt-3 d-block">

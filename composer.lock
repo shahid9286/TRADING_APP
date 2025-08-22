@@ -9113,10 +9113,6 @@
     "platform": {
         "php": "^8.2"
     },
-<<<<<<< HEAD
     "platform-dev": {},
-=======
-    "platform-dev": [],
->>>>>>> 7e785848b703cdee8a6ffd1f246d52dc0b0b816d
     "plugin-api-version": "2.6.0"
 }

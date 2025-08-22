@@ -1,5 +1,5 @@
-<aside class="main-sidebar sidebar-dark-primary main-sidebar elevation-4">
-    <!-- Sidebar -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4 border-0">
+
     @php
         use Illuminate\Support\Facades\Route;
     @endphp
@@ -8,8 +8,7 @@
 
         <div class="user-panel">
             <a href="{{ route('admin.dashboard') }}" class="name text-dark">
-                <img src="{{ asset($setting->footer_logo) }}"
-                    style="padding-top: 20px; width: 200px !important;">
+                <img src="{{ asset($setting->logo) }}" style="padding-top: 13px; width: 200px !important;">
             </a>
         </div>
 
@@ -133,6 +132,26 @@
                                 class="nav-link {{ Route::currentRouteName() == 'admin.user.blockedUsers' ? 'active' : '' }}">
                                 <i class="fas fa-circle nav-icon"></i>
                                 <p>{{ __('Blocked Users') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item {{ request()->routeIs('admin.email-templates.*') ? 'menu-open' : '' }}">
+                    <a href=""
+                        class="nav-link {{ request()->routeIs('admin.email-templates.*') ? 'active' : '' }}">
+                        <i class="bi bi-envelope-at-fill mx-1"></i>
+                        <p>
+                            {{ __('Emails') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.email-templates.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.email-templates.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Email Templates') }}</p>
                             </a>
                         </li>
                     </ul>

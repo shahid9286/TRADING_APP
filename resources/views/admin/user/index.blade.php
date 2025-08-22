@@ -13,7 +13,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-sm table-striped table-bordered data_table">
+                            <table class="table table-sm table-striped table-bordered table-dark data_table">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -31,10 +31,7 @@
                                                 {{ ++$id }}
                                             </td>
                                             <td>
-                                                <a href="#">
-    {{ ($user->profile->first_name ?? '') . ' ' . ($user->profile->last_name ?? '') }}
-
-                                                </a>
+                                                <a href="#">{{ $user->profile?->first_name . ' ' . $user->profile?->last_name }} </a>
                                                 <span class="badge bg-info">{{ $user->user_type }}</span>
                                             </td>
                                             <td>{{ $user->email }}</td>

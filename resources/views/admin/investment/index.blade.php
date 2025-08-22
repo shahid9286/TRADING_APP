@@ -16,9 +16,9 @@
                                     <div class="row">
                                         <!-- Transaction ID -->
                                         <div class="col-md-3">
-                                                <label>Search Transaction ID</label>
-                                            <input type="text" class="form-control" name="transaction_id" id="transaction_id"
-                                                placeholder="Enter Transaction Id">
+                                            <label>Search Transaction ID</label>
+                                            <input type="text" class="form-control" name="transaction_id"
+                                                id="transaction_id" placeholder="Enter Transaction Id">
                                         </div>
 
                                         <!-- Date Range Picker -->
@@ -71,10 +71,11 @@
                     <h3 class="card-title">{{ __('Investment List') }}</h3>
                 </div>
                 <div class="card-body table-responsive tableContent">
-                    <table class="table table-bordered table-striped data_table">
+                    <table class="table table-dark table-bordered table-striped table-dark data_table">
                         <thead>
                             <tr>
                                 <th>{{ __('ID') }}</th>
+                                <th>{{ __('User') }}</th>
                                 <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Start/Expiry Date & Status') }}</th>
                                 <th>{{ __('Action') }}</th>
@@ -90,16 +91,46 @@
                                         {{ \Carbon\Carbon::parse($investment->start_date)->format('d M Y') }} -
                                         {{ \Carbon\Carbon::parse($investment->expiry_date)->format('d M Y') }}
 
-                                        @if ($investment->is_active === 'active')
-                                            <span class="badge badge-success">{{ __('Active') }}</span>
+                                        @if ($investment->status === 'pending')
+                                            <span class="badge badge-warning">{{ __('Pending') }}</span>
+                                        @elseif($investment->status === 'rejected')
+                                            <span class="badge badge-danger">{{ __('Rejected') }}</span>
                                         @else
-                                            <span class="badge badge-danger">{{ __('Expired') }}</span>
+                                            <span class="badge badge-success">Approved</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-warning btn-sm">
+                                        <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#investmentDetail" data-amount="{{ $investment->amount }}"
+                                            data-start_date="{{ \Carbon\Carbon::parse($investment->start_date)->format('d M Y') }}"
+                                            data-expiry_date="{{ \Carbon\Carbon::parse($investment->expiry_date)->format('d M Y') }}"
+                                            data-status="{{ $investment->status }}"
+                                            data-transaction_id="{{ $investment->transaction_id }}"
+                                            data-screenshot="{{ asset($investment->screenshot) }}"
+                                            data-active_status="{{ $investment->is_active }}">
                                             <i class="fas fa-eye"></i> {{ __('Details') }}
                                         </a>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-success btn-sm">Action</button>
+                                            <button type="button"
+                                                class="btn btn-success btn-sm dropdown-toggle dropdown-hover dropdown-icon"
+                                                data-toggle="dropdown" aria-expanded="false">
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu" role="menu" style="">
+                                                <form action="{{route("admin.investment.approved",$investment->id)}}"
+                                                    method="post" class="approve-form">
+                                                    @csrf
+                                                    <button  type="submit"
+                                                        class="dropdown-item approve-btn">Approve</button>
+                                                </form>
+                                                <form action="{{ route('admin.user.makeblockedUser', $investment->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <button type="submit" class="dropdown-item">Reject</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -109,6 +140,7 @@
                             @endforelse
                         </tbody>
                     </table>
+                    
                 </div>
             </div>
         </div>
@@ -116,7 +148,48 @@
 @endsection
 
 @section('js')
+    <script>
+        $(document).on("click", ".approve-btn", function(e) {
+            e.preventDefault();
+            let form = $(this).closest("form");
 
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You are about to approve this investment! You won't be able to get it back.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, approve it!",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).on("click", "#approve", function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.value) {
+                    $(this).parent("#deleteform").submit();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire("Cancelled", "Your file is safe :)", "error");
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('#date_range').daterangepicker({
