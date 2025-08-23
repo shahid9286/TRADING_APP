@@ -22,6 +22,21 @@
             border-left: 5px solid #ffd43b !important;
         }
 
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #122520;
+            background-clip: border-box;
+            border: 0px solid rgba(0, 0, 0, 0);
+            border-radius: .25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 6px 0 #091E18, 0 2px 6px 0 #091E18;
+            color: #e0e0e0;
+        }
+
         .bg-gradient-info {
             background: linear-gradient(45deg, #1abc9c, #2980b9) !important;
         }
@@ -45,6 +60,7 @@
             align-items: center;
             justify-content: center;
             background-color: #1c332d;
+            /* darker background */
             font-size: 27px;
             border-radius: 10px;
             color: #fff;
