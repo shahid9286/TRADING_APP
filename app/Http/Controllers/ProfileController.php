@@ -17,49 +17,49 @@ class ProfileController extends Controller
         return view('admin.user.editProfile', compact('user'));
     }
 
-    public function updateProfile(Request $request)
-    {
-        $request->validate([
-            'first_name'   => 'required|string|max:255',
-            'last_name'    => 'required|string|max:255',
-            'username'     => 'required|string|max:255|unique:users,username,' . Auth::id(),
-            'email'        => 'required|email|unique:users,email,' . Auth::id(),
-            'phone'        => 'nullable|string|max:20',
-            'whatsapp_no'  => 'nullable|string|max:20',
-            'address'      => 'nullable|string|max:500',
-            'profile_image'=> 'nullable|mimes:jpg,jpeg,png,webp|max:1024',
-        ]);
+    // public function updateProfile(Request $request)
+    // {
+    //     $request->validate([
+    //         'first_name'   => 'required|string|max:255',
+    //         'last_name'    => 'required|string|max:255',
+    //         'username'     => 'required|string|max:255|unique:users,username,' . Auth::id(),
+    //         'email'        => 'required|email|unique:users,email,' . Auth::id(),
+    //         'phone'        => 'nullable|string|max:20',
+    //         'whatsapp_no'  => 'nullable|string|max:20',
+    //         'address'      => 'nullable|string|max:500',
+    //         'profile_image'=> 'nullable|mimes:jpg,jpeg,png,webp|max:1024',
+    //     ]);
 
-        $user = User::findOrFail(Auth::id());
-        $profile = $user->profile ?? new UserProfile(['user_id' => $user->id]);
+    //     $user = User::findOrFail(Auth::id());
+    //     $profile = $user->profile ?? new UserProfile(['user_id' => $user->id]);
 
-        $user->name     = $request->first_name . ' ' . $request->last_name;
-        $user->username = $request->username;
-        $user->email    = $request->email;
-        $user->phone    = $request->phone;
-        $user->save();
+    //     $user->name     = $request->first_name . ' ' . $request->last_name;
+    //     $user->username = $request->username;
+    //     $user->email    = $request->email;
+    //     $user->phone    = $request->phone;
+    //     $user->save();
 
-        if ($request->hasFile('profile_image')) {
-            if ($profile->profile_image && file_exists(public_path('admin/user/profile/' . $profile->profile_image))) {
-                @unlink(public_path('admin/user/profile/' . $profile->profile_image));
-            }
-            $file = $request->file('profile_image');
-            $filename = time() . rand() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('admin/user/profile/'), $filename);
-            $profile->profile_image = $filename;
-        }
+    //     if ($request->hasFile('profile_image')) {
+    //         if ($profile->profile_image && file_exists(public_path('admin/user/profile/' . $profile->profile_image))) {
+    //             @unlink(public_path('admin/user/profile/' . $profile->profile_image));
+    //         }
+    //         $file = $request->file('profile_image');
+    //         $filename = time() . rand() . '.' . $file->getClientOriginalExtension();
+    //         $file->move(public_path('admin/user/profile/'), $filename);
+    //         $profile->profile_image = $filename;
+    //     }
 
-        $profile->first_name  = $request->first_name;
-        $profile->last_name   = $request->last_name;
-        $profile->whatsapp_no = $request->whatsapp_no;
-        $profile->address     = $request->address;
-        $profile->save();
+    //     $profile->first_name  = $request->first_name;
+    //     $profile->last_name   = $request->last_name;
+    //     $profile->whatsapp_no = $request->whatsapp_no;
+    //     $profile->address     = $request->address;
+    //     $profile->save();
 
-        return redirect()->back()->with('notification', [
-            'alert'   => 'success',
-            'message' => 'Profile Updated Successfully!'
-        ]);
-    }
+    //     return redirect()->back()->with('notification', [
+    //         'alert'   => 'success',
+    //         'message' => 'Profile Updated Successfully!'
+    //     ]);
+    // }
 
     public function updatePassword(Request $request)
     {

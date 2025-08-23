@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Models\Enquiry;
-use App\Models\Investment;
-use App\Models\UserBank;
-use App\Models\WithdrawalRequest;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\AdminBank;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\BusinessRule;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Enquiry;
+use App\Models\UserBank;
+use App\Models\AdminBank;
+use App\Models\Investment;
+use App\Helpers\FileHelper;
 use App\Models\UserProfile;
+use App\Models\BusinessRule;
+use Illuminate\Http\Request;
+use App\Models\WithdrawalRequest;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class FrontController extends Controller
 {
@@ -139,9 +140,9 @@ class FrontController extends Controller
         // ✅ Assign role
         $user->assignRole('user');
 
-          Auth::login($user);
+        Auth::login($user);
 
-        return redirect()->route('user.profile.create')
+        return redirect()->route('front.CreateProfile')
             ->with('success', 'Account created successfully! Please complete your Profile !.');
     }
 
@@ -157,51 +158,33 @@ class FrontController extends Controller
 
     public function ProfileStore(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'first_name'    => 'required|string|max:255',
-            'last_name'     => 'required|string|max:255',
-            'country'       => 'required|string|max:255',
-            'city'          => 'required|string|max:255',
-            'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        $request->validate([
+            'first_name'   => 'required|string|max:255',
+            'last_name'    => 'required|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'whatsapp_no'  => 'nullable|string|max:20',
+            'country'      => 'required|string|max:100',
+            'city'         => 'required|string|max:100',
+            'address'      => 'nullable|string|max:255',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors(),
-            ], 422);
+        $profile = new UserProfile();
+        $profile->user_id     = Auth::id();
+        $profile->first_name  = $request->first_name;
+        $profile->last_name   = $request->last_name;
+        $profile->whatsapp_no = $request->whatsapp_no;
+        $profile->country     = $request->country;
+        $profile->city        = $request->city;
+        $profile->address     = $request->address;
+
+            if ($request->hasFile('profile_image')) {
+            $profile->image = FileHelper::upload($request->file('profile_image'), 'assets/user/profile');
         }
 
-        $user = Auth::user();
+        $profile->save();
 
-        // Update or create user profile
-        $profile = UserProfile::updateOrCreate(
-            ['user_id' => $user->id], // condition → one profile per user
-            [
-                'first_name' => $request->first_name,
-                'last_name'  => $request->last_name,
-                'country'    => $request->country,
-                'city'       => $request->city,
-                'address' => $request->address ?? 'N/A',
-                'whatsapp_no'       => $request->whatsapp_no,
-
-            ]
-        );
-
-        // Handle image upload
-        if ($request->hasFile('profile_image')) {
-            $image = $request->file('profile_image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/profile_images'), $filename);
-
-            $profile->profile_image = 'uploads/profile_images/' . $filename;
-            $profile->save();
-        }
-
-        return redirect()->route('user.dashboard')->with([
-            'message' => 'Profile saved successfully!',
-            'alert'   => 'success',
-        ]);
+        return redirect()->route('front.editProfile')
+            ->with('success', 'Profile created successfully!');
     }
     public function editProfile()
     {
@@ -217,6 +200,8 @@ class FrontController extends Controller
             'city'          => 'required|string|max:255',
             'address'       => 'nullable|string|max:500',
             'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'whatsapp_no'  => 'nullable|string|max:20',
+
         ]);
 
         $profile = UserProfile::firstOrNew(['user_id' => Auth::id()]);
@@ -225,14 +210,15 @@ class FrontController extends Controller
         $profile->country    = $request->country;
         $profile->city       = $request->city;
         $profile->address    = $request->address;
-        $profile->address  = $request->whatsapp_no;
+        $profile->whatsapp_no       = $request->whatsapp_no;
 
         // Handle image upload
-        if ($request->hasFile('profile_image')) {
-            $file = $request->file('profile_image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/profiles'), $filename);
-            $profile->profile_image = 'uploads/profiles/' . $filename;
+                if ($request->hasFile('profile_image')) {
+            $profile->image = FileHelper::update(
+                $profile->image,
+                $request->file('profile_image'),
+                'assets/user/profile'
+            );
         }
 
         $profile->save();
@@ -240,7 +226,7 @@ class FrontController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
-     public function userReferral()
+    public function userReferral()
     {
         return view('front.user-referral');
     }
