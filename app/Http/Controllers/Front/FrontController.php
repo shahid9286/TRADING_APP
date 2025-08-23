@@ -13,7 +13,7 @@ use App\Models\WithdrawalRequest;
 use App\Models\BusinessRule;
 use App\Models\UserLedger;
 use App\Models\UserProfile;
-use App\Models\UserWallet;
+use App\Models\UserTotal;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -142,7 +142,7 @@ class FrontController extends Controller
         // ✅ Assign role
         $user->assignRole('user');
 
-        UserWallet::create([
+        UserTotal::create([
             'user_id' => $user->id,
         ]);
 
@@ -265,7 +265,7 @@ class FrontController extends Controller
 
             $totalUsers = count($levelUsers);
 
-            $totalInvestments = UserWallet::whereIn('user_id', $levelUsers)->sum('total_invested');
+            $totalInvestments = UserTotal::whereIn('user_id', $levelUsers)->sum('total_invested');
 
             $levels[$i] = [
                 'users' => $totalUsers,

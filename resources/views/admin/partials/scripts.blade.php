@@ -10,7 +10,6 @@
 <script src="{{ asset('assets/admin/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/bootstrap-iconpicker/bootstrap-iconpicker.bundle.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/bootstrap-switch/bootstrap-switch.min.js') }}"></script>
-<script src="{{ asset('assets/admin/plugins/select2/select2.full.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/data-table/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/data-table/dataTables.bootstrap4.min.js') }}"></script>
@@ -18,7 +17,6 @@
 <script src="{{ asset('assets/admin/plugins/data-table/responsive.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/data-table/dataTables.buttons.min.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/data-table/buttons.bootstrap4.min.js') }}"></script>
-
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -39,6 +37,15 @@
 <!-- FullCalendar JS -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.select2').select2({
+      placeholder: "Select an option",
+      allowClear: true
+    });
+  });
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var investmentModal = document.getElementById('investmentDetail');
