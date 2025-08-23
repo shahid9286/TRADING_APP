@@ -35,7 +35,6 @@ Route::middleware(['approved.user', 'user.profile'])->group(function () {
 
     Route::get('/transaction', [FrontController::class, 'transaction'])->name('front.transaction');
    
-
     Route::get('/user/profile-edit', [FrontController::class, 'editProfile'])->name('front.editProfile');
     Route::post('/user/profile-update', [FrontController::class, 'ProfileUpdate'])->name('front.ProfileUpdate');
 

@@ -19,6 +19,7 @@ class BusinessRulesSeeder extends Seeder
                 'min_deposit' => 100,
                 'min_withdraw_limit' => 500,
                 'daily_return_rate' => 0.5,
+                'payout_fee_rate' => 5,
                 'monthly_return_rate' => 15,
                 'level_1_comm_rate' => 10,
                 'level_2_comm_rate' => 8,

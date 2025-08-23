@@ -16,7 +16,8 @@ class UserReturn extends Model
         'amount',
         'referral_id',
         'entry_date',
-        'type'
+        'type',
+        'withdrawal_request_id',
     ];
 
     public function userLedger()

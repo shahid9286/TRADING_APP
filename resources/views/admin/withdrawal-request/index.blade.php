@@ -154,7 +154,9 @@
                                                             class="btn btn-info btn-sm">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
-
+                                                        <a href="{{ route('admin.withdrawal-request.detail', $withdrawal_request->id) }}"
+                                                            class="btn btn-primary btn-sm">
+                                                            <i class="fas fa-info-circle"></i> Details</a>
                                                         @if ($withdrawal_request->status === 'pending')
                                                             <form id="deleteform" class="d-inline-block"
                                                                 action="{{ route('admin.withdrawal-request.delete', $withdrawal_request->id) }}"
