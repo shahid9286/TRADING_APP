@@ -14,6 +14,7 @@ use App\Models\BusinessRule;
 use App\Models\UserLedger;
 use App\Models\UserProfile;
 use App\Models\UserTotal;
+use App\Services\EmailService;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -40,7 +41,7 @@ class FrontController extends Controller
     public function loginUser(Request $request)
     {
         $request->validate([
-            'login'    => 'required|string',
+            'login' => 'required|string',
             'password' => 'required|min:6',
         ]);
 
@@ -94,10 +95,10 @@ class FrontController extends Controller
     {
         // ✅ Validation
         $request->validate([
-            'username'    => 'required|min:3|alpha_dash|unique:users,username',
-            'email'       => 'required|email|max:255|unique:users,email',
-            'phone'       => 'required|string|max:20',
-            'password'    => 'required|confirmed|min:6',
+            'username' => 'required|min:3|alpha_dash|unique:users,username',
+            'email' => 'required|email|max:255|unique:users,email',
+            'phone' => 'required|string|max:20',
+            'password' => 'required|confirmed|min:6',
             'referral_username' => 'nullable|exists:users,username',
         ]);
 
@@ -122,21 +123,21 @@ class FrontController extends Controller
 
         // ✅ Create User
         $user = User::create([
-            'username'          => $request->username,
-            'email'             => $request->email,
-            'phone'             => $request->phone,
-            'password'          => Hash::make($request->password),
-            'status'            => 'approved',
-            'net_balance'       => 0,
+            'username' => $request->username,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
+            'status' => 'approved',
+            'net_balance' => 0,
             'referral_username' => $referral_user->username ?? null,
-            'referral_user_id'  => $referral_user->id ?? null,
-            'level_1_user_id'   => $level_1_user_id,
-            'level_2_user_id'   => $level_2_user_id,
-            'level_3_user_id'   => $level_3_user_id,
-            'level_4_user_id'   => $level_4_user_id,
-            'level_5_user_id'   => $level_5_user_id,
-            'level_6_user_id'   => $level_6_user_id,
-            'level_7_user_id'   => $level_7_user_id,
+            'referral_user_id' => $referral_user->id ?? null,
+            'level_1_user_id' => $level_1_user_id,
+            'level_2_user_id' => $level_2_user_id,
+            'level_3_user_id' => $level_3_user_id,
+            'level_4_user_id' => $level_4_user_id,
+            'level_5_user_id' => $level_5_user_id,
+            'level_6_user_id' => $level_6_user_id,
+            'level_7_user_id' => $level_7_user_id,
         ]);
 
         // ✅ Assign role
@@ -165,25 +166,25 @@ class FrontController extends Controller
     public function ProfileStore(Request $request)
     {
         $request->validate([
-            'first_name'   => 'required|string|max:255',
-            'last_name'    => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'whatsapp_no'  => 'nullable|string|max:20',
-            'country'      => 'required|string|max:100',
-            'city'         => 'required|string|max:100',
-            'address'      => 'nullable|string|max:255',
+            'whatsapp_no' => 'nullable|string|max:20',
+            'country' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
+            'address' => 'nullable|string|max:255',
         ]);
 
         $profile = new UserProfile();
-        $profile->user_id     = Auth::id();
-        $profile->first_name  = $request->first_name;
-        $profile->last_name   = $request->last_name;
+        $profile->user_id = Auth::id();
+        $profile->first_name = $request->first_name;
+        $profile->last_name = $request->last_name;
         $profile->whatsapp_no = $request->whatsapp_no;
-        $profile->country     = $request->country;
-        $profile->city        = $request->city;
-        $profile->address     = $request->address;
+        $profile->country = $request->country;
+        $profile->city = $request->city;
+        $profile->address = $request->address;
 
-            if ($request->hasFile('profile_image')) {
+        if ($request->hasFile('profile_image')) {
             $profile->image = FileHelper::upload($request->file('profile_image'), 'assets/user/profile');
         }
 
@@ -200,26 +201,26 @@ class FrontController extends Controller
     public function ProfileUpdate(Request $request)
     {
         $request->validate([
-            'first_name'    => 'required|string|max:255',
-            'last_name'     => 'required|string|max:255',
-            'country'       => 'required|string|max:255',
-            'city'          => 'required|string|max:255',
-            'address'       => 'nullable|string|max:500',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'address' => 'nullable|string|max:500',
             'profile_image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'whatsapp_no'  => 'nullable|string|max:20',
+            'whatsapp_no' => 'nullable|string|max:20',
 
         ]);
 
         $profile = UserProfile::firstOrNew(['user_id' => Auth::id()]);
         $profile->first_name = $request->first_name;
-        $profile->last_name  = $request->last_name;
-        $profile->country    = $request->country;
-        $profile->city       = $request->city;
-        $profile->address    = $request->address;
-        $profile->whatsapp_no       = $request->whatsapp_no;
+        $profile->last_name = $request->last_name;
+        $profile->country = $request->country;
+        $profile->city = $request->city;
+        $profile->address = $request->address;
+        $profile->whatsapp_no = $request->whatsapp_no;
 
         // Handle image upload
-                if ($request->hasFile('profile_image')) {
+        if ($request->hasFile('profile_image')) {
             $profile->image = FileHelper::update(
                 $profile->image,
                 $request->file('profile_image'),
@@ -349,7 +350,7 @@ class FrontController extends Controller
         $available_balance = Auth::user()->net_balance - Auth::user()->locked_amount;
         $min_withdraw_limit = BusinessRule::first()->min_withdraw_limit;
         $validator = Validator::make($request->all(), [
-            'bank_account'  => 'required|exists:user_banks,id',
+            'bank_account' => 'required|exists:user_banks,id',
             'amount' => 'required|numeric|min:' . $min_withdraw_limit . '|max:' . $available_balance,
         ]);
 
@@ -441,6 +442,7 @@ class FrontController extends Controller
 
     public function depositStore(Request $request)
     {
+
         DB::beginTransaction();
 
         $admin_bank_address = AdminBank::find($request->admin_bank_id)->account_no;
@@ -465,6 +467,29 @@ class FrontController extends Controller
 
         $investment->save();
 
+
+
+        $emailService = new EmailService();
+        $user = Auth::user();
+
+        // Send email to user
+        $userVariables = [
+            'user_name' => $user->username,
+            'investment_amount' => number_format($request->amount, 2),
+            'investment_date' => now()->format('Y-m-d H:i:s'),
+            'company_name' => config('app.name', 'Your Company') // You can set this in config/app.php
+        ];
+
+        $emailService->sendEmailToSingleUser('investment_submitted_user', $userVariables, $user->email);
+        // Send notification to all admins
+        $adminVariables = [
+            'user_name' => $user->username,
+            'user_email' => $user->email,
+            'investment_amount' => number_format($request->amount, 2),
+            'investment_date' => now()->format('Y-m-d H:i:s'),
+            'company_name' => config('app.name', 'Your Company')
+        ];
+        $emailService->sendEmailsToAllAdmins('investment_submitted_admin', $adminVariables, 'admin');
         DB::commit();
 
         return redirect()
@@ -475,7 +500,7 @@ class FrontController extends Controller
     public function storeUserBank(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'bank_name'  => 'required|max:255',
+            'bank_name' => 'required|max:255',
             'account_no' => 'required|max:255',
         ]);
 
@@ -505,7 +530,7 @@ class FrontController extends Controller
     {
         $request->validate([
             'old_password' => 'required',
-            'password'     => [
+            'password' => [
                 'required',
                 'confirmed',
                 'min:8',

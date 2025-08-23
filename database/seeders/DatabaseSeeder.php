@@ -17,7 +17,7 @@ use Database\Seeders\AnnouncementsSeeder;
 use Database\Seeders\UserTotalsSeeder;
 use Database\Seeders\UserReturnsSeeder;
 use Database\Seeders\UserLedgerSeeder;
-
+use Database\Seeders\EmailTemplateSeeder;
 
 
 
@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserReturnsSeeder::class);
         $this->call(UserLedgerSeeder::class);
         $this->call(UserTotalsSeeder::class);
+         $this->call(EmailTemplateSeeder::class);
         
 
     }

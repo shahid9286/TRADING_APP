@@ -7,9 +7,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserLedger extends Model
 {
-    use  SoftDeletes;
+    use SoftDeletes;
     protected $fillable = [
-        'user_id', 'transaction_type', 'amount', 'description', 'transaction_date'
+        'user_id',
+        'transaction_type',
+        'amount',
+        'description',
+        'transaction_date',
+        'balance_before',
+        'balance_after',
+        'type',
+        'user_return_id'
     ];
 
     public function user()

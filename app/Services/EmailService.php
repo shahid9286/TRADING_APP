@@ -41,7 +41,7 @@ class EmailService
     public function sendEmailToSingleUser(string $templateSlug, array $variables, string $recipient): bool
     {
         try {
-            $emailTemplate = $this->getEmailTemplate($templateSlug);
+             $emailTemplate = $this->getEmailTemplate($templateSlug);
             if (!$emailTemplate) return false;
 
             if (empty($recipient)) {
@@ -62,7 +62,7 @@ class EmailService
     protected function getEmailTemplate(string $slug): ?EmailTemplate
     {
         return EmailTemplate::where('slug', $slug)
-            ->where('is_active', true)
+            ->where('status', 'active')
             ->first();
     }
 

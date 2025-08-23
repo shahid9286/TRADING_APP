@@ -12,11 +12,13 @@ class UserReturn extends Model
 
     protected $fillable = [
         'investment_id',
+        'withdrawal_request_id',
         'user_id',
         'amount',
         'referral_id',
         'entry_date',
-        'type'
+        'type',
+       
     ];
 
     public function userLedger()
