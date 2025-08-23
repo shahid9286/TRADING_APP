@@ -12,19 +12,19 @@ class EmailService
     /**
      * Send email to all users of a specific type using a template
      */
-    public function sendEmailsToAllAdmins(string $templateSlug, array $variables, string $userType): bool
+    public function sendEmailsToAllAdmins(string $templateSlug, array $variables, string $roleName): bool
     {
         try {
             $emailTemplate = $this->getEmailTemplate($templateSlug);
             if (!$emailTemplate) return false;
 
-            $recipients = User::where('user_type', $userType)
-                ->whereNotNull('email')
-                ->pluck('email')
-                ->toArray();
+            $recipients = User::role($roleName)
+            ->whereNotNull('email')
+            ->pluck('email')
+            ->toArray();
 
             if (empty($recipients)) {
-                Log::warning("No recipients found for user type: {$userType}");
+                Log::warning("No recipients found for user type: {$roleName}");
                 return false;
             }
 
