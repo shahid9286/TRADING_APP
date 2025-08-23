@@ -16,4 +16,9 @@ class UserLedger extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function userReturn()
+    {
+        return $this->hasOne(UserReturn::class);
+    }
 }

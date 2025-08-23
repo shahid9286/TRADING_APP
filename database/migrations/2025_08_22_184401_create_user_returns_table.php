@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('user_returns', function (Blueprint $table) {
             $table->id();
             $table->foreignId('investment_id')->nullable()->constrained('investments')->nullOnDelete();
+            $table->foreignId('withdrawal_request_id')->nullable()->constrained('withdrawal_requests')->nullOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->decimal('amount', 15, 2);
             $table->foreignId('referral_id')->nullable()->constrained('users')->nullOnDelete();

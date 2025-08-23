@@ -19,6 +19,11 @@ class UserReturn extends Model
         'type'
     ];
 
+    public function userLedger()
+    {
+        return $this->belongsTo(UserLedger::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

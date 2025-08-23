@@ -12,6 +12,7 @@ use App\Models\AdminBank;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\BusinessRule;
+use App\Models\UserLedger;
 use Illuminate\Support\Facades\Validator;
 use App\Models\UserProfile;
 use App\Models\UserWallet;
@@ -401,7 +402,8 @@ class FrontController extends Controller
 
     public function transaction()
     {
-        return view('front.finance.transaction');
+        $transactions = UserLedger::where('user_id', Auth::id())->orderBy('id', 'desc')->get();
+        return view('front.finance.transaction', compact('transactions'));
     }
     public function plan()
     {
