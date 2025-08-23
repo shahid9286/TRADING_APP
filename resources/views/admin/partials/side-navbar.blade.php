@@ -35,6 +35,16 @@
                     </a>
                 </li>
 
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.transaction.index' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.transaction.index') }}"
+                        class="nav-link {{ Route::currentRouteName() == 'admin.transaction.index' ? 'active' : '' }} @if (request()->path() == 'admin/dashboard') active @endif">
+                        <i class="nav-icon fas fa-exchange-alt"></i>
+                        <p>
+                            {{ __('Transactions') }}
+                        </p>
+                    </a>
+                </li>
+
                      {{-- investment --}}
                 {{-- <li
                     class="nav-item {{ Route::currentRouteName() == 'admin.investment.index' || Route::currentRouteName() == 'admin.investment.add' ? 'menu-open' : '' }}">

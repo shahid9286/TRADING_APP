@@ -16,7 +16,7 @@ Route::middleware(['approved.user', 'user.profile'])->group(function () {
 
     Route::get('/user/levels', [FrontController::class, 'userLevels'])->name('front.user.levels');
     Route::get('/user/level/earning', [FrontController::class, 'userLevelEarning'])->name('front.user.level.earning');
-    Route::get('/user/create-profile', [FrontController::class, 'createProfile'])->name('front.CreateProfile');
+    // Route::get('/user/create-profile', [FrontController::class, 'createProfile'])->name('front.CreateProfile');
     Route::get('/user/profile-edit', [FrontController::class, 'editProfile'])->name('front.editProfile');
     Route::post('/user/profile-update', [FrontController::class, 'ProfileUpdate'])->name('front.ProfileUpdate');
     Route::post('/user/profilestore', [FrontController::class, 'ProfileStore'])->name('front.ProfileStore');
