@@ -2,13 +2,15 @@
     <div class="row g-4">
         <div class="col-12">
             <div class="text-center">
-                <img src="{{ asset($user->profile->profile_image ?? 'default.png') }}" alt="Profile Image"
-                    class="rounded-circle img-fluid" style="width: 120px; height: 120px; object-fit: cover;">
+                <img src="{{ asset(Auth::user()->profile->profile_image ?? 'default.png') }}" 
+                     alt="Profile Image"
+                     class="rounded-circle img-fluid" 
+                     style="width: 120px; height: 120px; object-fit: cover;">
+
                 <h5 class="mt-2">
-                    {{ $user->profile->first_name ?? ''}} {{ $user->profile->last_name ?? '' }}
+                    {{ Auth::user()->profile->first_name ?? '' }} {{ Auth::user()->profile->last_name ?? '' }}
                 </h5>
             </div>
-
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div><i class="fas fa-user px-1"></i> Name</div>

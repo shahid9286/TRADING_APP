@@ -184,7 +184,7 @@ class FrontController extends Controller
         $profile->address     = $request->address;
 
             if ($request->hasFile('profile_image')) {
-            $profile->image = FileHelper::upload($request->file('profile_image'), 'assets/user/profile');
+            $profile->profile_image = FileHelper::upload($request->file('profile_image'), 'assets/user/profile');
         }
 
         $profile->save();
@@ -220,8 +220,8 @@ class FrontController extends Controller
 
         // Handle image upload
                 if ($request->hasFile('profile_image')) {
-            $profile->image = FileHelper::update(
-                $profile->image,
+            $profile->profile_image = FileHelper::update(
+                $profile->profile_image,
                 $request->file('profile_image'),
                 'assets/user/profile'
             );

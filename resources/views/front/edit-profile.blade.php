@@ -49,7 +49,7 @@
                 <label for="profile_image" class="form-label">Profile Image</label>
                 <input type="file" 
                        name="profile_image" 
-                       id="profile_image" value="{{ $profile->profile_image ?? '' }}"
+                       id="profile_image" value="{{'profile_image', $profile->profile_image ?? '' }}"
                        class="form-control @error('profile_image') is-invalid @enderror">
                 @error('profile_image')
                   <div class="invalid-feedback">{{ $message }}</div>

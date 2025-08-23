@@ -219,3 +219,5 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::post('/salary-rules/{id}/delete', [SalaryRulesController::class, 'delete'])->name('admin.salary-rules.delete');
     });
 });
+
+
