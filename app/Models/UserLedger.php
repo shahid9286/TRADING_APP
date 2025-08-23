@@ -9,6 +9,7 @@ class UserLedger extends Model
 {
     use SoftDeletes;
     protected $fillable = [
+<<<<<<< HEAD
         'user_id',
         'transaction_type',
         'amount',
@@ -18,6 +19,9 @@ class UserLedger extends Model
         'balance_after',
         'type',
         'user_return_id'
+=======
+        'user_id', 'type', 'amount', 'description', 'transaction_date', 'balance_after', 'balance_before'
+>>>>>>> 5c970b9e53bc75887a56531396f0aa7f36addf95
     ];
 
     public function user()

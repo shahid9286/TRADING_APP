@@ -169,8 +169,8 @@
                                 <td>${tx.description ?? ''}</td>
                                 <td>${tx.type ?? ''}</td>
                                 <td>${tx.amount ?? ''}</td>
-                                <td>${tx.old_balance ?? ''}</td>
-                                <td>${tx.current_balance ?? ''}</td>
+                                <td>${tx.balance_before ?? ''}</td>
+                                <td>${tx.balance_after ?? ''}</td>
                                 <td>${tx.created_at ?? ''}</td>
                             </tr>
                         `;

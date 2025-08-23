@@ -1,0 +1,148 @@
+@extends('admin.layouts.master')
+@section('title', 'Dashboard')
+
+@section('content')
+<div class="container-fluid my-4">
+  <div class="row g-3">
+    <!-- Net Balance -->
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="d-flex align-items-center card-custom p-3 rounded shadow-sm">
+        <div class="bg-info d-flex justify-content-center align-items-center me-3" style="width:60px; height:60px;">
+          <i class="fas fa-cog fa-2x text-white"></i>
+        </div>
+        <div>
+          <span class="d-block">Net Balance</span>
+          <span class="fw-bold">10 <small>%</small></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Locked Amount -->
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="d-flex align-items-center card-custom p-3 rounded shadow-sm">
+        <div class="bg-danger d-flex justify-content-center align-items-center me-3" style="width:60px; height:60px;">
+          <i class="fas fa-thumbs-up fa-2x text-white"></i>
+        </div>
+        <div>
+          <span class="d-block">Locked Amount</span>
+          <span class="fw-bold">41,410</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Investment -->
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="d-flex align-items-center card-custom p-3 rounded shadow-sm">
+        <div class="bg-success d-flex justify-content-center align-items-center me-3" style="width:60px; height:60px;">
+          <i class="fas fa-shopping-cart fa-2x text-white"></i>
+        </div>
+        <div>
+          <span class="d-block">Investment</span>
+          <span class="fw-bold">760</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Withdraws -->
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="d-flex align-items-center card-custom p-3 rounded shadow-sm">
+        <div class="bg-warning d-flex justify-content-center align-items-center me-3" style="width:60px; height:60px;">
+          <i class="fas fa-users fa-2x text-white"></i>
+        </div>
+        <div>
+          <span class="d-block">Pending Withdraws</span>
+          <span class="fw-bold">2,000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{-- ✅ Your cards, tables, and other sections go here --}}
+  {{-- Example: Withdraw Request --}}
+  <div class="row my-4">
+    <div class="col-md-8">
+      <div class="card card-custom shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0 text-center">Withdraw Request</h5>
+          <div class="card-tools">
+            <button class="btn-tool" data-bs-toggle="collapse" data-bs-target="#withdrawBody"><i class="fas fa-minus"></i></button>
+            <button class="btn-tool" onclick="this.closest('.card').remove()"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div id="withdrawBody" class="collapse show">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-dark table-striped m-0">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Item</th>
+                    <th>Status</th>
+                    <th>Popularity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="#" class="text-info">OR9842</a></td>
+                    <td>Call of Duty IV</td>
+                    <td><span class="badge bg-success">Shipped</span></td>
+                    <td>90,80,90,-70,61,-83,63</td>
+                  </tr>
+                  <tr>
+                    <td><a href="#" class="text-info">OR1848</a></td>
+                    <td>Samsung Smart TV</td>
+                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                    <td>90,80,-90,70,61,-83,68</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer clearfix">
+            <a href="#" class="btn btn-sm btn-info float-start">Place New Order</a>
+            <a href="#" class="btn btn-sm btn-secondary float-end">View All Orders</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{-- Products card example --}}
+    <div class="col-md-4">
+      <div class="card card-custom shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0 text-center">Recently Added Products</h5>
+          <div class="card-tools">
+            <button class="btn-tool" data-bs-toggle="collapse" data-bs-target="#productsBody"><i class="fas fa-minus"></i></button>
+            <button class="btn-tool" onclick="this.closest('.card').remove()"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div id="productsBody" class="collapse show">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush card-custom">
+              <li class="list-group-item card-custom d-flex align-items-center">
+                <div>
+                  <a href="#" class="fw-bold text-white">Samsung TV
+                    <span class="badge bg-warning float-end">$1800</span>
+                  </a>
+                  <p class="small text-white mb-0">Samsung 32" 1080p 60Hz LED Smart HDTV.</p>
+                </div>
+              </li>
+              <li class="list-group-item card-custom d-flex align-items-center">
+                <div>
+                  <a href="#" class="fw-bold text-white">Xbox One
+                    <span class="badge bg-danger float-end">$350</span>
+                  </a>
+                  <p class="small text-white mb-0">Xbox One Console Bundle with Halo.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="card-footer text-center card-custom">
+            <a href="#" class="text-info">View All Products</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection

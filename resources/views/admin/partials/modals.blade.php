@@ -88,3 +88,99 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="approveForm" method="POST" action="{{ route('admin.withdrawal-request.approve') }}">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="approveModalLabel">Approve Payout</h5>
+                    <button type="button" class="text-dark bg-success border-0" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="payout_date" class="form-label">Payout Date</label>
+                    <input type="date" name="payout_date" id="payout_date" class="form-control" required>
+                    <input type="hidden" name="withdrawal_request_id" id="awithdrawal_request_id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Approve</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="rejectForm" method="POST" action="{{ route('admin.withdrawal-request.reject') }}">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="rejectModalLabel">Reject Payout</h5>
+                    <button type="button" class="bg-danger text-dark border-0" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="remarks" class="form-label">Remarks</label>
+                    <textarea name="remarks" id="remarks" class="form-control" rows="3" required></textarea>
+                    <input type="hidden" name="withdrawal_request_id" id="rwithdrawal_request_id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Reject</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="payModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="rejectForm" method="POST" action="{{ route('admin.withdrawal-request.pay') }}"
+            enctype="multipart/form-data">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="payModalLabel">Pay Withdrawal</h5>
+                    <button type="button" class="bg-primary text-dark border-0" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="admin_bank_id" class="form-label">Bank</label>
+                        <select name="admin_bank_id" id="admin_bank_id" class="form-control" required>
+                            @if (isset($admin_banks))
+                                @foreach ($admin_banks as $bank)
+                                    <option value="{{ $bank->id }}">{{ $bank->name }} - {{ $bank->account_no }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="transaction_id" class="form-label">Transaction ID</label>
+                        <input type="text" name="transaction_id" id="transaction_id" class="form-control"
+                            rows="3" required>
+                    </div>
+                    <div>
+                        <label for="screenshot" class="form-label">Screenshot</label>
+                        <input type="file" name="screenshot" id="screenshot" class="form-control" rows="3"
+                            required>
+                    </div>
+                    <input type="hidden" name="withdrawal_request_id" id="pwithdrawal_request_id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Pay Now</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

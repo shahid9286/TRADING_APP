@@ -28,7 +28,9 @@ return new class extends Migration
             $table->decimal('total_payout', 15, 2)->nullable();
             $table->string('transaction_id')->nullable();
             $table->string('screenshot')->nullable();
+            $table->string('remarks')->nullable();
             $table->enum('client_status', ['pending', 'verified'])->default('pending');
+            $table->enum('payment_status', ['pending', 'paid'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
         });

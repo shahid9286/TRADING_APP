@@ -184,8 +184,13 @@ class FrontController extends Controller
         $profile->city = $request->city;
         $profile->address = $request->address;
 
+<<<<<<< HEAD
         if ($request->hasFile('profile_image')) {
             $profile->image = FileHelper::upload($request->file('profile_image'), 'assets/user/profile');
+=======
+            if ($request->hasFile('profile_image')) {
+            $profile->profile_image = FileHelper::upload($request->file('profile_image'), 'assets/user/profile');
+>>>>>>> 5c970b9e53bc75887a56531396f0aa7f36addf95
         }
 
         $profile->save();
@@ -220,9 +225,15 @@ class FrontController extends Controller
         $profile->whatsapp_no = $request->whatsapp_no;
 
         // Handle image upload
+<<<<<<< HEAD
         if ($request->hasFile('profile_image')) {
             $profile->image = FileHelper::update(
                 $profile->image,
+=======
+                if ($request->hasFile('profile_image')) {
+            $profile->profile_image = FileHelper::update(
+                $profile->profile_image,
+>>>>>>> 5c970b9e53bc75887a56531396f0aa7f36addf95
                 $request->file('profile_image'),
                 'assets/user/profile'
             );

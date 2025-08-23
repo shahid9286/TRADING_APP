@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('min_withdraw_limit', 12, 2)->default(0);
 
             $table->decimal('daily_return_rate', 5, 2)->default(0);     // % me store karna ho to
+            $table->decimal('payout_fee_rate', 5, 2)->default(0);
             $table->decimal('monthly_return_rate', 5, 2)->default(0);
 
             $table->decimal('level_1_comm_rate', 5, 2)->default(0);
