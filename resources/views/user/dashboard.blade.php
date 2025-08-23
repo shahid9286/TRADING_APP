@@ -154,54 +154,6 @@
         <div class="container">
             <div class="service__wrapper">
                 <div class="row g-4 align-items-center">
-                    {{-- <div class="col-sm-6 col-md-6 col-lg-4">
-                        <div class="card radius-10 border-start border-0 border-3 border-info">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <p class="mb-0 text-secondary">Total Orders</p>
-                                        <h4 class="my-1 text-info">4805</h4>
-                                        <p class="mb-0 font-13">+2.5% from last week</p>
-                                    </div>
-                                    <div class="widgets-icons-2 rounded-circle bg-gradient-info text-white ms-auto"><i
-                                            class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-4">
-                        <div class="card radius-10 border-start border-0 border-3 border-danger">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <p class="mb-0 text-secondary">Total Orders</p>
-                                        <h4 class="my-1 text-danger">4805</h4>
-                                        <p class="mb-0 font-13">+2.5% from last week</p>
-                                    </div>
-                                    <div class="widgets-icons-2 rounded-circle bg-gradient-danger text-white ms-auto"><i
-                                            class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6 col-lg-4">
-                        <div class="card radius-10 border-start border-0 border-3 border-success">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <p class="mb-0 text-secondary">Total Orders</p>
-                                        <h4 class="my-1 text-success">4805</h4>
-                                        <p class="mb-0 font-13">+2.5% from last week</p>
-                                    </div>
-                                    <div class="widgets-icons-2 rounded-circle bg-gradient-success text-white ms-auto"><i
-                                            class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="card radius-10 border-start border-0 border-3 border-success">
                             <div class="card-body">
@@ -263,7 +215,7 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-4">
-                        <div class="card radius-10 border-start border-0 border-3 border-warning">
+                        <div class="card radius-10 border-start border-0 border-3 border-success">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
@@ -314,7 +266,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <h6> <a class="stretched-link" href="#">level_1_investment</a></h6>
+                                        <h6> <a class="stretched-link" href="#">Level 1 Investment</a></h6>
                                         <h4 class="my-1 text-primary">$ {{ auth()->user()->userTotal->level_1_investment ?? 0 }}</h4>
                                     </div>
                                     <div class="widgets-icons-2 rounded-circle bg-gradient-primary text-white ms-auto">
@@ -330,7 +282,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <h6> <a class="stretched-link" href="#">level_2_investment</a></h6>
+                                        <h6> <a class="stretched-link" href="#">Level 2 Investment</a></h6>
                                         <h4 class="my-1 text-success">$ {{ auth()->user()->userTotal->level_2_investment ?? 0 }}</h4>
                                     </div>
                                     <div class="widgets-icons-2 rounded-circle bg-gradient-success text-white ms-auto">
@@ -346,7 +298,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <h6> <a class="stretched-link" href="#">level_3_investment</a></h6>
+                                        <h6> <a class="stretched-link" href="#">Level 3 Investment</a></h6>
                                         <h4 class="my-1 text-warning">$ {{ auth()->user()->userTotal->level_3_investment ?? 0 }}</h4>
                                     </div>
                                     <div class="widgets-icons-2 rounded-circle bg-gradient-warning text-white ms-auto">
@@ -362,7 +314,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <h6> <a class="stretched-link" href="#">level_4_investment</a></h6>
+                                        <h6> <a class="stretched-link" href="#">Level 4 Investment</a></h6>
                                         <h4 class="my-1 text-primary">$ {{ auth()->user()->userTotal->level_4_investment ?? 0 }}</h4>
                                     </div>
                                     <div class="widgets-icons-2 rounded-circle bg-gradient-primary text-white ms-auto">
@@ -381,7 +333,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <h6> <a class="stretched-link" href="#">level_5_investment</a></h6>
+                                        <h6> <a class="stretched-link" href="#">Level 5 Investment</a></h6>
                                         <h4 class="my-1 text-secondary">$ {{ auth()->user()->userTotal->level_5_investment ?? 0 }}</h4>
                                     </div>
                                     <div class="widgets-icons-2 rounded-circle bg-gradient-secondary text-white ms-auto">
@@ -396,7 +348,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <h6> <a class="stretched-link" href="#">level_6_investment</a></h6>
+                                        <h6> <a class="stretched-link" href="#">Level 6 Investment</a></h6>
                                         <h4 class="my-1 text-info">$ {{ auth()->user()->userTotal->level_6_investment ?? 0 }}</h4>
                                     </div>
                                     <div class="widgets-icons-2 rounded-circle bg-gradient-info text-white ms-auto">
@@ -411,7 +363,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
                                     <div>
-                                        <h6> <a class="stretched-link" href="#">level_7_investment</a></h6>
+                                        <h6> <a class="stretched-link" href="#">Level 7 Investment</a></h6>
                                         <h4 class="my-1 text-success">$ {{ auth()->user()->userTotal->level_7_investment ?? 0 }}</h4>
                                     </div>
                                     <div class="widgets-icons-2 rounded-circle bg-gradient-success text-white ms-auto">
