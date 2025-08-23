@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\{
     SettingController,
     BusinessRuleController,
     EmailTemplateController,
+    TransactionController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -105,8 +106,12 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::post('reward/force_delete/{id}', [RewardController::class, 'forceDelete'])->name('admin.reward.force.delete');
         // End of reward
 
+
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('admin.transaction.index');
+        Route::post('/transactions/search', [TransactionController::class, 'search'])->name('admin.transaction.search');
+
         // investment Routes
-        Route::get('/investment', [InvestmentController::class, 'index'])->name('admin.investment.index');
+        Route::get('/investments', [InvestmentController::class, 'index'])->name('admin.investment.index');
 
         Route::post('/investment-approved/{id}', [InvestmentController::class, 'investmentApproved'])->name('admin.investment.approved');
 

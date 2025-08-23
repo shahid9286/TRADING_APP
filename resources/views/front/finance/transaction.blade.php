@@ -84,21 +84,7 @@
                                 {{ $loop->iteration }}
                             </td>
                             <td>
-                                <a href="javascript:void(0)" class="btn btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#withdrawalRequestDetail"
-                                    data-amount="{{ $withdrawal_request->bank_name }}"
-                                    data-entry_date="{{ $withdrawal_request->account_no }}"
-                                    data-type="{{ $withdrawal_request->requested_amount }}"
-                                    data-request_date="{{ \Carbon\Carbon::parse($withdrawal_request->request_date)->format('d M Y') }}"
-                                    data-status="{{ $withdrawal_request->status }}"
-                                    data-approval_date="{{ $withdrawal_request->approval_date ? \Carbon\Carbon::parse($withdrawal_request->approval_date)->format('d M Y') : '—' }}"
-                                    data-payout_date="{{ $withdrawal_request->payout_date ? \Carbon\Carbon::parse($withdrawal_request->payout_date)->format('d M Y') : '—' }}"
-                                    data-payout_amount="{{ $withdrawal_request->payout_amount ?? '—' }}"
-                                    data-fee="{{ $withdrawal_request->fee ?? '—' }}"
-                                    data-total_payout="{{ $withdrawal_request->total_payout ?? '—' }}"
-                                    data-transaction_id="{{ $withdrawal_request->transaction_id ?? '—' }}"
-                                    data-screenshot="{{ $withdrawal_request->screenshot ? asset($withdrawal_request->screenshot) : '' }}"
-                                    data-client_status="{{ $withdrawal_request->client_status ?? '—' }}">{{ $transaction->description }}</a>
+                                <a>{{ $transaction->description }}</a>
                             </td>
                             <td>
                                 ${{ $transaction->amount }}
