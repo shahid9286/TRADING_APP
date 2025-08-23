@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string('password');
             $table->decimal('net_balance', 12, 2)->default(0);
             $table->decimal('locked_amount', 12, 2)->default(0);
+            $table->decimal('current_month_salary', 12, 2)->default(0);
+            $table->decimal('next_month_salary', 12, 2)->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

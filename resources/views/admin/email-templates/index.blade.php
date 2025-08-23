@@ -14,7 +14,7 @@
                         </div>
 
                         <div class="card-body table-responsive">
-                            <table class="table table-bordered table-striped data_table" style="width: 100%; table-layout: auto;">
+                            <table class="table table-dark table-bordered table-striped data_table" style="width: 100%; table-layout: auto;">
                                 <thead>
                                     <tr>
                                         <th>#</th>

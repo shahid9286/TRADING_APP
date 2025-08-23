@@ -25,8 +25,18 @@
                     </a>
                 </li>
 
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.investment.index' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.investment.index') }}"
+                        class="nav-link {{ Route::currentRouteName() == 'admin.investment.index' ? 'active' : '' }} @if (request()->path() == 'admin/dashboard') active @endif">
+                        <i class="nav-icon fas fa-dollar-sign"></i>
+                        <p>
+                            {{ __('Investment') }}
+                        </p>
+                    </a>
+                </li>
+
                      {{-- investment --}}
-                <li
+                {{-- <li
                     class="nav-item {{ Route::currentRouteName() == 'admin.investment.index' || Route::currentRouteName() == 'admin.investment.add' ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.investment.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-trophy"></i>
@@ -45,7 +55,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 {{-- investment End --}}
 
                

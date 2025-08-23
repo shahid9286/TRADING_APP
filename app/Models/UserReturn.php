@@ -8,19 +8,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class UserReturn extends Model
 {
-        use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'investment_id',
         'user_id',
         'amount',
+        'referral_id',
         'entry_date',
         'type'
     ];
 
-    public function investment()
+    public function userLedger()
     {
-        return $this->belongsTo(Investment::class);
+        return $this->belongsTo(UserLedger::class);
     }
 
     public function user()
@@ -28,4 +29,13 @@ class UserReturn extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function referral()
+    {
+        return $this->belongsTo(User::class, 'referral_id');
+    }
+
+    public function investment()
+    {
+        return $this->belongsTo(Investment::class);
+    }
 }
