@@ -11,13 +11,12 @@
                 <div class="header-content d-flex align-items-center">
                     <div class="menu-area">
                         <ul class="menu menu--style2">
-                            <li> <a href="{{ route('front.plan') }}">Plan</a> </li>
+                            <li> <a href="{{ route('front.plan') }}">Investment Plan</a> </li>
                             @auth
                                 <li> <a href="{{ route('user.dashboard') }}">Dashboard </a> </li>
                                 <li>
                                     <a href="#0">Finance</a>
                                     <ul class="submenu">
-                                        {{-- <li> <a href="{{ route('front.plan') }}">Plan</a> </li> --}}
                                         <li> <a href="{{ route('front.deposit') }}">Deposit</a> </li>
                                         <li> <a href="{{ route('front.deposit.history') }}">Deposit History</a> </li>
                                         <li> <a href="{{ route('front.withdraw.request') }}">Withdraw</a> </li>
