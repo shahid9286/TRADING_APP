@@ -1,10 +1,32 @@
-<!-- Mirrored from thetork.com/demos/html/bitrader/index-2-dark.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 04 Aug 2023 07:56:20 GMT -->
-
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.ico') }}">
     <title>@yield('title') | Safe Capital</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="SafeCapital Pro offers secure investment opportunities, monthly profits, referral commissions, and salary-based rewards for trusted investors.">
+    <meta name="keywords"
+        content="SafeCapital Pro, investments, secure investments, monthly profits, referral commissions, salary rewards, finance, investment company">
+    <meta name="author" content="SafeCapital Pro">
+
+    <meta property="og:title" content="SafeCapital Pro - Secure Investment Platform">
+    <meta property="og:description"
+        content="Join SafeCapital Pro for secure investments, monthly profits, and referral rewards.">
+    <meta property="og:image" content="{{ asset('assets/static/logo-white.png') }}">
+    <meta property="og:url" content="https://safecapitalpro.com">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SafeCapital Pro - Secure Investment Platform">
+    <meta name="twitter:description"
+        content="Join SafeCapital Pro for secure investments, monthly profits, and referral rewards.">
+    <meta name="twitter:image" content="https://example.com/images/preview.jpg">
+
+     <meta name="robots" content="index, follow">
+
+
+
     @include('front.partials.styles')
     <style>
         /* p {

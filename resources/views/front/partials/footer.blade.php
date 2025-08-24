@@ -5,7 +5,7 @@
         <div class="footer__bottom">
           <div class="footer__end">
             <div class="footer__end-copyright">
-              <p class=" mb-0">© {{ now()->year}} Rights Reserved By <a href="" >Safe Capital</a> </p>
+              <p class=" mb-0">© {{ now()->year}} Rights Reserved By <a href="/" >Safe Capital</a> </p>
             </div>
             <div>
               <ul class="social">
