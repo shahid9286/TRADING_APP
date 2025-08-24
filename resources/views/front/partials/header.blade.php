@@ -24,8 +24,8 @@
                                         <li> <a href="{{ route('front.withdraw.request.history') }}">Withdrawal History</a>
                                         </li>
                                         <li> <a href="{{ route('front.transaction') }}">Transactions</a> </li>
-                                        <li> <a href="{{ route('front.transaction') }}">User History</a> </li>
-                                        <li> <a href="{{ route('front.transaction') }}">User Level Earning</a> </li>
+                                        <li> <a href="{{ route('front.user.levels') }}">User History</a> </li>
+                                        <li> <a href="{{ route('front.user.level.earning') }}">User Level Earning</a> </li>
                                     </ul>
                                 </li>
                                 <li> <a href="{{ route('user.userreferral') }}">My Referral</a> </li>

@@ -18,11 +18,7 @@ class UserReturn extends Model
         'referral_id',
         'entry_date',
         'type',
-<<<<<<< HEAD
-       
-=======
         'withdrawal_request_id',
->>>>>>> 5c970b9e53bc75887a56531396f0aa7f36addf95
     ];
 
     public function userLedger()
