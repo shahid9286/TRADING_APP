@@ -22,10 +22,9 @@
           <div class="about__content" data-aos="fade-left" data-aos-duration="800">
             <div class="about__content-inner">
               <h2>about <span>us</span></h2>
-              <p class="mb-0">
-                We are a cutting-edge trading platform dedicated to empowering individuals worldwide to take control of their financial future. Our mission is to provide easy access to diverse markets with advanced tools, seamless execution, and transparent services.
-              </p>
-              <a href="about.html" class="trk-btn trk-btn--border trk-btn--primary">Explore More</a>
+              <p class="mb-3">At Safe Capital Pro, we believe in creating smarter and safer investment opportunities for individuals and businesses. Our platform is designed to provide transparent, reliable, and growth-driven investment solutions that help our clients achieve their financial goals with confidence. </p>
+              <p class="mb-0">With a team of experienced professionals, we focus on offering innovative financial strategies, including direct investments, referral programs, and long-term wealth-building plans. Our priority is to ensure maximum returns while maintaining the highest level of security and trust. </p>
+              <a href="{{ route('front.login.user')}}" class="trk-btn trk-btn--border trk-btn--primary">Sign Up Now</a>
             </div>
           </div>
         </div>
@@ -50,7 +49,7 @@
               <div class="section-header">
                 <h2 class="mb-15 mt-minus-5"> <span>our </span>missions</h2>
                 <p class="mb-0">
-                  <h6>Our mission is to empower individuals worldwide to trade smarter and earn more through our innovative trading platform combined with affiliate marketing</h6>
+                  <h6>At Safe Capital Pro, our mission is to make secure and smart investments accessible to everyone. We aim to empower individuals and businesses with reliable financial solutions, ensuring growth, transparency, and trust at every step.</h6>
                 </p>
               </div>
 
@@ -64,7 +63,7 @@
                     <div class="feature__item">
                       <div class="feature__item-inner">
                         <div class="feature__item-content">
-                          <h6>Trade multiple markets with advanced tools and insights</h6>
+                          <h6>Building Financial Security for All</h6>
                         </div>
                       </div>
                     </div>
@@ -77,7 +76,7 @@
                     <div class="feature__item">
                       <div class="feature__item-inner">
                         <div class="feature__item-content">
-                          <h6>Comprehensive analytics to track your trades and earnings</h6>
+                          <h6>Innovating Investment Solutions with Integrity</h6>
                         </div>
                       </div>
                     </div>
@@ -141,11 +140,10 @@
             <div class="about__content-inner">
               <h2><span>our</span> vissions</h2>
               <p class="mb-0">
-                <h6>
-                  Our vision is to become the leading platform in trading and affiliate marketing, empowering users
-                  worldwide with cutting-edge technology, reliable service, and outstanding support to achieve
-                  financial freedom.
-                </h6>
+                <h6> Our vision at Safe Capital Pro is to become a trusted leader in the investment industry by offering innovative and secure financial opportunities. We strive to create a platform where individuals and businesses can confidently grow their wealth through transparent and ethical investment practices. </h6>
+              </p>
+              <p class="mb-0">
+                <h6> We aim to redefine financial success by combining advanced technology, market expertise, and client-focused strategies. Safe Capital Pro envisions a future where every investor, regardless of experience, can achieve sustainable growth and long-term financial stability.</h6>
               </p>
             </div>
           </div>

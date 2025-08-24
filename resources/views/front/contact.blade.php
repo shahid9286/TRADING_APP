@@ -10,11 +10,7 @@
 
                             <!-- Laravel Login Form -->
                             <h3 class="mb-2 fw-bold text-center">Get in Touch</h3>
-                            <p class="text-center text-muted fs-5">
-                                Have a question or want to support our mission? Reach out — we’re here to help and always
-                                happy to connect.
-                            </p>
-
+                           
                             <form id="contactform" method="POST" action="{{ route('front.contact.store') }}" novalidate>
                                 @csrf
 
