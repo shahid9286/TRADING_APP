@@ -228,6 +228,10 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::post('/salary-rules/{id}/delete', [SalaryRulesController::class, 'delete'])->name('admin.salary-rules.delete');
         Route::get('/update-salary', [SalaryRulesController::class, 'updateSalary'])->name('admin.salary-rules.update-salary');
         Route::get('/give-salary', [SalaryRulesController::class, 'giveSalary'])->name('admin.salary-rules.give-salary');
+Route::get('/zameer', function () {
+    return view('zameer');
+});
+
     });
 });
 

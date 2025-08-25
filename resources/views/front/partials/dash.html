@@ -255,3 +255,213 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+{{-- <div class="container-fluid my-4">
+
+  {{-- Stats Cards --}}
+  <div class="row g-3">
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="d-flex align-items-center card-custom p-3 rounded shadow-sm bg-white">
+        <div class="rounded-circle bg-info d-flex justify-content-center align-items-center me-3" style="width:60px; height:60px;">
+          <i class="fas fa-cog fa-lg text-white"></i>
+        </div>
+        <div>
+          <span class="text-muted small">Net Balance</span>
+          <h6 class="mb-0 fw-bold">10 <small>%</small></h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="d-flex align-items-center card-custom p-3 rounded shadow-sm bg-white">
+        <div class="rounded-circle bg-danger d-flex justify-content-center align-items-center me-3" style="width:60px; height:60px;">
+          <i class="fas fa-thumbs-up fa-lg text-white"></i>
+        </div>
+        <div>
+          <span class="text-muted small">Locked Amount</span>
+          <h6 class="mb-0 fw-bold">41,410</h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="d-flex align-items-center card-custom p-3 rounded shadow-sm bg-white">
+        <div class="rounded-circle bg-success d-flex justify-content-center align-items-center me-3" style="width:60px; height:60px;">
+          <i class="fas fa-shopping-cart fa-lg text-white"></i>
+        </div>
+        <div>
+          <span class="text-muted small">Investment</span>
+          <h6 class="mb-0 fw-bold">760</h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+      <div class="d-flex align-items-center card-custom p-3 rounded shadow-sm bg-white">
+        <div class="rounded-circle bg-warning d-flex justify-content-center align-items-center me-3" style="width:60px; height:60px;">
+          <i class="fas fa-users fa-lg text-white"></i>
+        </div>
+        <div>
+          <span class="text-muted small">Pending Withdraws</span>
+          <h6 class="mb-0 fw-bold">2,000</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{-- 3 Info Cards --}}
+  <div class="row g-3 my-3">
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h6 class="mb-0 fw-bold">Parent Tree</h6>
+          <div>
+            <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#parentTreeBody"><i class="fas fa-minus"></i></button>
+            <button class="btn btn-sm btn-light" onclick="this.closest('.card').remove()"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div id="parentTreeBody" class="collapse show">
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li><span class="text-danger">●</span> Chrome</li>
+              <li><span class="text-success">●</span> IE</li>
+              <li><span class="text-warning">●</span> Firefox</li>
+              <li><span class="text-primary">●</span> Safari</li>
+              <li><span class="text-info">●</span> Opera</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{-- Referral Tree --}}
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h6 class="mb-0 fw-bold">Referral Tree</h6>
+          <div>
+            <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#refTreeBody"><i class="fas fa-minus"></i></button>
+            <button class="btn btn-sm btn-light" onclick="this.closest('.card').remove()"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div id="refTreeBody" class="collapse show">
+          <div class="card-body">
+            <ul class="list-unstyled mb-0">
+              <li><span class="text-danger">●</span> Chrome</li>
+              <li><span class="text-success">●</span> IE</li>
+              <li><span class="text-warning">●</span> Firefox</li>
+              <li><span class="text-primary">●</span> Safari</li>
+              <li><span class="text-info">●</span> Opera</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{-- Account Info --}}
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h6 class="mb-0 fw-bold">Account Info</h6>
+          <div>
+            <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#accountInfoBody"><i class="fas fa-minus"></i></button>
+            <button class="btn btn-sm btn-light" onclick="this.closest('.card').remove()"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div id="accountInfoBody" class="collapse show">
+          <div class="card-body">
+            <div class="d-flex justify-content-between py-2 border-bottom">
+              <span>United States</span><span class="text-danger">↓ 12%</span>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+              <span>India</span><span class="text-success">↑ 4%</span>
+            </div>
+            <div class="d-flex justify-content-between py-2">
+              <span>China</span><span class="text-warning">→ 0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{-- Withdraw + Products --}}
+  <div class="row g-3 my-3">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h6 class="mb-0 fw-bold">Withdraw Request</h6>
+          <div>
+            <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#withdrawBody"><i class="fas fa-minus"></i></button>
+            <button class="btn btn-sm btn-light" onclick="this.closest('.card').remove()"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div id="withdrawBody" class="collapse show">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Order ID</th>
+                  <th>Item</th>
+                  <th>Status</th>
+                  <th>Popularity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="#" class="text-info">OR9842</a></td>
+                  <td>Call of Duty IV</td>
+                  <td><span class="badge bg-success">Shipped</span></td>
+                  <td>90,80,90,-70,61,-83,63</td>
+                </tr>
+                <tr>
+                  <td><a href="#" class="text-info">OR1848</a></td>
+                  <td>Samsung Smart TV</td>
+                  <td><span class="badge bg-warning text-dark">Pending</span></td>
+                  <td>90,80,-90,70,61,-83,68</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer bg-light d-flex justify-content-between">
+            <a href="#" class="btn btn-sm btn-info">Place New Order</a>
+            <a href="#" class="btn btn-sm btn-secondary">View All Orders</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{-- Recently Added Products --}}
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <h6 class="mb-0 fw-bold">Recently Added Products</h6>
+          <div>
+            <button class="btn btn-sm btn-light" data-bs-toggle="collapse" data-bs-target="#productsBody"><i class="fas fa-minus"></i></button>
+            <button class="btn btn-sm btn-light" onclick="this.closest('.card').remove()"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+        <div id="productsBody" class="collapse show">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="fw-bold">Samsung TV 
+                <span class="badge bg-warning float-end">$1800</span>
+              </div>
+              <p class="small text-muted mb-0">Samsung 32" 1080p 60Hz LED Smart HDTV.</p>
+            </li>
+            <li class="list-group-item">
+              <div class="fw-bold">Xbox One 
+                <span class="badge bg-danger float-end">$350</span>
+              </div>
+              <p class="small text-muted mb-0">Xbox One Console Bundle with Halo.</p>
+            </li>
+          </ul>
+          <div class="card-footer bg-light text-center">
+            <a href="#" class="text-info">View All Products</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div> 
+
