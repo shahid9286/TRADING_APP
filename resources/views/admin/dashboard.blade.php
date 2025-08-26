@@ -5,6 +5,10 @@
     <div class="content-header">
         <div class="container-fluid">
             <div class="row">
+                <a href="{{ route('admin.salary-rules.update-salary') }}" class="btn btn-sm btn-primary col-6">Update Salary</a>
+                <a href="{{ route('admin.salary-rules.give-salary') }}" class="btn btn-sm btn-info col-6">Give Salary</a>
+            </div>
+            <div class="row">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">Welcome back, {{ auth()->user()->username }}!</h1>
                 </div>
