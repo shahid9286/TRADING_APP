@@ -41,8 +41,12 @@ Route::middleware(['approved.user', 'user.profile'])->group(function () {
     Route::get('/user/change-password', [FrontController::class, 'changePassword'])->name('front.change.password');
     Route::post('/user/change-password/store', [FrontController::class, 'changePasswordStore'])->name('front.change.password.store');
 
-    Route::get('/account-blocked', [FrontController::class, 'blockedUser'])->name('user.blocked');
+    
 
     Route::get('/deposit-detail/{transaction_id}', [FrontController::class, 'depositDetail'])->name('front.deposit.detail');
 });
  Route::post('/user/profilestore', [FrontController::class, 'ProfileStore'])->name('front.ProfileStore');
+
+
+
+ Route::get('/account-blocked', [FrontController::class, 'blockedUser'])->name('user.blocked');

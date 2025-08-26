@@ -13,7 +13,7 @@
     <meta property="og:title" content="SafeCapital Pro - Secure Investment Platform">
     <meta property="og:description"
         content="Join SafeCapital Pro for secure investments, monthly profits, and referral rewards.">
-    <meta property="og:image" content="{{ asset('assets/static/logo-white.png') }}">
+    <meta property="og:image" content="{{ asset('assets/static/logo.png') }}">
     <meta property="og:url" content="https://safecapitalpro.com">
     <meta property="og:type" content="website">
 
@@ -21,7 +21,7 @@
     <meta name="twitter:title" content="SafeCapital Pro - Secure Investment Platform">
     <meta name="twitter:description"
         content="Join SafeCapital Pro for secure investments, monthly profits, and referral rewards.">
-    <meta name="twitter:image" content="https://example.com/images/preview.jpg">
+    <meta name="twitter:image" content="{{ asset('assets/static/logo.png') }}">
 
      <meta name="robots" content="index, follow">
 
