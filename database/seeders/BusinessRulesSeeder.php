@@ -29,6 +29,7 @@ class BusinessRulesSeeder extends Seeder
                 'level_6_comm_rate' => 0.5,
                 'level_7_comm_rate' => 0.5,
                 'salary_day' => now()->day,  
+                "salary_decided_day"=>20,
                 'salary_payout_date' => now()->addDays(5)->toDateString(),
                 'entry_approval_date' => now()->toDateString(),
                 'withdraw_last_date' => now()->addDays(10)->toDateString(),
