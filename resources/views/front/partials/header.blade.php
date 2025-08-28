@@ -29,7 +29,7 @@
                                 </li>
                                 <li> <a href="{{ route('user.userreferral') }}">My Referral</a> </li>
                                 <li>
-                                    <a href="#0">Account Settings</a>
+                                    <a href="#0" class="me-4">Account Settings</a>
                                     <ul class="submenu">
                                         <li> <a href="{{ route('front.editProfile') }}">Profile Setting</a> </li>
                                         <li> <a href="{{ route('front.change.password') }}">Change Password</a> </li>
@@ -37,7 +37,7 @@
                                     </ul>
                                 </li>
                             @endauth
-                            <li> <a href="{{ route('front.contact') }}">Contact Us</a> </li>
+                            {{-- <li> <a href="{{ route('front.contact') }}">Contact Us</a> </li> --}}
                         </ul>
 
                     </div>

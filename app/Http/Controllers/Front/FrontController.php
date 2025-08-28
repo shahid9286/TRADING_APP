@@ -471,16 +471,15 @@ class FrontController extends Controller
         $emailService = new EmailService();
         $user = Auth::user();
 
-        // Send email to user
         $userVariables = [
             'user_name' => $user->username,
             'investment_amount' => number_format($request->amount, 2),
             'investment_date' => now()->format('Y-m-d H:i:s'),
-            'company_name' => config('app.name', 'Your Company') // You can set this in config/app.php
+            'company_name' => config('app.name', 'Your Company')
         ];
 
         $emailService->sendEmailToSingleUser('investment_submitted_user', $userVariables, $user->email);
-        // Send notification to all admins
+        
         $adminVariables = [
             'user_name' => $user->username,
             'user_email' => $user->email,
@@ -489,6 +488,7 @@ class FrontController extends Controller
             'company_name' => config('app.name', 'Your Company')
         ];
         $emailService->sendEmailsToAllAdmins('investment_submitted_admin', $adminVariables, 'admin');
+        
         DB::commit();
 
         return redirect()
