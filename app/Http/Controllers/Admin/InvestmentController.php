@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Services\InvestmentApprovalService;
 use App\Models\SystemLog;
 use App\Models\Investment;
@@ -53,53 +54,53 @@ class InvestmentController extends Controller
 
 
     public function investmentApproved($id)
-{
-    try {
-        $investmentApprovalService = new InvestmentApprovalService();
-        $result = $investmentApprovalService->approveInvestment($id);
+    {
+        try {
+            $investmentApprovalService = new InvestmentApprovalService();
+            $result = $investmentApprovalService->approveInvestment($id);
 
-        $notification = [
-            'alert' => 'success',
-            'message' => $result['message']
-        ];
+            $notification = [
+                'alert' => 'success',
+                'message' => $result['message']
+            ];
 
-        return redirect()->back()->with('notification', $notification);
-    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-        SystemLog::createLog([
-            'module' => 'investment',
-            'action' => 'investment_approval_failed',
-            'log_level' => 'error',
-            'description' => 'Model not found during investment approval',
-            'details' => $e->getMessage(),
-            'metadata' => ['investment_id' => $id]
-        ]);
+            return redirect()->back()->with('notification', $notification);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            SystemLog::createLog([
+                'module' => 'investment',
+                'action' => 'investment_approval_failed',
+                'log_level' => 'error',
+                'description' => 'Model not found during investment approval',
+                'details' => $e->getMessage(),
+                'metadata' => ['investment_id' => $id]
+            ]);
 
-        $notification = [
-            'alert' => 'error',
-            'message' => 'Investment or user not found.'
-        ];
+            $notification = [
+                'alert' => 'error',
+                'message' => 'Investment or user not found.'
+            ];
 
-        return redirect()->back()->with('notification', $notification);
-    } catch (\Exception $e) {
-        SystemLog::createLog([
-            'module' => 'investment',
-            'action' => 'investment_approval_failed',
-            'log_level' => 'error',
-            'description' => 'Error during investment approval',
-            'details' => $e->getMessage(),
-            'metadata' => [
-                'investment_id' => $id,
-                'file' => $e->getFile(),
-                'line' => $e->getLine()
-            ]
-        ]);
+            return redirect()->back()->with('notification', $notification);
+        } catch (\Exception $e) {
+            SystemLog::createLog([
+                'module' => 'investment',
+                'action' => 'investment_approval_failed',
+                'log_level' => 'error',
+                'description' => 'Error during investment approval',
+                'details' => $e->getMessage(),
+                'metadata' => [
+                    'investment_id' => $id,
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine()
+                ]
+            ]);
 
-        $notification = [
-            'alert' => 'error',
-            'message' => 'Failed to approve investment: ' . $e->getMessage()
-        ];
+            $notification = [
+                'alert' => 'error',
+                'message' => 'Failed to approve investment: ' . $e->getMessage()
+            ];
 
-        return redirect()->back()->with('notification', $notification);
+            return redirect()->back()->with('notification', $notification);
+        }
     }
-}
 }

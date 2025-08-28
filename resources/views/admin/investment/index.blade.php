@@ -92,7 +92,7 @@
                                     <td>
                                         {{ \Carbon\Carbon::parse($investment->start_date)->format('d M Y') }} -
                                         {{ \Carbon\Carbon::parse($investment->expiry_date)->format('d M Y') }}
-                                        
+
                                     </td>
                                     <td>
                                         @if ($investment->status === 'pending')
@@ -131,17 +131,20 @@
                                                 <span class="sr-only">Toggle Dropdown</span>
                                             </button>
                                             <div class="dropdown-menu" role="menu" style="">
-                                                <form action="{{route("admin.investment.approved",$investment->id)}}"
-                                                    method="post" class="approve-form">
-                                                    @csrf
-                                                    <button  type="submit"
-                                                        class="dropdown-item approve-btn">Approve</button>
-                                                </form>
-                                                <form action="{{ route('admin.user.makeblockedUser', $investment->id) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    <button type="submit" class="dropdown-item">Reject</button>
-                                                </form>
+                                                @if ($investment->status === 'pending')
+                                                    <form action="{{ route('admin.investment.approved', $investment->id) }}"
+                                                        method="post" class="approve-form">
+                                                        @csrf
+                                                        <button type="submit"
+                                                            class="dropdown-item approve-btn">Approve</button>
+                                                    </form>
+                                                    <form
+                                                        action="{{ route('admin.user.makeblockedUser', $investment->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item">Reject</button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
@@ -153,7 +156,7 @@
                             @endforelse
                         </tbody>
                     </table>
-                    
+
                 </div>
             </div>
         </div>

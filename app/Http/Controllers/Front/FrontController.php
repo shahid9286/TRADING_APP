@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Front;
+
 use App\Models\User;
 use App\Models\Enquiry;
 use App\Models\UserBank;
@@ -183,7 +184,7 @@ class FrontController extends Controller
         $profile->city = $request->city;
         $profile->address = $request->address;
 
-            if ($request->hasFile('profile_image')) {
+        if ($request->hasFile('profile_image')) {
             $profile->profile_image = FileHelper::upload($request->file('profile_image'), 'assets/user/profile');
         }
 
@@ -219,7 +220,7 @@ class FrontController extends Controller
         $profile->whatsapp_no = $request->whatsapp_no;
 
         // Handle image upload
-                if ($request->hasFile('profile_image')) {
+        if ($request->hasFile('profile_image')) {
             $profile->profile_image = FileHelper::update(
                 $profile->profile_image,
                 $request->file('profile_image'),
@@ -348,15 +349,26 @@ class FrontController extends Controller
     {
         $available_balance = Auth::user()->net_balance - Auth::user()->locked_amount;
         $min_withdraw_limit = BusinessRule::first()->min_withdraw_limit;
+
+        $messages = [
+            'bank_account.required' => 'Please select a bank account.',
+            'bank_account.exists'   => 'The selected bank account does not exist.',
+            'amount.required'       => 'Please enter the withdrawal amount.',
+            'amount.numeric'        => 'The withdrawal amount must be a number.',
+            'amount.min'            => "The amount must be at least {$min_withdraw_limit}.",
+            'amount.max'            => "The amount cannot exceed your available balance of {$available_balance}.",
+        ];
+
         $validator = Validator::make($request->all(), [
             'bank_account' => 'required|exists:user_banks,id',
-            'amount' => 'required|numeric|min:' . $min_withdraw_limit . '|max:' . $available_balance,
-        ]);
+            'amount'       => 'required|numeric|min:' . $min_withdraw_limit . '|max:' . $available_balance,
+        ], $messages);
 
         if ($validator->fails()) {
             $errors = implode('<br>', $validator->errors()->all());
             return redirect()->back()->with('error', $errors)->withInput();
         }
+
 
         DB::beginTransaction();
 
@@ -466,8 +478,6 @@ class FrontController extends Controller
 
         $investment->save();
 
-
-
         $emailService = new EmailService();
         $user = Auth::user();
 
@@ -479,7 +489,7 @@ class FrontController extends Controller
         ];
 
         $emailService->sendEmailToSingleUser('investment_submitted_user', $userVariables, $user->email);
-        
+
         $adminVariables = [
             'user_name' => $user->username,
             'user_email' => $user->email,
@@ -487,8 +497,9 @@ class FrontController extends Controller
             'investment_date' => now()->format('Y-m-d H:i:s'),
             'company_name' => config('app.name', 'Your Company')
         ];
+
         $emailService->sendEmailsToAllAdmins('investment_submitted_admin', $adminVariables, 'admin');
-        
+
         DB::commit();
 
         return redirect()

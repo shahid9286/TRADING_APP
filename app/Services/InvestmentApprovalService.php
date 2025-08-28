@@ -33,8 +33,9 @@ class InvestmentApprovalService
 
             $investment = Investment::findOrFail($id);
             $investment->status = 'approved';
+            $investment->is_active = 'active';
             $investment->approved_at = now();
-            $investment->expiry_date = now()->addYear();
+            $investment->expiry_date = now()->addYear()->subDay();
             $investment->save();
 
             $user = User::findOrFail($investment->user_id);

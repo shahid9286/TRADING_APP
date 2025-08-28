@@ -48,13 +48,12 @@
                                 {{-- Method --}}
                                 <div class="mb-3">
                                     <label class="form-label text-white" for="bank_account">
-                                        Method <span class="text-danger">*</span> <span class="text-muted fs-6">(No Bank
-                                            Account Found! <a href="#" class="text-white text-decoration-underline"
+                                        Method <span class="text-danger">*</span> <span class="text-warning fs-6">(No Bank
+                                            Account Found! <a href="#" class="text-warning text-decoration-underline"
                                                 data-bs-toggle="modal" data-bs-target="#exampleModal">Add First</a>)</span>
                                     </label>
                                     <select class="form-control @error('bank_account') is-invalid @enderror"
                                         name="bank_account" id="bank_account" required>
-                                        <option selected disabled>Select Bank*</option>
                                         @foreach ($user_banks as $user_bank)
                                             <option value="{{ $user_bank->id }}">
                                                 ({{ $user_bank->bank_name }})
@@ -90,7 +89,7 @@
                                     <p class="p-0 m-0">Minimum Withdrawal: <b>${{ $bussiness_rule->min_withdraw_limit }}</b></p>
                                     <p class="p-0 m-0">Net Balance: <b>${{ auth()->user()->net_balance }}</b></p>
                                     <p class="p-0 m-0">Locked Amount: <b>${{ auth()->user()->locked_amount }}</b></p>
-                                    <p class="p-0 m-0">Available Amount:
+                                    <p class="p-0 m-0 text-warning">Available Amount:
                                         <b>${{ auth()->user()->net_balance - auth()->user()->locked_amount }}</b></p>
                                 </div>
 
