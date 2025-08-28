@@ -86,17 +86,17 @@
                             <td>
                                 <a>{{ $transaction->description }}</a>
                             </td>
-                            <td>
-                                ${{ $transaction->amount }}
+                            <td class="text-info">
+                                $ {{ $transaction->amount }}
                             </td>
                             <td>
                                 {{ ucwords(str_replace('_', ' ', $transaction->type)) }}
                             </td>
-                            <td>
-                                ${{ $transaction->balance_before }}
+                            <td class="text-danger">
+                                $ {{ $transaction->balance_before }}
                             </td>
-                            <td>
-                                ${{ $transaction->balance_after }}
+                            <td class="text-warning">
+                                $ {{ $transaction->balance_after }}
                             </td>
                         </tr>
                     @endforeach

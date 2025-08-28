@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <section class="d-flex align-items-center justify-content-center bg-color py-3 min-vh-100">
+    <section class="d-flex align-items-center justify-content-center bg-color min-vh-100">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 text-center">

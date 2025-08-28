@@ -9,19 +9,21 @@ class Reward extends Model
 {
         use SoftDeletes;
 
-    protected $fillable = [
+     protected $fillable = [
         'title',
         'start_date',
         'end_date',
-        'reward_title',
-        'reward_amount',
-        'target_amount',
         'status',
         'image',
         'description',
         'added_by',
-        'updated_by'
+        'updated_by',
     ];
+
+     public function rewardDetails()
+    {
+        return $this->hasMany(RewardDetail::class);
+    }
 
     public function addedByUser()
     {

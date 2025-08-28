@@ -9,7 +9,7 @@ use App\Http\Controllers\User\{
 Route::middleware(['approved.user', 'user.profile'])->group(function () {
 
     Route::get('/user/dashboard', [ProfileController::class, 'dashboard'])->name('user.dashboard');
-    Route::get('/user//referral', [FrontController::class, 'userReferral'])->name('user.userreferral');
+    Route::get('/user/referral', [FrontController::class, 'userReferral'])->name('user.userreferral');
 
     Route::get('user/profile/create', [FrontController::class, 'createProfile'])->name('front.CreateProfile');
     Route::post('/user/profile/updatePassword', [ProfileController::class, 'updatePassword'])->name('user.password.update');
