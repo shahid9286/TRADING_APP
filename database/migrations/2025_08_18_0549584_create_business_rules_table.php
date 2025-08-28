@@ -30,6 +30,7 @@ return new class extends Migration
             $table->decimal('level_7_comm_rate', 5, 2)->default(0);
 
             $table->unsignedTinyInteger('salary_day')->nullable(); 
+             $table->unsignedTinyInteger('salary_decided_day')->nullable(); 
             $table->date('salary_payout_date')->nullable();
             $table->date('entry_approval_date')->nullable();
             $table->date('withdraw_last_date')->nullable();

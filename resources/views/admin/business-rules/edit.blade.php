@@ -102,21 +102,23 @@
                                 {{-- Dates --}}
                                 <h5 class="mt-4">Important Dates</h5>
                                 <div class="row">
-<div class="col-md-4 mb-3">
-    <label for="salary_day">Salary Day <span class="text-danger">*</span></label>
-    <select name="salary_day" id="salary_day"
-        class="form-control @error('salary_day') is-invalid @enderror">
-        <option value="">-- Select Day --</option>
-        @for ($d = 1; $d <= 31; $d++)
-            <option value="{{ $d }}" {{ old('salary_day', $business_rules->salary_day) == $d ? 'selected' : '' }}>
-                {{ $d }}
-            </option>
-        @endfor
-    </select>
-    @error('salary_day')
-        <small class="text-danger">{{ $message }}</small>
-    @enderror
-</div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="salary_day">Salary Day <span class="text-danger">*</span></label>
+                                        <select name="salary_day" id="salary_day"
+                                            class="form-control @error('salary_day') is-invalid @enderror">
+                                            <option value="">-- Select Day --</option>
+                                            @for ($d = 1; $d <= 31; $d++)
+                                                <option value="{{ $d }}"
+                                                    {{ old('salary_day', $business_rules->salary_day) == $d ? 'selected' : '' }}>
+                                                    {{ $d }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                        @error('salary_day')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
                                     <div class="col-md-4 mb-3">
                                         <label for="salary_payout_date">Salary Payout Date</label>
                                         <input type="date" name="salary_payout_date" id="salary_payout_date"
@@ -166,7 +168,17 @@
                                         @enderror
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="salary_decided_day">Day For Current month Salary</label>
+                                        <input type="number" name="salary_decided_day" id="salary_decided_day"
+                                            value="{{ old('salary_decided_day', $business_rules->salary_decided_day) }}"
+                                            class="form-control @error('salary_decided_day') is-invalid @enderror" min="1" max="31">
+                                        @error('salary_decided_day')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-primary mt-3">Update</button>
                             </form>
                         </div>

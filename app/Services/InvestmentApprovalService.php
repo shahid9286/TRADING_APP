@@ -56,6 +56,7 @@ class InvestmentApprovalService
 
             // Distribute commissions
             $this->distributeCommissions($investment, $user, $businessRule);
+            $this->calculateAndSaveReferralSalary($user, $businessRule);
 
             DB::commit();
 
@@ -82,7 +83,7 @@ class InvestmentApprovalService
 
         // Get current balance before creating ledger entry
         $balanceBefore = $user->net_balance;
-        
+
         // Create user_ledger entry for the investment
         UserLedger::create([
             'user_id' => $user->id,
@@ -120,7 +121,7 @@ class InvestmentApprovalService
             ];
 
             $this->emailService->sendEmailsToAllAdmins('investment_approved_admin', $adminVariables, 'admin');
-            
+
         } catch (\Exception $e) {
             // Log email sending error but don't stop the whole process
             SystemLog::createLog([
@@ -168,15 +169,15 @@ class InvestmentApprovalService
                     throw new \Exception("Commission rate for level {$level} not found");
                 }
                 $commissionAmount = $investment->amount * $businessRule->$commissionRate / 100;
-                
+
                 // Get balance before commission is added
                 $commissionBalanceBefore = $referralUser->net_balance;
                 $referralUser->net_balance += $commissionAmount;
                 $referralUser->save();
-                
+
                 // Get balance after commission is added
                 $commissionBalanceAfter = $referralUser->net_balance;
-                
+
                 // Create user_return entry for referral commission
                 $commissionReturn = UserReturn::create([
                     'investment_id' => $investment->id,
@@ -196,13 +197,13 @@ class InvestmentApprovalService
                     'balance_after' => $commissionBalanceAfter,
                     'amount' => $commissionAmount,
                 ]);
-                
+
                 $referralUserTotal = UserTotal::firstOrCreate(['user_id' => $referralUser->id]);
                 $referralUserTotal->total_referral_commission += $commissionAmount;
                 $levelInvestmentField = "level_{$level}_investment";
                 $referralUserTotal->$levelInvestmentField += $investment->amount;
                 $referralUserTotal->save();
-                
+
                 if ($level === 1) {
                     $referralUserTotal->direct_count += 1;
                     $referralUserTotal->save();
@@ -230,6 +231,104 @@ class InvestmentApprovalService
                     ]
                 ]);
             }
+        }
+    }
+
+    public function calculateAndSaveReferralSalary($user, $businessRule)
+    {
+        try {
+            $currentMonth = now()->month;
+            $currentYear = now()->year;
+
+            // Log start of salary calculation
+            SystemLog::createLog([
+                'module' => 'salary',
+                'action' => 'salary_calculation_started',
+                'user_id' => $user->id,
+                'description' => "Starting referral salary calculation for {$user->username}",
+                'metadata' => [
+                    'calculation_month' => $currentMonth,
+                    'calculation_year' => $currentYear
+                ]
+            ]);
+
+            $oldAmount = Investment::where("referral_id", $user->id)
+                ->where('status', 'approved')
+                ->where(function ($query) use ($currentMonth, $currentYear) {
+                    $query->whereYear('approved_at', '<', $currentYear)
+                        ->orWhere(function ($query) use ($currentMonth, $currentYear) {
+                            $query->whereYear('approved_at', $currentYear)
+                                ->whereMonth('approved_at', '<', $currentMonth);
+                        })
+                        ->orWhere(function ($query) use ($currentMonth, $currentYear) {
+                            $query->whereYear('approved_at', $currentYear)
+                                ->whereMonth('approved_at', $currentMonth)
+                                ->whereDay('approved_at', '<=', 20);
+                        });
+                })
+                ->sum("amount");
+            $newAmount = Investment::where("referral_id", $user->id)
+                ->where("status", 'approved')
+                ->where("is_active", "active")
+                ->where("expiry_date" >= today())
+                ->where('status', 'approved')
+                ->whereYear('approved_at', $currentYear)
+                ->whereMonth('approved_at', $currentMonth)
+                ->whereDay('approved_at', '>=', 21)
+                ->whereDay('approved_at', '<=', 31)
+                ->sum("amount");
+
+            $currentSalary = $oldAmount * $businessRule->monthly_return_rate / 100;
+            $nextMonthSalary = $newAmount * $businessRule->monthly_return_rate / 100;
+            $user->current_month_salary = $currentSalary;
+            $user->next_month_salary = $nextMonthSalary;
+            $user->save();
+            SystemLog::createLog([
+                'module' => 'salary',
+                'action' => 'salary_calculated',
+                'user_id' => $user->id,
+                'description' => "Referral salary calculated for {$user->username}",
+                'details' => "Current month salary: $" . number_format($currentSalary, 2) .
+                    ", Next month salary: $" . number_format($nextMonthSalary, 2),
+                'metadata' => [
+                    'old_investment_amount' => $oldAmount,
+                    'new_investment_amount' => $newAmount,
+                    'current_month_salary' => $currentSalary,
+                    'next_month_salary' => $nextMonthSalary,
+                    'calculation_date' => now()->format('Y-m-d H:i:s')
+                ]
+            ]);
+
+            return [
+                'success' => true,
+                'current_salary' => $currentSalary,
+                'next_salary' => $nextMonthSalary,
+                'old_investment_amount' => $oldAmount,
+                'new_investment_amount' => $newAmount
+            ];
+
+        } catch (\Exception $e) {
+            // Log salary calculation error
+            SystemLog::createLog([
+                'module' => 'salary',
+                'action' => 'salary_calculation_failed',
+                'log_level' => 'error',
+                'user_id' => $user->id,
+                'description' => "Failed to calculate referral salary for {$user->username}",
+                'details' => $e->getMessage(),
+                'metadata' => [
+                    'user_id' => $user->id,
+                    'username' => $user->username,
+                    'error_time' => now()->format('Y-m-d H:i:s')
+                ]
+            ]);
+
+            return [
+                'success' => false,
+                'error' => $e->getMessage(),
+                'current_salary' => 0,
+                'next_salary' => 0
+            ];
         }
     }
 }
