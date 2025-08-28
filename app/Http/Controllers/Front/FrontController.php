@@ -449,10 +449,10 @@ class FrontController extends Controller
         $investment = new Investment();
         $investment->amount = $request->amount;
         $investment->start_date = now();
-        $investment->expiry_date = now()->addYear();
+        $investment->expiry_date = now()->addYear()->subDay();
         $investment->status = 'pending';
         $investment->transaction_id = $request->transaction_id;
-        $investment->is_active = 'active';
+        $investment->is_active = 'inactive';
         $investment->user_id = Auth::user()->id;
         $investment->admin_bank_id = $request->admin_bank_id;
         $investment->admin_bank_address = $admin_bank_address;
