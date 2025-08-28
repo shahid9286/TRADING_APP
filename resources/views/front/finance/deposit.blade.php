@@ -41,7 +41,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <p class="p-0 m-0 text-muted"><b>Minimun Deposit: </b>${{ $bussiness_rule->min_deposit }}</p>
+                                <p class="p-0 m-0 text-warning"><b>Minimun Deposit: </b>${{ $bussiness_rule->min_deposit }}</p>
 
                                 {{-- Submit --}}
                                 <button type="submit" class="trk-btn trk-btn--border trk-btn--primary mt-3 d-block">

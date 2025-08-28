@@ -1,24 +1,22 @@
 @extends('front.layouts.master')
 @section('title', 'User Login')
 @section('content')
-    <section class="account padding-top padding-bottom sec-bg-color2">
+    <section class="account padding-bottom sec-bg-color2">
         <div class="container">
             <div class="account__wrapper">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="account__content account__content--style1">
-
                             <div class="row">
                                 <div class="col-12 text-center">
-                                    <h3><i class="fas fa-wallet"></i> USDT Payment</h3>
-                                    <h6>You have requested <b>{{ $amount ?? '1.00' }} USD</b>, Please pay
-                                        <b>{{ $amount ?? '1.00' }} USDT</b> for successful payment
-                                    </h6>
+                                    <h3 class="text-info"><i class="fas fa-wallet"></i> USDT Payment</h3>
+                                    <h6>You have requested <b class="text-danger">{{ $amount ?? '1.00' }} USD</b> </h6>
+                                    <h5>Please pay <b class="text-danger">{{ $amount ?? '1.00' }} USDT</b> for successful payment</h5>
                                 </div>
                                 <div class="col-12">
                                     <p class="p-0 m-0">You can Deposite on the given Addresses:</p>
-                                    <p class="p-0 m-0 d-flex align-items-center">
-                                        <b id="accountNo">
+                                    <p class="p-0 m-2 d-flex align-items-center">
+                                        <b id="accountNo" class="text-warning">
                                             {{ $admin_bank->account_no ?? "No Addresses available, can't deposite at this time. Try again later." }}
                                         </b>
 
@@ -54,7 +52,7 @@
                                     </label>
                                     <input type="file" step="any" name="screenshot" id="screenshot"
                                         value="{{ old('screenshot') }}" class="form-control">
-                                    <span class="text-muted">Supported mimes: jpg,jpeg,png | Max size: 1MB</span>
+                                    <span class="text-light">Supported mimes: jpg,jpeg,png | Max size: 1MB</span>
                                 </div>
 
                                 {{-- Submit --}}

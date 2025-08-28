@@ -6,25 +6,13 @@
     <section class="pt-4">
         <div class="container">
 
-            <!-- Search -->
-            {{-- <div class="d-flex justify-content-end mb-4">
-                <form method="GET" action="#" class="d-flex" style="max-width: 300px;">
-                    <input type="text" name="search" placeholder="Search by transactions" class="form-control"
-                        style="color: #fff; border: none; border-radius: 8px 0 0 8px;">
-                    <button type="submit" style="border: none; border-radius: 0 8px 8px 0; padding: 0 12px;"
-                        class="trk-btn trk-btn--border trk-btn--primary">
-                        <i class="fas fa-search" style="color: #000;"></i>
-                    </button>
-                </form>
-            </div> --}}
-
             <!-- History Table -->
             {{-- <div class="table-responsive"> --}}
             <table id="myTable" class="table table-borderless align-middle text-white">
                 <thead style="border-bottom: 1px solid #4a4a4a;" class="table-heading">
                     <tr>
-                        <th class="fs-5">Admin Bank</th>
                         <th class="fs-5">Date</th>
+                        <th class="fs-5">Transaction id</th>
                         <th class="fs-5">Amount</th>
                         <th class="fs-5">Status</th>
                         <th class="fs-5">Action</th>
@@ -47,9 +35,6 @@
                         @endphp
                         <tr>
                             <td>
-                                <small>{{ $investment->admin_bank_address }}</small>
-                            </td>
-                            <td>
                                 {{ $date->format('d M, Y') }}
 
                                 <small>
@@ -63,7 +48,11 @@
                                 </small>
                             </td>
                             <td>
-                                <strong>{{ $investment->amount }} USDT</strong>
+                                <small>{{ $investment->transaction_id }}</small>
+                            </td>
+
+                            <td>
+                                <strong class="text-danger">{{ $investment->amount }} USDT</strong>
                             </td>
                             <td>
                                 <span class="badge {{ $class }}">{{ $label }}</span>
@@ -77,8 +66,7 @@
                                     data-status="{{ $investment->status }}"
                                     data-transaction_id="{{ $investment->transaction_id }}"
                                     data-screenshot="{{ asset($investment->screenshot) }}"
-                                    data-active_status="{{ $investment->is_active }}"
-                                    class="btn btn-success">
+                                    data-active_status="{{ $investment->is_active }}" class="btn btn-success">
                                     <i class="fa fa-eye"></i> <span class="ps-1">Detail</span>
                                 </a>
                             </td>
