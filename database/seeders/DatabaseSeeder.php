@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserLedgerSeeder::class);
         $this->call(UserTotalsSeeder::class);
          $this->call(EmailTemplateSeeder::class);
+         $this->call(RewardSeeder::class);
         
 
     }
