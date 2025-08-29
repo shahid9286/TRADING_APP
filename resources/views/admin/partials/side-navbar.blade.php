@@ -35,6 +35,21 @@
                     </a>
                 </li>
 
+                 {{-- Withdrawal Request --}}
+
+                 <li class="nav-item {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.withdrawal-request.index') }}"
+                        class="nav-link {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'active' : '' }} @if (request()->path() == 'admin/dashboard') active @endif">
+                        <i class="nav-icon fas fa-exchange-alt "></i>
+                        <p>
+                            {{ __('Withdraw Requests') }}
+                        </p>
+                    </a>
+                </li>
+
+               
+                {{-- Withdrawal Request End --}}
+
                 <li class="nav-item {{ Route::currentRouteName() == 'admin.transaction.index' ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.transaction.index') }}"
                         class="nav-link {{ Route::currentRouteName() == 'admin.transaction.index' ? 'active' : '' }} @if (request()->path() == 'admin/dashboard') active @endif">
@@ -200,28 +215,7 @@
                 {{-- User Bank End --}}
 
 
-                {{-- Withdrawal Request --}}
-                <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'menu-open' : '' }}">
-                    <a href="{{ route('admin.withdrawal-request.index') }}" class="nav-link">
-                        <i class="nav-icon fas fa-wallet"></i>
-
-                        <p>
-                            {{ __('Withdrawal Request') }}
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.withdrawal-request.index') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'active' : '' }}">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{ __('Withdrawal Request') }}</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- Withdrawal Request End --}}
+               
 
                 {{-- Salary Rule --}}
 
