@@ -70,49 +70,6 @@
 
                
 
-                <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.index' || Route::currentRouteName() == 'admin.pendingAdmins' || Route::currentRouteName() == 'admin.approvedAdmins' || Route::currentRouteName() == 'admin.blockedAdmins' ? 'menu-open' : '' }}">
-                    <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            {{ __('Admins') }}
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-
-                    <ul class="nav nav-treeview">
-
-                        <li class="nav-item">
-                            <a href="{{ route('admin.index') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.index' ? 'active' : '' }}">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{ __('All Admins') }}</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.pendingAdmins') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.pendingAdmins' ? 'active' : '' }}">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{ __('Pending Admins') }}</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.approvedAdmins') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.approvedAdmins' ? 'active' : '' }}">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{ __('Approved Admins') }}</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.blockedAdmins') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'admin.blockedAdmins' ? 'active' : '' }}">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{ __('Blocked Admins') }}</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
                 {{-- users --}}
                 <li
                     class="nav-item {{ Route::currentRouteName() == 'admin.user.index' || Route::currentRouteName() == 'admin.user.pendingUsers' || Route::currentRouteName() == 'admin.user.approvedUsers' || Route::currentRouteName() == 'admin.user.blockedUsers' ? 'menu-open' : '' }}">
@@ -380,6 +337,51 @@
                     </ul>
                 </li>
                 {{-- user return End --}}
+
+                
+                <li
+                    class="nav-item {{ Route::currentRouteName() == 'admin.index' || Route::currentRouteName() == 'admin.pendingAdmins' || Route::currentRouteName() == 'admin.approvedAdmins' || Route::currentRouteName() == 'admin.blockedAdmins' ? 'menu-open' : '' }}">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            {{ __('Admins') }}
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.index') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.index' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('All Admins') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.pendingAdmins') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.pendingAdmins' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Pending Admins') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.approvedAdmins') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.approvedAdmins' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Approved Admins') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.blockedAdmins') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.blockedAdmins' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Blocked Admins') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 {{-- BusinessRule --}}
 
                 <li class="nav-item">

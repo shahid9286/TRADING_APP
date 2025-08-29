@@ -11,7 +11,7 @@
                 <div class="header-content d-flex align-items-center">
                     <div class="menu-area">
                         <ul class="menu menu--style2">
-                            <li> <a href="{{ route('front.plan') }}">Investment Plan</a> </li>
+                            {{-- <li> <a href="{{ route('front.plan') }}">Investment Plan</a> </li> --}}
                             @auth
                                 <li> <a href="{{ route('user.dashboard') }}">Dashboard </a> </li>
                                 <li>

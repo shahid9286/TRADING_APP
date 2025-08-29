@@ -260,7 +260,6 @@
                                 <strong>SafeCapital Pro</strong><br>
                                 Support: <a href="mailto:support@safecapitalpro.com">support@safecapitalpro.com</a><br>
                                 Compliance: <a href="mailto:privacy@safecapitalpro.com">privacy@safecapitalpro.com</a><br>
-                                Address: <em>Update your registered office address here</em>
                             </address>
                         </section>
                     </div>
