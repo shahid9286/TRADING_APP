@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Investment;
 use App\Models\User;
+use Carbon\Carbon;
 use App\Models\UserTotal;
 use App\Models\UserReturn;
 use App\Models\UserLedger;
@@ -39,6 +40,7 @@ class InvestmentApprovalService
             $investment->save();
 
             $user = User::findOrFail($investment->user_id);
+            $referralUser = User::findOrFail($investment->referral_id);
 
             // Update user's total invested amount
             $userTotal = UserTotal::firstOrCreate(['user_id' => $user->id]);
@@ -56,7 +58,8 @@ class InvestmentApprovalService
 
             // Distribute commissions
             $this->distributeCommissions($investment, $user, $businessRule);
-            $this->calculateAndSaveReferralSalary($user, $businessRule);
+            $this->calculateAndSaveReferralSalary($referralUser, $businessRule);
+
 
             DB::commit();
 
@@ -239,6 +242,7 @@ class InvestmentApprovalService
         try {
             $currentMonth = now()->month;
             $currentYear = now()->year;
+            $currentDay = now()->day;
 
             // Log start of salary calculation
             SystemLog::createLog([
@@ -248,63 +252,86 @@ class InvestmentApprovalService
                 'description' => "Starting referral salary calculation for {$user->username}",
                 'metadata' => [
                     'calculation_month' => $currentMonth,
-                    'calculation_year' => $currentYear
+                    'calculation_year' => $currentYear,
+                    'current_day' => $currentDay
                 ]
             ]);
 
-            $oldAmount = Investment::where("referral_id", $user->id)
-                ->where('status', 'approved')
-                ->where(function ($query) use ($currentMonth, $currentYear) {
-                    $query->whereYear('approved_at', '<', $currentYear)
-                        ->orWhere(function ($query) use ($currentMonth, $currentYear) {
+            $investmentAmount = 0;
+            $salaryType = '';
+
+            if ($currentDay <= $businessRule->salary_decided_day) {
+
+                $investmentAmount = Investment::where("referral_id", $user->id)
+                    ->where('status', 'approved')
+                    ->where('is_active', 'active')
+                    ->where('expiry_date', '>=', today())
+                    ->where(function ($query) use ($currentMonth, $currentYear, $businessRule) {
+                        // Investments from previous years
+                        $query->whereYear('approved_at', '<', $currentYear)
+                            // OR investments from previous months of current year
+                            ->orWhere(function ($query) use ($currentMonth, $currentYear) {
                             $query->whereYear('approved_at', $currentYear)
                                 ->whereMonth('approved_at', '<', $currentMonth);
                         })
-                        ->orWhere(function ($query) use ($currentMonth, $currentYear) {
+
+                            ->orWhere(function ($query) use ($currentMonth, $currentYear, $businessRule) {
                             $query->whereYear('approved_at', $currentYear)
                                 ->whereMonth('approved_at', $currentMonth)
-                                ->whereDay('approved_at', '<=', 20);
+                                ->whereDay('approved_at', '<=', $businessRule->salary_decided_day);
                         });
-                })
-                ->sum("amount");
-            $newAmount = Investment::where("referral_id", $user->id)
-                ->where("status", 'approved')
-                ->where("is_active", "active")
-                ->where("expiry_date" >= today())
-                ->where('status', 'approved')
-                ->whereYear('approved_at', $currentYear)
-                ->whereMonth('approved_at', $currentMonth)
-                ->whereDay('approved_at', '>=', 21)
-                ->whereDay('approved_at', '<=', 31)
-                ->sum("amount");
+                    })
+                    ->sum("amount");
+                $salaryType = 'current_month_salary';
+            } else {
+                // Calculate NEW investment (current month 21 to end of month)
+                $lastDayOfMonth = Carbon::create($currentYear, $currentMonth)->endOfMonth()->day;
 
-            $currentSalary = $oldAmount * $businessRule->monthly_return_rate / 100;
-            $nextMonthSalary = $newAmount * $businessRule->monthly_return_rate / 100;
-            $user->current_month_salary = $currentSalary;
-            $user->next_month_salary = $nextMonthSalary;
+                $investmentAmount = Investment::where("referral_id", $user->id)
+                    ->where('status', 'approved')
+                    ->where('is_active', 'active')
+                    ->where('expiry_date', '>=', today())
+                    ->whereYear('approved_at', $currentYear)
+                    ->whereMonth('approved_at', $currentMonth)
+                    ->whereDay('approved_at', '>=', $businessRule->salary_decided_day + 1)
+                    ->whereDay('approved_at', '<=', $lastDayOfMonth)
+                    ->sum("amount");
+                $salaryType = 'next_month_salary';
+            }
+
+            $salaryAmount = $investmentAmount * $businessRule->monthly_return_rate / 100;
+
+            // Update user's salary field based on current date
+            if ($salaryType === 'current_month_salary') {
+                $user->current_month_salary = $salaryAmount;
+            } else {
+                $user->next_month_salary = $salaryAmount;
+            }
             $user->save();
+
+            // Log successful salary calculation
             SystemLog::createLog([
                 'module' => 'salary',
                 'action' => 'salary_calculated',
                 'user_id' => $user->id,
                 'description' => "Referral salary calculated for {$user->username}",
-                'details' => "Current month salary: $" . number_format($currentSalary, 2) .
-                    ", Next month salary: $" . number_format($nextMonthSalary, 2),
+                'details' => "Salary type: {$salaryType}, Amount: $" . number_format($salaryAmount, 2),
                 'metadata' => [
-                    'old_investment_amount' => $oldAmount,
-                    'new_investment_amount' => $newAmount,
-                    'current_month_salary' => $currentSalary,
-                    'next_month_salary' => $nextMonthSalary,
-                    'calculation_date' => now()->format('Y-m-d H:i:s')
+                    'investment_amount' => $investmentAmount,
+                    'monthly_return_rate' => $businessRule->monthly_return_rate,
+                    'salary_amount' => $salaryAmount,
+                    'salary_type' => $salaryType,
+                    'calculation_date' => now()->format('Y-m-d H:i:s'),
+                    'current_day' => $currentDay
                 ]
             ]);
 
             return [
                 'success' => true,
-                'current_salary' => $currentSalary,
-                'next_salary' => $nextMonthSalary,
-                'old_investment_amount' => $oldAmount,
-                'new_investment_amount' => $newAmount
+                'salary_type' => $salaryType,
+                'salary_amount' => $salaryAmount,
+                'investment_amount' => $investmentAmount,
+                'monthly_return_rate' => $businessRule->monthly_return_rate
             ];
 
         } catch (\Exception $e) {
@@ -326,8 +353,7 @@ class InvestmentApprovalService
             return [
                 'success' => false,
                 'error' => $e->getMessage(),
-                'current_salary' => 0,
-                'next_salary' => 0
+                'salary_amount' => 0
             ];
         }
     }
