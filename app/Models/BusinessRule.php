@@ -10,6 +10,7 @@ class BusinessRule extends Model
         'min_deposit',
         'min_withdraw_limit',
         'daily_return_rate',
+        'payout_fee_rate',
         'monthly_return_rate',
         'level_1_comm_rate',
         'level_2_comm_rate',

@@ -52,14 +52,14 @@
                                                         <i class="fas fa-pencil-alt"></i> {{ __('Edit') }}
                                                     </a>
 
-                                                    <form id="deleteform" class="d-inline-block"
-                                                        action="{{ route('admin.admin_banks.delete', $bank->id) }}"
-                                                        method="post">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger btn-sm" id="delete">
-                                                            <i class="fas fa-trash"></i>{{ __('Delete') }}
-                                                        </button>
-                                                    </form>
+                                                <form id="deleteform" class="d-inline-block"
+                                                    action="{{ route('admin.admin_banks.delete', $bank->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger btn-sm" id="delete">
+                                                        <i class="fas fa-trash"></i>{{ __('Delete') }}
+                                                    </button>
+                                                </form>
                                                 </div>
                                             </td>
                                         </tr>

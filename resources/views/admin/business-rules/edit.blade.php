@@ -69,6 +69,17 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
+                                        <label for="daily_return_rate">Payout Fee Rate (%) <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" step="0.01" name="payout_fee_rate" id="payout_fee_rate"
+                                            value="{{ old('payout_fee_rate', $business_rules->payout_fee_rate) }}"
+                                            class="form-control @error('payout_fee_rate') is-invalid @enderror">
+                                        @error('payout_fee_rate')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
                                         <label for="monthly_return_rate">Monthly Return Rate (%) <span
                                                 class="text-danger">*</span></label>
                                         <input type="number" step="0.01" name="monthly_return_rate"
@@ -173,7 +184,8 @@
                                         <label for="salary_decided_day">Day For Current month Salary</label>
                                         <input type="number" name="salary_decided_day" id="salary_decided_day"
                                             value="{{ old('salary_decided_day', $business_rules->salary_decided_day) }}"
-                                            class="form-control @error('salary_decided_day') is-invalid @enderror" min="1" max="31">
+                                            class="form-control @error('salary_decided_day') is-invalid @enderror"
+                                            min="1" max="31">
                                         @error('salary_decided_day')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror

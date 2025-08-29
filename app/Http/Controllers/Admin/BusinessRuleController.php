@@ -19,6 +19,7 @@ class BusinessRuleController extends Controller
             'min_deposit' => 'required|numeric|min:0',
             'min_withdraw_limit' => 'required|numeric|min:0',
             'daily_return_rate' => 'required|numeric|min:0|max:100',
+            'payout_fee_rate' => 'required|numeric|min:0|max:100',
             'monthly_return_rate' => 'required|numeric|min:0|max:100',
             'level_1_comm_rate' => 'required|numeric|min:0|max:100',
             'level_2_comm_rate' => 'required|numeric|min:0|max:100',
@@ -41,6 +42,7 @@ class BusinessRuleController extends Controller
         $rule->min_deposit = $request->min_deposit;
         $rule->min_withdraw_limit = $request->min_withdraw_limit;
         $rule->daily_return_rate = $request->daily_return_rate;
+        $rule->payout_fee_rate = $request->payout_fee_rate;
         $rule->monthly_return_rate = $request->monthly_return_rate;
         $rule->level_1_comm_rate = $request->level_1_comm_rate;
         $rule->level_2_comm_rate = $request->level_2_comm_rate;
