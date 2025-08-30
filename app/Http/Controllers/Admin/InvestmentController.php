@@ -8,6 +8,7 @@ use App\Models\Investment;
 use App\Services\EmailService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvestmentController extends Controller
 {
@@ -32,7 +33,14 @@ class InvestmentController extends Controller
                 $startDate = \Carbon\Carbon::parse($dates[0])->startOfDay();
                 $endDate = \Carbon\Carbon::parse($dates[1])->endOfDay();
 
-                $query->whereBetween('start_date', [$startDate, $endDate]);
+                $query->where(function ($q) use ($startDate, $endDate) {
+                    $q->whereBetween('start_date', [$startDate, $endDate])
+                        ->orWhereBetween('expiry_date', [$startDate, $endDate])
+                        ->orWhere(function ($q2) use ($startDate, $endDate) {
+                            $q2->where('start_date', '<=', $startDate)
+                                ->where('expiry_date', '>=', $endDate);
+                        });
+                });
             }
         }
 
@@ -44,6 +52,11 @@ class InvestmentController extends Controller
         // Filter by Status
         if ($request->filled('is_active')) {
             $query->where('is_active', $request->is_active);
+        }
+
+        // Filter by Status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
         $investments = $query->orderBy('id', 'desc')->get();
@@ -102,5 +115,41 @@ class InvestmentController extends Controller
 
             return redirect()->back()->with('notification', $notification);
         }
+    }
+
+    public function investmentReject($id)
+    {
+        $investment = Investment::find($id);
+        if ($investment) {
+            $investment->status = 'rejected';
+            $investment->is_active = 'inactive';
+            $investment->save();
+
+            SystemLog::createLog([
+                'module' => 'investment',
+                'action' => 'investment_rejected',
+                'loggable_id' => $investment->id,
+                'loggable_type' => Investment::class,
+                'affected_user_id' => $investment->user->id,
+                'description' => "Investment #{$investment->id} approved for {$investment->user->username}",
+                'details' => "Amount: $" . number_format($investment->amount, 2),
+                'metadata' => [
+                    'investment_amount' => $investment->amount,
+                    'rejected_by' => Auth::user()->username,
+                    'rejection_date' => today()
+                ]
+            ]);
+
+            $notification = array(
+                'message' => 'Investment Rejected Successfully!',
+                'alert' => 'success',
+            );
+            return redirect()->back()->with('notification', $notification);
+        }
+        $notification = array(
+            'message' => 'Investment not found!',
+            'alert' => 'error',
+        );
+        return redirect()->back()->with('notification', $notification);
     }
 }
