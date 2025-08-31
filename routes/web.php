@@ -114,6 +114,7 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/investments', [InvestmentController::class, 'index'])->name('admin.investment.index');
 
         Route::post('/investment-approved/{id}', [InvestmentController::class, 'investmentApproved'])->name('admin.investment.approved');
+        Route::post('/investment-reject/{id}', [InvestmentController::class, 'investmentReject'])->name('admin.investment.reject');
 
 
         Route::post('/investment-search', [InvestmentController::class, 'search'])->name('admin.investment.search');

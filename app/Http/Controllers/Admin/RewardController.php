@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Reward;
 use App\Helpers\FileHelper;
+use App\Models\RewardDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RewardController extends Controller
 {
@@ -27,30 +29,43 @@ class RewardController extends Controller
             'title'          => 'required|string|max:255',
             'start_date'     => 'required|date',
             'end_date'       => 'required|date|after_or_equal:start_date',
-            'reward_title'   => 'required|string|max:255',
-            'reward_amount'  => 'required|numeric|min:0',
-            'target_amount'  => 'required|numeric|min:0',
+            'reward_title'   => 'required|array|max:255',
+            'reward_amount'  => 'required|array|min:0',
+            'target_amount'  => 'required|array|min:0',
             'status'         => 'required|in:active,expired,inactive',
             'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description'    => 'nullable|string',
         ]);
 
-        $rewards = new Reward();
-        $rewards->title = $request->title;
-        $rewards->start_date = $request->start_date;
-        $rewards->end_date = $request->end_date;
-        $rewards->reward_title = $request->reward_title;
-        $rewards->reward_amount = $request->reward_amount;
-        $rewards->target_amount = $request->target_amount;
-        $rewards->status = $request->status;
-        $rewards->description = $request->description;
-        $rewards->added_by = Auth::user()?->id;
+        DB::beginTransaction();
 
-            if ($request->hasFile('image')) {
-            $rewards->image = FileHelper::upload($request->file('image'), 'assets/admin/uploads/rewards/images');
+        $reward = new Reward();
+        $reward->title = $request->title;
+        $reward->start_date = $request->start_date;
+        $reward->end_date = $request->end_date;
+        $reward->status = $request->status;
+        $reward->description = $request->description;
+        $reward->added_by = Auth::user()?->id;
+
+        if ($request->hasFile('image')) {
+            $reward->image = FileHelper::upload($request->file('image'), 'assets/admin/uploads/rewards/images');
+        }
+        
+        $reward->save();
+
+        foreach ($request->reward_title as $index => $title) {
+            $amount = $request->reward_amount[$index] ?? 0;
+            $target = $request->target_amount[$index] ?? 0;
+
+            RewardDetail::create([
+                'reward_id'     => $reward->id,
+                'reward_title'  => $title,
+                'reward_amount' => $amount,
+                'target_amount' => $target,
+            ]);
         }
 
-        $rewards->save();
+        DB::commit();
 
         $notification = array(
             'message' => 'Reward Added Successfully!',
@@ -73,33 +88,47 @@ class RewardController extends Controller
             'title'          => 'required|string|max:255',
             'start_date'     => 'required|date',
             'end_date'       => 'required|date|after_or_equal:start_date',
-            'reward_title'   => 'required|string|max:255',
-            'reward_amount'  => 'required|numeric|min:0',
-            'target_amount'  => 'required|numeric|min:0',
+            'reward_title'   => 'required|array|max:255',
+            'reward_amount'  => 'required|array|min:0',
+            'target_amount'  => 'required|array|min:0',
             'status'         => 'required|in:active,expired,inactive',
             'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description'    => 'nullable|string',
         ]);
 
-        $rewards = Reward::findOrFail($id);
-        $rewards->title = $request->title;
-        $rewards->start_date = $request->start_date;
-        $rewards->end_date = $request->end_date;
-        $rewards->reward_title = $request->reward_title;
-        $rewards->reward_amount = $request->reward_amount;
-        $rewards->target_amount = $request->target_amount;
-        $rewards->status = $request->status;
-        $rewards->description = $request->description;
-         $rewards->updated_by = Auth::user()?->id;
+        DB::beginTransaction();
+
+        $reward = Reward::findOrFail($id);
+        $reward->title = $request->title;
+        $reward->start_date = $request->start_date;
+        $reward->end_date = $request->end_date;
+        $reward->status = $request->status;
+        $reward->description = $request->description;
+        $reward->updated_by = Auth::user()?->id;
         if ($request->hasFile('image')) {
-            $rewards->image = FileHelper::update(
-                $rewards->image,
+            $reward->image = FileHelper::update(
+                $reward->image,
                 $request->file('image'),
                 'assets/admin/uploads/rewards/images'
             );
         }
 
-        $rewards->save();
+        $reward->save();
+
+        foreach ($request->reward_title as $index => $title) {
+            $reward->rewardDetails()->delete();
+            $amount = $request->reward_amount[$index] ?? 0;
+            $target = $request->target_amount[$index] ?? 0;
+
+            RewardDetail::create([
+                'reward_id'     => $reward->id,
+                'reward_title'  => $title,
+                'reward_amount' => $amount,
+                'target_amount' => $target,
+            ]);
+        }
+
+        DB::commit();
 
         $notification = array(
             'message' => 'Reward Updated Successfully!',

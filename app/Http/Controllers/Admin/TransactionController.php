@@ -35,7 +35,7 @@ class TransactionController extends Controller
 
         if ($request->date_range) {
             [$start, $end] = explode(' - ', $request->date_range);
-            $query->whereBetween('date_range', [$start, $end]);
+            $query->whereBetween('created_at', [$start, $end]);
         }
 
         return response()->json([

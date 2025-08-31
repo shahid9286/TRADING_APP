@@ -91,14 +91,14 @@
     </script>
 </head>
 
-<body class="login-page" style="min-height: 496.781px;" cz-shortcut-listen="true">
+<body class="login-page" style="min-height: 496.781px; background-color: #454D55;" cz-shortcut-listen="true">
     <div class="login-box">
         <div class="login-logo">
             <img src="{{ asset($setting->footer_logo) }}" width="300px">
         </div>
 
         <div class="card">
-            <div class="card-body login-card-body">
+            <div class="card-body login-card-body" style="background-color: #343A40;">
                 <p class="login-box-msg">Sign in to start your session</p>
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
@@ -106,11 +106,11 @@
                     <!-- Email -->
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text bg-white border-right-0">
-                                <i class="fas fa-envelope text-muted"></i>
+                            <span style="background-color:#343A40;" class="input-group-text border-right-0">
+                                <i class="fas fa-envelope text-white"></i>
                             </span>
                         </div>
-                        <input type="email" class="form-control border-left-0 @error('email') is-invalid @enderror"
+                        <input style="background-color:#343A40;" type="email" class="text-white form-control border-left-0 @error('email') is-invalid @enderror"
                             name="email" value="{{ old('email') }}" autocomplete="email" autofocus required
                             placeholder="Email">
                         @error('email')
@@ -123,12 +123,12 @@
                     <!-- Password -->
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text bg-white border-right-0">
-                                <i class="fas fa-lock text-muted"></i>
+                            <span style="background-color:#343A40;" class="input-group-text border-right-0">
+                                <i class="fas fa-lock text-white"></i>
                             </span>
                         </div>
-                        <input type="password"
-                            class="form-control border-left-0 @error('password') is-invalid @enderror" name="password"
+                        <input style="background-color:#343A40;" type="password"
+                            class="text-white form-control border-left-0 @error('password') is-invalid @enderror" name="password"
                             required placeholder="Password" autocomplete="current-password">
                         @error('password')
                             <span class="invalid-feedback d-block" role="alert">

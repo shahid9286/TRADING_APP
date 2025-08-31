@@ -155,14 +155,14 @@
     </script>
 </head>
 
-<body class="login-page" style="min-height: 496.781px;" cz-shortcut-listen="true">
+<body class="login-page" style="min-height: 496.781px; background-color: #454D55;" cz-shortcut-listen="true">
     <div class="login-box">
         <div class="login-logo">
             <img src="{{ asset('assets/admin/img/MhowLogo.png') }}" width="300px">
         </div>
 
         <div class="card">
-            <div class="card-body login-card-body">
+            <div class="card-body login-card-body" style=" background-color: #343A40;">
                 <p class="login-box-msg">Reset Your Password</p>
                 <form method="POST" action="{{ route('password.store') }}">
                     @csrf
@@ -174,7 +174,7 @@
 
 
                         <div class="col-md-12">
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+                            <input id="email" style=" background-color: #343A40;" type="email" class="text-white form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus placeholder="Email">
 
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -188,7 +188,7 @@
                         {{-- <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label> --}}
 
                         <div class="col-md-12">
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="{{__('New Password')}}">
+                            <input style=" background-color: #343A40;" id="password" type="password" class="text-white form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="{{__('New Password')}}">
 
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -202,7 +202,7 @@
                         {{-- <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label> --}}
 
                         <div class="col-md-12">
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="{{ __('confirm Password') }}">
+                            <input style=" background-color: #343A40;" id="password-confirm" type="password" class="text-white form-control" name="password_confirmation" required autocomplete="new-password" placeholder="{{ __('confirm Password') }}">
                         </div>
                     </div>
 

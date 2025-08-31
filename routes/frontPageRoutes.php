@@ -24,16 +24,16 @@ Route::get('/check-status', function () {
 })->name('check.status');
 
 
-Route::get('/user/forgot-password', function () {
-    return view('front.password.forgot');
-})->name('password.request');
+// Route::get('/user/forgot-password', function () {
+//     return view('front.password.forgot');
+// })->name('password.request');
 
-Route::post('/user/forgot-password', [\App\Http\Controllers\Auth\PasswordResetLinkController::class, 'store'])
-    ->name('front.password.email');
+// Route::post('/user/forgot-password', [\App\Http\Controllers\Auth\PasswordResetLinkController::class, 'store'])
+//     ->name('front.password.email');
 
-Route::get('/user/reset-password/{token}', function ($token) {
-    return view('front.password.reset', ['token' => $token]);
-})->name('password.reset');
+// Route::get('/user/reset-password/{token}', function ($token) {
+//     return view('front.password.reset', ['token' => $token]);
+// })->name('password.reset');
 
-Route::post('/user/reset-passwords', [\App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
-    ->name('front.password.update');
+// Route::post('/user/reset-passwords', [\App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
+//     ->name('front.password.update');
