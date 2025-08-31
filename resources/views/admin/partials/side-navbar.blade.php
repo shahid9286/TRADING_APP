@@ -40,7 +40,7 @@
                  <li class="nav-item {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.withdrawal-request.index') }}"
                         class="nav-link {{ Route::currentRouteName() == 'admin.withdrawal-request.index' ? 'active' : '' }} @if (request()->path() == 'admin/dashboard') active @endif">
-                        <i class="nav-icon fas fa-exchange-alt "></i>
+                        <i class="nav-icon fas fa-money-bill-wave"></i>
                         <p>
                             {{ __('Withdraw Requests') }}
                         </p>
