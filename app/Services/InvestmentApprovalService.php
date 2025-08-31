@@ -33,6 +33,12 @@ class InvestmentApprovalService
             }
 
             $investment = Investment::findOrFail($id);
+            if ($investment->status !== 'pending' || $investment->is_active === 'active') {
+                return [
+                    'success' => false,
+                    'message' => 'Investment already approved or active, no action taken.'
+                ];
+            }
             $investment->status = 'approved';
             $investment->is_active = 'active';
             $investment->approved_at = now();
@@ -57,9 +63,13 @@ class InvestmentApprovalService
             $this->logInvestmentApproval($investment, $user);
 
             // Distribute commissions
-            $this->distributeCommissions($investment, $user, $businessRule);
-            $this->calculateAndSaveReferralSalary($referralUser, $businessRule);
+            if (!$investment->is_refferal_paid) {
+                $this->distributeCommissions($investment, $user, $businessRule);
+                $investment->is_refferal_paid = true;
+                $investment->save();
+            }
 
+            $this->calculateAndSaveReferralSalary($referralUser, $businessRule);
 
             DB::commit();
 
@@ -86,6 +96,7 @@ class InvestmentApprovalService
 
         // Get current balance before creating ledger entry
         $balanceBefore = $user->net_balance;
+        $balanceAfter = $user->net_balance + $investment->amount;
 
         // Create user_ledger entry for the investment
         UserLedger::create([
@@ -93,7 +104,7 @@ class InvestmentApprovalService
             'user_return_id' => $userReturn->id,
             'type' => 'investment',
             'balance_before' => $balanceBefore,
-            'balance_after' => $balanceBefore,
+            'balance_after' => $balanceAfter,
             'amount' => $investment->amount,
         ]);
     }
@@ -108,7 +119,7 @@ class InvestmentApprovalService
                 'investment_id' => $investment->id,
                 'approved_date' => now()->format('Y-m-d H:i:s'),
                 'expiry_date' => $investment->expiry_date->format('Y-m-d'),
-                "admin_name" => auth()->user()->name,
+                "admin_name" => auth()->user()->username,
                 'investment_date' => $investment->start_date->format('Y-m-d'),
             ];
 
@@ -124,7 +135,6 @@ class InvestmentApprovalService
             ];
 
             $this->emailService->sendEmailsToAllAdmins('investment_approved_admin', $adminVariables, 'admin');
-
         } catch (\Exception $e) {
             // Log email sending error but don't stop the whole process
             SystemLog::createLog([
@@ -271,15 +281,15 @@ class InvestmentApprovalService
                         $query->whereYear('approved_at', '<', $currentYear)
                             // OR investments from previous months of current year
                             ->orWhere(function ($query) use ($currentMonth, $currentYear) {
-                            $query->whereYear('approved_at', $currentYear)
-                                ->whereMonth('approved_at', '<', $currentMonth);
-                        })
+                                $query->whereYear('approved_at', $currentYear)
+                                    ->whereMonth('approved_at', '<', $currentMonth);
+                            })
 
                             ->orWhere(function ($query) use ($currentMonth, $currentYear, $businessRule) {
-                            $query->whereYear('approved_at', $currentYear)
-                                ->whereMonth('approved_at', $currentMonth)
-                                ->whereDay('approved_at', '<=', $businessRule->salary_decided_day);
-                        });
+                                $query->whereYear('approved_at', $currentYear)
+                                    ->whereMonth('approved_at', $currentMonth)
+                                    ->whereDay('approved_at', '<=', $businessRule->salary_decided_day);
+                            });
                     })
                     ->sum("amount");
                 $salaryType = 'current_month_salary';
@@ -333,7 +343,6 @@ class InvestmentApprovalService
                 'investment_amount' => $investmentAmount,
                 'monthly_return_rate' => $businessRule->monthly_return_rate
             ];
-
         } catch (\Exception $e) {
             // Log salary calculation error
             SystemLog::createLog([
