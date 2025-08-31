@@ -105,7 +105,7 @@
                     <div class="col-12 col-lg-9">
                         <section id="who-we-are" class="scp-card p-4 p-md-5 mb-4">
                             <h2 class="h4 fw-bold">1) Who We Are</h2>
-                            <p>SafeCapital Pro (“<strong>Company</strong>,” “<strong>we</strong>,” “<strong>us</strong>,” or
+                            <p>Trade Pluss (“<strong>Company</strong>,” “<strong>we</strong>,” “<strong>us</strong>,” or
                                 “<strong>our</strong>”) operates a digital platform that enables users to make investments,
                                 receive daily returns, participate in referral programs, and access rewards and salary-based
                                 incentives. This Privacy Policy explains how we collect, use, disclose, and protect personal
@@ -257,8 +257,8 @@
                             <h2 class="h4 fw-bold">15) Contact Us</h2>
                             <p>If you have questions or requests about this Policy or our data practices, contact:</p>
                             <address class="mb-0">
-                                <strong>SafeCapital Pro</strong><br>
-                                Support: <a href="mailto:support@safecapitalpro.com">support@safecapitalpro.com</a><br>
+                                <strong>Trade Pluss</strong><br>
+                                Support: <a href="mailto:support@tradepluss.com">support@tradepluss.com</a><br>
                                 Compliance: <a href="mailto:privacy@safecapitalpro.com">privacy@safecapitalpro.com</a><br>
                             </address>
                         </section>
