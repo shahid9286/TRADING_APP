@@ -300,14 +300,19 @@ class InvestmentApprovalService
             }
 
             $salaryAmount = $investmentAmount * $businessRule->monthly_return_rate / 100;
-
-            // Update user's salary field based on current date
             if ($salaryType === 'current_month_salary') {
-                $user->current_month_salary = $salaryAmount;
+               
+                    $user->current_month_salary = 0; 
+                
+                $user->current_month_salary += $salaryAmount; 
             } else {
-                $user->next_month_salary = $salaryAmount;
+                
+                    $user->next_month_salary = 0;
+                
+                $user->next_month_salary += $salaryAmount;
             }
             $user->save();
+
 
             // Log successful salary calculation
             SystemLog::createLog([

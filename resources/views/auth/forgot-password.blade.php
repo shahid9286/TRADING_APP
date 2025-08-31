@@ -91,14 +91,14 @@
     </script>
 </head>
 
-<body class="login-page" style="min-height: 496.781px;" cz-shortcut-listen="true">
+<body class="login-page" style="min-height: 496.781px; background-color: #454D55;" cz-shortcut-listen="true">
     <div class="login-box">
         <div class="login-logo">
             <img src="{{ asset('assets/admin/img/MhowLogo.png') }}" width="300px">
         </div>
 
         <div class="card">
-            <div class="card-body login-card-body">
+            <div class="card-body login-card-body" style="background-color: #343A40;">
                 <p class="login-box-msg">Please Enter your Email!</p>
                 @if (session('status'))
                     <div class="alert alert-success" role="alert">
@@ -109,12 +109,12 @@
                     @csrf
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text bg-white border-right-0">
-                                <i class="fas fa-envelope text-muted"></i>
+                            <span class="input-group-text border-right-0" style="background-color:#343A40;">
+                                <i class="fas fa-envelope text-white"></i>
                             </span>
                         </div>
 
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+                        <input style="background-color:#343A40;" type="email" class="text-white form-control @error('email') is-invalid @enderror" name="email"
                             value="{{ old('email') }}" required autocomplete="email" autofocus required>
                     </div>
                     @error('email')
@@ -122,16 +122,14 @@
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary btn-block">Send Password Reset Link</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="row">
-                <div class="col">
-                    <button type="submit" class="btn btn-primary btn-block">Send Password Reset Link</button>
-                </div>
-            </div>
-            </form>
         </div>
-
-    </div>
     </div>
 
 

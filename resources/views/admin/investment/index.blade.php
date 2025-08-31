@@ -29,19 +29,30 @@
                                         </div>
 
                                         <!-- Amount -->
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-2 mb-3">
                                             <label for="amount" class="form-label">Amount</label>
                                             <input type="text" class="form-control" name="amount" id="amount"
                                                 placeholder="Enter Amount">
                                         </div>
 
                                         <!-- Status -->
-                                        <div class="col-md-3 mb-3">
-                                            <label for="status" class="form-label">Status</label>
-                                            <select class="form-control select2" name="is_active" id="is_active">
-                                                <option value="">Select Status</option>
+                                        <div class="col-md-2 mb-3">
+                                            <label for="is_active" class="form-label">Activity</label>
+                                            <select class="form-control" name="is_active" id="is_active">
+                                                <option value="">Select Activity</option>
                                                 <option value="active">Active</option>
                                                 <option value="expired">Expired</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Status -->
+                                        <div class="col-md-2 mb-3">
+                                            <label for="status" class="form-label">Status</label>
+                                            <select class="form-control" name="status" id="status">
+                                                <option value="">Select Status</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="approved">Approved</option>
+                                                <option value="rejected">Rejected</option>
                                             </select>
                                         </div>
                                     </div>
@@ -104,9 +115,9 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($investment->status === 'inactive')
+                                        @if ($investment->is_active === 'inactive')
                                             <span class="badge badge-warning">{{ __('Inactive') }}</span>
-                                        @elseif($investment->status === 'expired')
+                                        @elseif($investment->is_active === 'expired')
                                             <span class="badge badge-danger">{{ __('Expired') }}</span>
                                         @else
                                             <span class="badge badge-success">Active</span>
@@ -139,7 +150,7 @@
                                                             class="dropdown-item approve-btn">Approve</button>
                                                     </form>
                                                     <form
-                                                        action="{{ route('admin.user.makeblockedUser', $investment->id) }}"
+                                                        action="{{ route('admin.investment.reject', $investment->id) }}"
                                                         method="post">
                                                         @csrf
                                                         <button type="submit" class="dropdown-item">Reject</button>

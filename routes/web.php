@@ -114,6 +114,7 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/investments', [InvestmentController::class, 'index'])->name('admin.investment.index');
 
         Route::post('/investment-approved/{id}', [InvestmentController::class, 'investmentApproved'])->name('admin.investment.approved');
+        Route::post('/investment-reject/{id}', [InvestmentController::class, 'investmentReject'])->name('admin.investment.reject');
 
 
         Route::post('/investment-search', [InvestmentController::class, 'search'])->name('admin.investment.search');
@@ -180,7 +181,7 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/admin-banks/add', [AdminBankController::class, 'add'])->name('admin.admin_banks.add');
         Route::post('/admin-banks/store', [AdminBankController::class, 'store'])->name('admin.admin_banks.store');
         Route::get('/admin-banks/{id}/edit', [AdminBankController::class, 'edit'])->name('admin.admin_banks.edit');
-        Route::put('/admin-banks/{id}/update', [AdminBankController::class, 'update'])->name('admin.admin_banks.update');
+        Route::post('/admin-banks/{id}/update', [AdminBankController::class, 'update'])->name('admin.admin_banks.update');
         Route::post('/admin-banks/{id}/delete', [AdminBankController::class, 'delete'])->name('admin.admin_banks.delete');
         Route::get('/admin-banks/restore', [AdminBankController::class, 'restorePage'])->name('admin.admin_banks.restore.page');
         Route::get('/admin-banks/restore/{id}', [AdminBankController::class, 'restore'])->name('admin.admin_banks.restore');

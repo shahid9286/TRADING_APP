@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <div class="mt-2 card card-primary card-outline">
                         <div class="card-header">
-                            <h3 class="card-title"><b>{{ __('Search Investment') }}</b></h3>
+                            <h3 class="card-title"><b>{{ __('Search Transactions') }}</b></h3>
                         </div>
                         <div class="card-body py-2">
                             <div class="col-lg-12">
@@ -59,8 +59,7 @@
                                         </div>
 
                                         <div class="col-md-12 text-right">
-                                            <a id="searchBtn"
-                                                class="btn btn-primary btn-sm">Search</a>
+                                            <a id="searchBtn" class="btn btn-primary btn-sm">Search</a>
                                         </div>
                                     </div>
                                 </form>
@@ -158,7 +157,7 @@
                     data: $('#searchForm').serialize(),
                     beforeSend: function() {
                         $('#tbody').html(
-                        '<tr><td colspan="6" class="text-center">Loading...</td></tr>');
+                            '<tr><td colspan="6" class="text-center">Loading...</td></tr>');
                     },
                     success: function(res) {
                         let rows = '';
@@ -171,7 +170,7 @@
                                 <td>${tx.amount ?? ''}</td>
                                 <td>${tx.balance_before ?? ''}</td>
                                 <td>${tx.balance_after ?? ''}</td>
-                                <td>${tx.created_at ?? ''}</td>
+                                <td>${tx.created_at ? moment(tx.created_at).format('DD MMM YYYY HH:mm') : ''}</td>
                             </tr>
                         `;
                             });
