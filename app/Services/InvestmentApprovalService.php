@@ -46,7 +46,8 @@ class InvestmentApprovalService
             $investment->save();
 
             $user = User::findOrFail($investment->user_id);
-            $referralUser = User::findOrFail($investment->referral_id);
+           
+
 
             // Update user's total invested amount
             $userTotal = UserTotal::firstOrCreate(['user_id' => $user->id]);
@@ -63,13 +64,22 @@ class InvestmentApprovalService
             $this->logInvestmentApproval($investment, $user);
 
             // Distribute commissions
-            if (!$investment->is_refferal_paid) {
-                $this->distributeCommissions($investment, $user, $businessRule);
-                $investment->is_refferal_paid = true;
-                $investment->save();
+
+
+            if ($investment->referral_id) {
+
+                 $referralUser = User::findOrFail($investment->referral_id);
+                if (!$investment->is_refferal_paid) {
+                    $this->distributeCommissions($investment, $user, $businessRule);
+                    $investment->is_refferal_paid = true;
+                    $investment->save();
+                }
+
+                $this->calculateAndSaveReferralSalary($referralUser, $businessRule);
             }
 
-            $this->calculateAndSaveReferralSalary($referralUser, $businessRule);
+
+
 
             DB::commit();
 
@@ -144,9 +154,9 @@ class InvestmentApprovalService
                 'description' => 'Failed to send investment approval emails',
                 'details' => $e->getMessage(),
                 'metadata' => [
-                    'investment_id' => $investment->id,
-                    'user_id' => $user->id
-                ]
+                        'investment_id' => $investment->id,
+                        'user_id' => $user->id
+                    ]
             ]);
         }
     }
@@ -162,10 +172,10 @@ class InvestmentApprovalService
             'description' => "Investment #{$investment->id} approved for {$user->username}",
             'details' => "Amount: $" . number_format($investment->amount, 2),
             'metadata' => [
-                'investment_amount' => $investment->amount,
-                'approved_by' => auth()->user()->username,
-                'expiry_date' => $investment->expiry_date
-            ]
+                    'investment_amount' => $investment->amount,
+                    'approved_by' => auth()->user()->username,
+                    'expiry_date' => $investment->expiry_date
+                ]
         ]);
     }
 
@@ -236,12 +246,12 @@ class InvestmentApprovalService
                     'description' => "Level {$level} commission distributed",
                     'details' => "From: {$user->username}, To: {$referralUser->username}, Amount: $" . number_format($commissionAmount, 2),
                     'metadata' => [
-                        'from_user' => $user->username,
-                        'to_user' => $referralUser->username,
-                        'level' => $level,
-                        'commission_rate' => $businessRule->$commissionRate,
-                        'investment_id' => $investment->id
-                    ]
+                            'from_user' => $user->username,
+                            'to_user' => $referralUser->username,
+                            'level' => $level,
+                            'commission_rate' => $businessRule->$commissionRate,
+                            'investment_id' => $investment->id
+                        ]
                 ]);
             }
         }
@@ -261,10 +271,10 @@ class InvestmentApprovalService
                 'user_id' => $user->id,
                 'description' => "Starting referral salary calculation for {$user->username}",
                 'metadata' => [
-                    'calculation_month' => $currentMonth,
-                    'calculation_year' => $currentYear,
-                    'current_day' => $currentDay
-                ]
+                        'calculation_month' => $currentMonth,
+                        'calculation_year' => $currentYear,
+                        'current_day' => $currentDay
+                    ]
             ]);
 
             $investmentAmount = 0;
@@ -281,15 +291,15 @@ class InvestmentApprovalService
                         $query->whereYear('approved_at', '<', $currentYear)
                             // OR investments from previous months of current year
                             ->orWhere(function ($query) use ($currentMonth, $currentYear) {
-                                $query->whereYear('approved_at', $currentYear)
-                                    ->whereMonth('approved_at', '<', $currentMonth);
-                            })
+                            $query->whereYear('approved_at', $currentYear)
+                                ->whereMonth('approved_at', '<', $currentMonth);
+                        })
 
                             ->orWhere(function ($query) use ($currentMonth, $currentYear, $businessRule) {
-                                $query->whereYear('approved_at', $currentYear)
-                                    ->whereMonth('approved_at', $currentMonth)
-                                    ->whereDay('approved_at', '<=', $businessRule->salary_decided_day);
-                            });
+                            $query->whereYear('approved_at', $currentYear)
+                                ->whereMonth('approved_at', $currentMonth)
+                                ->whereDay('approved_at', '<=', $businessRule->salary_decided_day);
+                        });
                     })
                     ->sum("amount");
                 $salaryType = 'current_month_salary';
@@ -311,14 +321,14 @@ class InvestmentApprovalService
 
             $salaryAmount = $investmentAmount * $businessRule->monthly_return_rate / 100;
             if ($salaryType === 'current_month_salary') {
-               
-                    $user->current_month_salary = 0; 
-                
-                $user->current_month_salary += $salaryAmount; 
+
+                $user->current_month_salary = 0;
+
+                $user->current_month_salary += $salaryAmount;
             } else {
-                
-                    $user->next_month_salary = 0;
-                
+
+                $user->next_month_salary = 0;
+
                 $user->next_month_salary += $salaryAmount;
             }
             $user->save();
@@ -332,13 +342,13 @@ class InvestmentApprovalService
                 'description' => "Referral salary calculated for {$user->username}",
                 'details' => "Salary type: {$salaryType}, Amount: $" . number_format($salaryAmount, 2),
                 'metadata' => [
-                    'investment_amount' => $investmentAmount,
-                    'monthly_return_rate' => $businessRule->monthly_return_rate,
-                    'salary_amount' => $salaryAmount,
-                    'salary_type' => $salaryType,
-                    'calculation_date' => now()->format('Y-m-d H:i:s'),
-                    'current_day' => $currentDay
-                ]
+                        'investment_amount' => $investmentAmount,
+                        'monthly_return_rate' => $businessRule->monthly_return_rate,
+                        'salary_amount' => $salaryAmount,
+                        'salary_type' => $salaryType,
+                        'calculation_date' => now()->format('Y-m-d H:i:s'),
+                        'current_day' => $currentDay
+                    ]
             ]);
 
             return [
@@ -358,10 +368,10 @@ class InvestmentApprovalService
                 'description' => "Failed to calculate referral salary for {$user->username}",
                 'details' => $e->getMessage(),
                 'metadata' => [
-                    'user_id' => $user->id,
-                    'username' => $user->username,
-                    'error_time' => now()->format('Y-m-d H:i:s')
-                ]
+                        'user_id' => $user->id,
+                        'username' => $user->username,
+                        'error_time' => now()->format('Y-m-d H:i:s')
+                    ]
             ]);
 
             return [
