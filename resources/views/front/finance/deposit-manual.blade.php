@@ -14,7 +14,7 @@
                                     <h5>Please pay <b class="text-danger">{{ $amount ?? '1.00' }} USDT</b> for successful payment</h5>
                                 </div>
                                 <div class="col-12">
-                                    <p class="p-0 m-0">You can Deposite on the given Addresses:</p>
+                                    <p class="p-0 m-0">You can Deposite on the given :  <span class="text-danger"> Trc20 Address</span></p>
                                     <p class="p-0 m-2 d-flex align-items-center">
                                         <b id="accountNo" class="text-warning">
                                             {{ $admin_bank->account_no ?? "No Addresses available, can't deposite at this time. Try again later." }}
