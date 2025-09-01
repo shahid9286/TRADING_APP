@@ -64,25 +64,16 @@ class InvestmentApprovalService
             $this->logInvestmentApproval($investment, $user);
 
             // Distribute commissions
-
-
             if ($investment->referral_id) {
-
-                 $referralUser = User::findOrFail($investment->referral_id);
+                $referralUser = User::findOrFail($investment->referral_id);
                 if (!$investment->is_refferal_paid) {
                     $this->distributeCommissions($investment, $user, $businessRule);
                     $investment->is_refferal_paid = true;
                     $investment->save();
                 }
-
                 $this->calculateAndSaveReferralSalary($referralUser, $businessRule);
             }
-
-
-
-
             DB::commit();
-
             return [
                 'success' => true,
                 'message' => 'Investment approved, commissions distributed, and notifications sent successfully!'

@@ -10,4 +10,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 
-Schedule::command('investments:process-daily-return')->dailyAt('00:00');
+Schedule::command('investments:process-daily-return')->dailyAt('00:05');
