@@ -46,7 +46,7 @@ class InvestmentApprovalService
             $investment->save();
 
             $user = User::findOrFail($investment->user_id);
-           
+
 
 
             // Update user's total invested amount
@@ -54,13 +54,10 @@ class InvestmentApprovalService
             $userTotal->total_invested += $investment->amount;
             $userTotal->save();
 
-            // Create user_return and user_ledger entries
             $this->createInvestmentRecords($investment, $user);
 
-            // Send notifications
             $this->sendNotifications($investment, $user);
 
-            // Log investment approval
             $this->logInvestmentApproval($investment, $user);
 
             // Distribute commissions
@@ -145,9 +142,9 @@ class InvestmentApprovalService
                 'description' => 'Failed to send investment approval emails',
                 'details' => $e->getMessage(),
                 'metadata' => [
-                        'investment_id' => $investment->id,
-                        'user_id' => $user->id
-                    ]
+                    'investment_id' => $investment->id,
+                    'user_id' => $user->id
+                ]
             ]);
         }
     }
@@ -163,10 +160,10 @@ class InvestmentApprovalService
             'description' => "Investment #{$investment->id} approved for {$user->username}",
             'details' => "Amount: $" . number_format($investment->amount, 2),
             'metadata' => [
-                    'investment_amount' => $investment->amount,
-                    'approved_by' => auth()->user()->username,
-                    'expiry_date' => $investment->expiry_date
-                ]
+                'investment_amount' => $investment->amount,
+                'approved_by' => auth()->user()->username,
+                'expiry_date' => $investment->expiry_date
+            ]
         ]);
     }
 
@@ -183,8 +180,6 @@ class InvestmentApprovalService
                     throw new \Exception("Commission rate for level {$level} not found");
                 }
                 $commissionAmount = $investment->amount * $businessRule->$commissionRate / 100;
-
-                // Get balance before commission is added
                 $commissionBalanceBefore = $referralUser->net_balance;
                 $referralUser->net_balance += $commissionAmount;
                 $referralUser->save();
@@ -217,13 +212,10 @@ class InvestmentApprovalService
                 $levelInvestmentField = "level_{$level}_investment";
                 $referralUserTotal->$levelInvestmentField += $investment->amount;
                 $referralUserTotal->save();
-
                 if ($level === 1) {
                     $referralUserTotal->direct_count += 1;
                     $referralUserTotal->save();
                 }
-
-                // Log commission distribution
                 SystemLog::createLog([
                     'module' => 'commission',
                     'action' => 'commission_distributed',
@@ -237,12 +229,12 @@ class InvestmentApprovalService
                     'description' => "Level {$level} commission distributed",
                     'details' => "From: {$user->username}, To: {$referralUser->username}, Amount: $" . number_format($commissionAmount, 2),
                     'metadata' => [
-                            'from_user' => $user->username,
-                            'to_user' => $referralUser->username,
-                            'level' => $level,
-                            'commission_rate' => $businessRule->$commissionRate,
-                            'investment_id' => $investment->id
-                        ]
+                        'from_user' => $user->username,
+                        'to_user' => $referralUser->username,
+                        'level' => $level,
+                        'commission_rate' => $businessRule->$commissionRate,
+                        'investment_id' => $investment->id
+                    ]
                 ]);
             }
         }
@@ -255,49 +247,42 @@ class InvestmentApprovalService
             $currentYear = now()->year;
             $currentDay = now()->day;
 
-            // Log start of salary calculation
             SystemLog::createLog([
                 'module' => 'salary',
                 'action' => 'salary_calculation_started',
                 'user_id' => $user->id,
                 'description' => "Starting referral salary calculation for {$user->username}",
                 'metadata' => [
-                        'calculation_month' => $currentMonth,
-                        'calculation_year' => $currentYear,
-                        'current_day' => $currentDay
-                    ]
+                    'calculation_month' => $currentMonth,
+                    'calculation_year' => $currentYear,
+                    'current_day' => $currentDay
+                ]
             ]);
 
             $investmentAmount = 0;
             $salaryType = '';
 
             if ($currentDay <= $businessRule->salary_decided_day) {
-
                 $investmentAmount = Investment::where("referral_id", $user->id)
                     ->where('status', 'approved')
                     ->where('is_active', 'active')
                     ->where('expiry_date', '>=', today())
                     ->where(function ($query) use ($currentMonth, $currentYear, $businessRule) {
-                        // Investments from previous years
                         $query->whereYear('approved_at', '<', $currentYear)
-                            // OR investments from previous months of current year
                             ->orWhere(function ($query) use ($currentMonth, $currentYear) {
-                            $query->whereYear('approved_at', $currentYear)
-                                ->whereMonth('approved_at', '<', $currentMonth);
-                        })
-
+                                $query->whereYear('approved_at', $currentYear)
+                                    ->whereMonth('approved_at', '<', $currentMonth);
+                            })
                             ->orWhere(function ($query) use ($currentMonth, $currentYear, $businessRule) {
-                            $query->whereYear('approved_at', $currentYear)
-                                ->whereMonth('approved_at', $currentMonth)
-                                ->whereDay('approved_at', '<=', $businessRule->salary_decided_day);
-                        });
+                                $query->whereYear('approved_at', $currentYear)
+                                    ->whereMonth('approved_at', $currentMonth)
+                                    ->whereDay('approved_at', '<=', $businessRule->salary_decided_day);
+                            });
                     })
                     ->sum("amount");
                 $salaryType = 'current_month_salary';
             } else {
-                // Calculate NEW investment (current month 21 to end of month)
                 $lastDayOfMonth = Carbon::create($currentYear, $currentMonth)->endOfMonth()->day;
-
                 $investmentAmount = Investment::where("referral_id", $user->id)
                     ->where('status', 'approved')
                     ->where('is_active', 'active')
@@ -310,22 +295,20 @@ class InvestmentApprovalService
                 $salaryType = 'next_month_salary';
             }
 
-            $salaryAmount = $investmentAmount * $businessRule->monthly_return_rate / 100;
+            // Find salary rule that matches the investment
+            $salaryRule = \App\Models\SalaryRule::where('direct_investment', '<=', $investmentAmount)
+                ->orderBy('direct_investment', 'desc')
+                ->first();
+
+            $salaryAmount = $salaryRule ? $salaryRule->salary : 0;
+
             if ($salaryType === 'current_month_salary') {
-
-                $user->current_month_salary = 0;
-
-                $user->current_month_salary += $salaryAmount;
+                $user->current_month_salary = $salaryAmount;
             } else {
-
-                $user->next_month_salary = 0;
-
-                $user->next_month_salary += $salaryAmount;
+                $user->next_month_salary = $salaryAmount;
             }
             $user->save();
 
-
-            // Log successful salary calculation
             SystemLog::createLog([
                 'module' => 'salary',
                 'action' => 'salary_calculated',
@@ -333,24 +316,23 @@ class InvestmentApprovalService
                 'description' => "Referral salary calculated for {$user->username}",
                 'details' => "Salary type: {$salaryType}, Amount: $" . number_format($salaryAmount, 2),
                 'metadata' => [
-                        'investment_amount' => $investmentAmount,
-                        'monthly_return_rate' => $businessRule->monthly_return_rate,
-                        'salary_amount' => $salaryAmount,
-                        'salary_type' => $salaryType,
-                        'calculation_date' => now()->format('Y-m-d H:i:s'),
-                        'current_day' => $currentDay
-                    ]
+                    'investment_amount' => $investmentAmount,
+                    'salary_rule_used' => $salaryRule,
+                    'salary_amount' => $salaryAmount,
+                    'salary_type' => $salaryType,
+                    'calculation_date' => now()->format('Y-m-d H:i:s'),
+                    'current_day' => $currentDay
+                ]
             ]);
 
             return [
                 'success' => true,
                 'salary_type' => $salaryType,
                 'salary_amount' => $salaryAmount,
-                'investment_amount' => $investmentAmount,
-                'monthly_return_rate' => $businessRule->monthly_return_rate
+                'investment_amount' => $investmentAmount
             ];
+
         } catch (\Exception $e) {
-            // Log salary calculation error
             SystemLog::createLog([
                 'module' => 'salary',
                 'action' => 'salary_calculation_failed',
@@ -359,10 +341,10 @@ class InvestmentApprovalService
                 'description' => "Failed to calculate referral salary for {$user->username}",
                 'details' => $e->getMessage(),
                 'metadata' => [
-                        'user_id' => $user->id,
-                        'username' => $user->username,
-                        'error_time' => now()->format('Y-m-d H:i:s')
-                    ]
+                    'user_id' => $user->id,
+                    'username' => $user->username,
+                    'error_time' => now()->format('Y-m-d H:i:s')
+                ]
             ]);
 
             return [
@@ -372,4 +354,5 @@ class InvestmentApprovalService
             ];
         }
     }
+
 }

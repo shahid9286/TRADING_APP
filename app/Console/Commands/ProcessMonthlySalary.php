@@ -75,15 +75,9 @@ class ProcessMonthlySalary extends Command
         if ($currentSalary == 0 && $nextSalary == 0) {
             return false;
         }
-
-        // Store balances before processing
         $balanceBefore = $user->net_balance;
-
-        // Add current month salary to net balance
         if ($currentSalary > 0) {
             $user->net_balance += $currentSalary;
-            
-            // Create UserReturn entry for salary
             $userReturn = UserReturn::create([
                 'user_id' => $user->id,
                 'amount' => $currentSalary,
@@ -91,8 +85,6 @@ class ProcessMonthlySalary extends Command
                 'type' => 'salary',
                 'description' => 'Monthly salary processed and added to net balance'
             ]);
-
-            // Create UserLedger entry
             UserLedger::create([
                 'user_id' => $user->id,
                 'user_return_id' => $userReturn->id,
@@ -102,8 +94,6 @@ class ProcessMonthlySalary extends Command
                 'balance_after' => $user->net_balance,
                 'description' => 'Monthly salary credit to net balance'
             ]);
-
-            // Update UserTotals
             $this->updateUserTotals($user->id, $currentSalary);
         }
 
