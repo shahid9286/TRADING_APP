@@ -130,14 +130,11 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::post('/UserReturn/delete/{id}', [UserReturnController::class, 'delete'])->name('admin.user_returns.delete');
         Route::get('UserReturn/restore/{id}', [UserReturnController::class, 'restore'])->name('admin.user_returns.restore');
         Route::post('UserReturn/force_delete/{id}', [UserReturnController::class, 'forceDelete'])->name('admin.user_returns.force.delete');
-        // End of userreturn
-
         Route::get('/withdrawal-request/detail/{id}', [WithdrawalRequestController::class, 'detail'])->name('admin.withdrawal-request.detail');
         Route::post('/withdrawal-request/approve', [WithdrawalRequestController::class, 'approve'])->name('admin.withdrawal-request.approve');
         Route::post('/withdrawal-request/reject', [WithdrawalRequestController::class, 'reject'])->name('admin.withdrawal-request.reject');
         Route::post('/withdrawal-request/pay', [WithdrawalRequestController::class, 'pay'])->name('admin.withdrawal-request.pay');
 
-        // Enquiry Routes
         Route::get('/enquiry', [EnquiryController::class, 'index'])->name('admin.enquiry.index');
         Route::get('/enquiry/add', [EnquiryController::class, 'add'])->name('admin.enquiry.add');
         Route::post('/enquiry/store', [EnquiryController::class, 'store'])->name('admin.enquiry.store');

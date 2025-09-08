@@ -32,7 +32,7 @@ class WithdrawalRequestController extends Controller
         if ($withdrawal_request->status !== 'pending') {
             $notification = [
                 'message' => 'Approved request cannot be deleted!',
-                'alert'   => 'error'
+                'alert' => 'error'
             ];
             return redirect()->route('admin.withdrawal-request.index')->with('notification', $notification);
         }
@@ -42,7 +42,7 @@ class WithdrawalRequestController extends Controller
 
         $notification = [
             'message' => 'Withdrawal Request Deleted Successfully!',
-            'alert'   => 'success'
+            'alert' => 'success'
         ];
 
         return redirect()->route('admin.withdrawal-request.index')->with('notification', $notification);
@@ -91,7 +91,7 @@ class WithdrawalRequestController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             $notification = [
                 'message' => $e->getMessage(),
-                'alert'   => 'error'
+                'alert' => 'error'
             ];
             return redirect()->back()->with('notification', $notification);
         }
@@ -129,7 +129,7 @@ class WithdrawalRequestController extends Controller
 
             return redirect()->back()->with('notification', [
                 'message' => 'Request approved!',
-                'alert'   => 'success'
+                'alert' => 'success'
             ]);
         }
 
@@ -137,7 +137,7 @@ class WithdrawalRequestController extends Controller
 
         return redirect()->back()->with('notification', [
             'message' => 'Request cannot be approved!',
-            'alert'   => 'error'
+            'alert' => 'error'
         ]);
     }
 
@@ -151,7 +151,7 @@ class WithdrawalRequestController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             $notification = [
                 'message' => $e->getMessage(),
-                'alert'   => 'error'
+                'alert' => 'error'
             ];
             return redirect()->back()->with('notification', $notification);
         }
@@ -163,7 +163,7 @@ class WithdrawalRequestController extends Controller
         if ($withdrawal_request->status !== 'pending') {
             return redirect()->back()->with('notification', [
                 'message' => 'Request cannot be rejected!',
-                'alert'   => 'error'
+                'alert' => 'error'
             ]);
         }
 
@@ -190,10 +190,105 @@ class WithdrawalRequestController extends Controller
 
         return redirect()->back()->with('notification', [
             'message' => 'Request rejected!',
-            'alert'   => 'success'
+            'alert' => 'success'
         ]);
     }
 
+
+
+
+    // Abdullah
+
+
+    // public function pay(Request $request)
+    // {
+    //     try {
+    //         $request->validate([
+    //             'withdrawal_request_id' => 'required|exists:withdrawal_requests,id',
+    //             'transaction_id' => 'required|max:255',
+    //             'screenshot' => 'required|file|mimes:jpg,jpeg,png,pdf|max:1024',
+    //         ]);
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         $notification = [
+    //             'message' => $e->getMessage(),
+    //             'alert' => 'error'
+    //         ];
+    //         return redirect()->back()->with('notification', $notification);
+    //     }
+
+    //     DB::beginTransaction();
+
+    //     $withdrawal_request = WithdrawalRequest::findOrFail($request->withdrawal_request_id);
+
+    //     if ($withdrawal_request->status !== 'approved') {
+    //         return redirect()->back()->with('notification', [
+    //             'message' => 'Request cannot be paid!',
+    //             'alert' => 'error'
+    //         ]);
+    //     }
+    //     $withdrawal_request->payment_status = 'paid';
+    //     $withdrawal_request->transaction_id = $request->transaction_id;
+    //     $withdrawal_request->admin_bank_id = $request->admin_bank_id;
+    //     $file = $request->file('screenshot');
+    //     $extension = $file->getClientOriginalExtension();
+    //     $screenshot = time() . rand() . '.' . $extension;
+    //     $file->move('assets/admin/withdrawal_request/screenshots/', $screenshot);
+    //     $withdrawal_request->screenshot = 'assets/admin/withdrawal_request/screenshots/' . $screenshot;
+    //     $withdrawal_request->save();
+    //     $user = User::findOrFail($withdrawal_request->user_id);
+
+    //     SystemLog::createLog([
+    //         'module' => 'withdrawal_request',
+    //         'action' => 'pay_withdrawal_request',
+    //         'loggable_id' => $withdrawal_request->id,
+    //         'loggable_type' => WithdrawalRequest::class,
+    //         'affected_user_id' => $withdrawal_request->user_id,
+    //         'description' => "Withdrawal Request #{$withdrawal_request->id} paid for {$user->username}",
+    //         'details' => "Amount: $" . number_format($withdrawal_request->requested_amount, 2),
+    //         'metadata' => [
+    //             'requested_amount' => $withdrawal_request->amount,
+    //             'approved_by' => Auth::user()->username,
+    //         ]
+    //     ]);
+    //     $user_return = UserReturn::create([
+    //         'user_id' => $user->id,
+    //         'amount' => $withdrawal_request->requested_amount,
+    //         'type' => 'withdrawal',
+    //         'description' => "Withdrawal Request #{$withdrawal_request->id} paid",
+    //         'status' => 'completed',
+    //         'withdrawal_request_id' => $withdrawal_request->id,
+    //         'entry_date' => Carbon::now(),
+    //         'created_at' => Carbon::now(),
+    //     ]);
+    //     UserLedger::create([
+    //         'user_id' => $user->id,
+    //         'user_return_id' => $user_return->id,
+    //         'type' => 'withdrawal',
+    //         'amount' => $withdrawal_request->requested_amount,
+    //         'description' => "Withdrawal Request #{$withdrawal_request->id} paid",
+    //         'balance_before' => $user->net_balance,
+    //         'balance_after' => $user->net_balance - $withdrawal_request->requested_amount,
+    //     ]);
+
+    //     $user_total = UserTotal::where("user_id", $user->id)->first();
+
+    //     $user->net_balance -= $withdrawal_request->requested_amount;
+    //     $user->locked_amount -= $withdrawal_request->requested_amount;
+    //     $user_total->total_fee += $withdrawal_request->fee;
+    //     $user_total->total_withdraws += $withdrawal_request->requested_amount;
+    //     $user_total->save();
+
+    //     $user->save();
+
+    //     DB::commit();
+
+    //     return redirect()->back()->with('notification', [
+    //         'message' => 'Request rejected!',
+    //         'alert' => 'success'
+    //     ]);
+    // }
+
+    // end
 
     public function pay(Request $request)
     {
@@ -206,7 +301,7 @@ class WithdrawalRequestController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             $notification = [
                 'message' => $e->getMessage(),
-                'alert'   => 'error'
+                'alert' => 'error'
             ];
             return redirect()->back()->with('notification', $notification);
         }
@@ -218,23 +313,33 @@ class WithdrawalRequestController extends Controller
         if ($withdrawal_request->status !== 'approved') {
             return redirect()->back()->with('notification', [
                 'message' => 'Request cannot be paid!',
-                'alert'   => 'error'
+                'alert' => 'error'
             ]);
         }
 
+        // Update request record
         $withdrawal_request->payment_status = 'paid';
         $withdrawal_request->transaction_id = $request->transaction_id;
         $withdrawal_request->admin_bank_id = $request->admin_bank_id;
+
+        // Save screenshot
         $file = $request->file('screenshot');
         $extension = $file->getClientOriginalExtension();
         $screenshot = time() . rand() . '.' . $extension;
         $file->move('assets/admin/withdrawal_request/screenshots/', $screenshot);
         $withdrawal_request->screenshot = 'assets/admin/withdrawal_request/screenshots/' . $screenshot;
 
+        // Calculate payout if not set already
+        if (empty($withdrawal_request->payout_amount)) {
+            $withdrawal_request->payout_amount = $withdrawal_request->requested_amount - $withdrawal_request->fee;
+        }
+
+        $withdrawal_request->payout_date = now();
         $withdrawal_request->save();
 
         $user = User::findOrFail($withdrawal_request->user_id);
 
+        // Log system activity
         SystemLog::createLog([
             'module' => 'withdrawal_request',
             'action' => 'pay_withdrawal_request',
@@ -242,42 +347,59 @@ class WithdrawalRequestController extends Controller
             'loggable_type' => WithdrawalRequest::class,
             'affected_user_id' => $withdrawal_request->user_id,
             'description' => "Withdrawal Request #{$withdrawal_request->id} paid for {$user->username}",
-            'details' => "Amount: $" . number_format($withdrawal_request->requested_amount, 2),
+            'details' => "Requested: $" . number_format($withdrawal_request->requested_amount, 2) .
+                " | Fee: $" . number_format($withdrawal_request->fee, 2) .
+                " | Payout: $" . number_format($withdrawal_request->payout_amount, 2),
             'metadata' => [
-                'requested_amount' => $withdrawal_request->amount,
+                'requested_amount' => $withdrawal_request->requested_amount,
+                'fee' => $withdrawal_request->fee,
+                'payout_amount' => $withdrawal_request->payout_amount,
                 'approved_by' => Auth::user()->username,
             ]
         ]);
 
+        // Create UserReturn entry
         $user_return = UserReturn::create([
             'user_id' => $user->id,
-            'amount' => $withdrawal_request->requested_amount,
+            'amount' => $withdrawal_request->payout_amount, // ✅ net payout amount
             'type' => 'withdrawal',
             'description' => "Withdrawal Request #{$withdrawal_request->id} paid",
             'status' => 'completed',
-            'withdrawal_request_id' => $withdrawal_request->id,  
-            'entry_date' => Carbon::now(),  
+            'withdrawal_request_id' => $withdrawal_request->id,
+            'entry_date' => Carbon::now(),
             'created_at' => Carbon::now(),
         ]);
 
+        // Ledger Entry 1: Net Payout
         UserLedger::create([
             'user_id' => $user->id,
             'user_return_id' => $user_return->id,
             'type' => 'withdrawal',
-            'amount' => $withdrawal_request->requested_amount,
-            'description' => "Withdrawal Request #{$withdrawal_request->id} paid",
+            'amount' => $withdrawal_request->payout_amount,
+            'description' => "Withdrawal Request #{$withdrawal_request->id} paid (net amount)",
             'balance_before' => $user->net_balance,
             'balance_after' => $user->net_balance - $withdrawal_request->requested_amount,
         ]);
 
-        $user_total = UserTotal::findOrFail($user->id);
+        // Ledger Entry 2: Fee
+        UserLedger::create([
+            'user_id' => $user->id,
+            'user_return_id' => $user_return->id,
+            'type' => 'admin_fee',
+            'amount' => $withdrawal_request->fee,
+            'description' => "Withdrawal Request #{$withdrawal_request->id} fee",
+            'balance_before' => $user->net_balance - $withdrawal_request->payout_amount,
+            'balance_after' => $user->net_balance - $withdrawal_request->requested_amount,
+        ]);
+
+        // Update user totals and balances
+        $user_total = UserTotal::where("user_id", $user->id)->first();
 
         $user->net_balance -= $withdrawal_request->requested_amount;
         $user->locked_amount -= $withdrawal_request->requested_amount;
 
         $user_total->total_fee += $withdrawal_request->fee;
         $user_total->total_withdraws += $withdrawal_request->requested_amount;
-
         $user_total->save();
 
         $user->save();
@@ -285,8 +407,12 @@ class WithdrawalRequestController extends Controller
         DB::commit();
 
         return redirect()->back()->with('notification', [
-            'message' => 'Request rejected!',
-            'alert'   => 'success'
+            'message' => 'Request paid successfully!',
+            'alert' => 'success'
         ]);
     }
+
+
+
+
 }
