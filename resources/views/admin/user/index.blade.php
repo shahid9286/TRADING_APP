@@ -20,6 +20,8 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Phone</th>
+                                        <th scope="col">Total Balance</th>
+                                        <th scope="col">Current Month Salary</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Actions</th>
                                     </tr>
@@ -38,6 +40,8 @@
                                             </td>
                                             <td>{{ $user->email }}</td>
                                             <td>{{ $user->phone }}</td>
+                                            <td>{{ $user->net_balance }}</td>
+                                            <td>{{ $user->current_month_salary }}</td>
                                             <td>
                                                 @if ($user->status == 'approved')
                                                     <span class="badge badge-success">Approved</span>

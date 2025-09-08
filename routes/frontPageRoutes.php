@@ -18,6 +18,9 @@ Route::get('/privacy-policy', [FrontController::class, 'privacyPolicy'])->name('
 Route::get('/plan', [FrontController::class, 'plan'])->name('front.plan');
 
 
+Route::post('/send-otp', [FrontController::class, 'sendOtp'])->name('send.otp');
+Route::post('/verify-otp', [FrontController::class, 'verifyOtp'])->name('verify.otp');
+
 Route::get('/check-status', function () {
     $user = auth()->user();
     return response()->json(['status' => $user->status]);

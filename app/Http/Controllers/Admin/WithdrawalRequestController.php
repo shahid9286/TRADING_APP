@@ -11,10 +11,12 @@ use App\Models\AdminBank;
 use App\Models\BusinessRule;
 use App\Models\SystemLog;
 use App\Models\User;
+use App\Mail\WithdrawalPaidMail;
 use App\Models\UserReturn;
 use App\Models\UserTotal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class WithdrawalRequestController extends Controller
 {
@@ -83,6 +85,9 @@ class WithdrawalRequestController extends Controller
 
     public function approve(Request $request)
     {
+        
+
+
         try {
             $request->validate([
                 'withdrawal_request_id' => 'required|exists:withdrawal_requests,id',
@@ -378,18 +383,16 @@ class WithdrawalRequestController extends Controller
             'amount' => $withdrawal_request->payout_amount,
             'description' => "Withdrawal Request #{$withdrawal_request->id} paid (net amount)",
             'balance_before' => $user->net_balance,
-            'balance_after' => $user->net_balance - $withdrawal_request->requested_amount,
+            'balance_after' => $user->net_balance - $withdrawal_request->payout_amount,
         ]);
-
-        // Ledger Entry 2: Fee
         UserLedger::create([
             'user_id' => $user->id,
             'user_return_id' => $user_return->id,
             'type' => 'admin_fee',
             'amount' => $withdrawal_request->fee,
             'description' => "Withdrawal Request #{$withdrawal_request->id} fee",
-            'balance_before' => $user->net_balance - $withdrawal_request->payout_amount,
-            'balance_after' => $user->net_balance - $withdrawal_request->requested_amount,
+            'balance_before' => $user->net_balance,
+            'balance_after' => $user->net_balance - $withdrawal_request->fee,
         ]);
 
         // Update user totals and balances
@@ -401,18 +404,12 @@ class WithdrawalRequestController extends Controller
         $user_total->total_fee += $withdrawal_request->fee;
         $user_total->total_withdraws += $withdrawal_request->requested_amount;
         $user_total->save();
-
         $user->save();
-
         DB::commit();
-
+        Mail::to($user->email)->send(new WithdrawalPaidMail($withdrawal_request, $user));
         return redirect()->back()->with('notification', [
             'message' => 'Request paid successfully!',
             'alert' => 'success'
         ]);
     }
-
-
-
-
 }

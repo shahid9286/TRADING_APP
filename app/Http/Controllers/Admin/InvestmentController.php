@@ -14,19 +14,16 @@ class InvestmentController extends Controller
 {
     public function index()
     {
-        $investments = Investment::with('user')->orderBy('id', 'desc')->get();
+        $investments = Investment::with('user.referral')->orderBy('id', 'desc')->get();
         return view('admin.investment.index', compact('investments'));
     }
 
     public function search(Request $request)
     {
         $query = Investment::query();
-
-        // Filter by Transaction ID
         if ($request->filled('transaction_id')) {
             $query->where('transaction_id', $request->transaction_id);
         }
-
         if ($request->filled('date_range')) {
             $dates = explode(' - ', $request->date_range);
             if (count($dates) === 2) {

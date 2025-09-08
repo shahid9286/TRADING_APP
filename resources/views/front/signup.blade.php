@@ -66,22 +66,43 @@
                                     </div>
 
 
-                                    {{-- Email --}}
                                     <div class="col-12">
                                         <label for="email" class="form-label">Email Address <span class="text-danger"> *
                                             </span></label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Enter your email" value="{{ old('email') }}" required>
-                                        @error('email')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
+                                        <div class="input-group">
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                placeholder="Enter your email" value="{{ old('email') }}" required>
+                                            <button type="button" id="sendOtpBtn" class="btn btn-outline-primary">
+                                                <span class="btn-text">Verify Email</span>
+                                                <span class="spinner-border spinner-border-sm d-none" role="status"
+                                                    aria-hidden="true"></span>
+                                            </button>
+                                        </div>
+                                        <small id="emailMsg" class="text-success d-none"></small>
+                                    </div>
+
+                                    {{-- OTP --}}
+                                    <div class="col-12 d-none" id="otpSection">
+                                        <label for="otp" class="form-label">Enter OTP</label>
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="otp" name="otp"
+                                                placeholder="Enter OTP">
+                                            <button type="button" id="verifyOtpBtn" class="btn btn-outline-success">
+                                                <span class="btn-text">Submit OTP</span>
+                                                <span class="spinner-border spinner-border-sm d-none" role="status"
+                                                    aria-hidden="true"></span>
+                                            </button>
+                                        </div>
+                                        <small id="otpMsg" class="d-none"></small>
                                     </div>
 
 
                                     {{-- Password --}}
                                     <div class="col-12 col-md-6">
                                         <div class="form-pass">
-                                            <label for="password" class="form-label">Password <span class="text-danger"> *
+                                            <label for="password" class="form-label">Password <span class="text-danger">
+                                                    *
                                                 </span></label>
                                             <input type="password" name="password" class="form-control showhide-pass"
                                                 id="password" placeholder="Password" required>
@@ -97,8 +118,8 @@
                                     {{-- Confirm Password --}}
                                     <div class="col-12 col-md-6">
                                         <div class="form-pass">
-                                            <label for="password_confirmation" class="form-label">Confirm Password <span
-                                                    class="text-danger"> * </span></label>
+                                            <label for="password_confirmation" class="form-label">Confirm Password
+                                                <span class="text-danger"> * </span></label>
                                             <input type="password" class="form-control showhide-pass"
                                                 id="password_confirmation" name="password_confirmation"
                                                 placeholder="Re-type password" required>
@@ -108,9 +129,11 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <button type="submit" class="trk-btn trk-btn--border trk-btn--primary d-block mt-4">
-                                    Sign Up
+                                <button type="submit" id="signupBtn"
+                                    class="trk-btn trk-btn--border trk-btn--primary d-block mt-4" disabled>
+                                    <span class="btn-text">Sign Up</span>
+                                    <span class="spinner-border spinner-border-sm d-none" role="status"
+                                        aria-hidden="true"></span>
                                 </button>
                             </form>
 
@@ -152,4 +175,116 @@
             }
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            // Send OTP
+            $("#sendOtpBtn").click(function() {
+                let email = $("#email").val();
+                if (!email) {
+                    alert("Please enter email first!");
+                    return;
+                }
+
+                let btn = $(this);
+                btn.find(".btn-text").addClass("d-none");
+                btn.find(".spinner-border").removeClass("d-none");
+                btn.prop("disabled", true);
+
+                $.ajax({
+                    url: "{{ route('send.otp') }}",
+                    type: "POST",
+                    data: {
+                        email: email,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(res) {
+                        if (res.status) {
+                            $("#otpSection").removeClass("d-none");
+                            $("#emailMsg").text(res.message).removeClass("d-none text-danger")
+                                .addClass("text-success");
+                        } else {
+                            $("#emailMsg").text(res.message).removeClass("d-none text-success")
+                                .addClass("text-danger");
+                        }
+                    },
+                    error: function(xhr) {
+                        let err = xhr.responseJSON.errors;
+                        if (err && err.email) {
+                            $("#emailMsg").text(err.email[0]).removeClass("d-none text-success")
+                                .addClass("text-danger");
+                        }
+                    },
+                    complete: function() {
+                        btn.find(".btn-text").removeClass("d-none");
+                        btn.find(".spinner-border").addClass("d-none");
+                        btn.prop("disabled", false);
+                    }
+                });
+            });
+            $("#verifyOtpBtn").click(function() {
+                let otp = $("#otp").val();
+                if (!otp) {
+                    alert("Enter OTP first!");
+                    return;
+                }
+
+                let btn = $(this);
+                btn.find(".btn-text").addClass("d-none");
+                btn.find(".spinner-border").removeClass("d-none");
+                btn.prop("disabled", true);
+
+                $.ajax({
+                    url: "{{ route('verify.otp') }}",
+                    type: "POST",
+                    data: {
+                        otp: otp,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(res) {
+                        if (res.status) {
+                            $("#otpMsg").text(res.message).removeClass("d-none text-danger")
+                                .addClass("text-success");
+                            $("#sendOtpBtn").prop("disabled", true);
+                            $("#verifyOtpBtn").prop("disabled", true);
+                            $("#email").prop("readonly", true);
+                            $("#signupBtn").prop("disabled", false);
+                        } else {
+                            $("#otpMsg").text(res.message).removeClass("d-none text-success")
+                                .addClass("text-danger");
+                            btn.prop("disabled", false);
+                        }
+                    },
+                    complete: function() {
+                        btn.find(".btn-text").removeClass("d-none");
+                        btn.find(".spinner-border").addClass("d-none");
+                    }
+                });
+            });
+            $("#signupForm").on("submit", function(e) {
+                let form = $(this);
+                let valid = true;
+                form.find("input[required], select[required], textarea[required]").each(function() {
+                    if (!$(this).val()) {
+                        valid = false;
+                        $(this).addClass("is-invalid"); // bootstrap red border
+                    } else {
+                        $(this).removeClass("is-invalid");
+                    }
+                });
+
+                if (!valid) {
+                    e.preventDefault(); 
+                    return;
+                }
+
+                // show spinner only when valid
+                let btn = $("#signupBtn");
+                btn.find(".btn-text").addClass("d-none");
+                btn.find(".spinner-border").removeClass("d-none");
+                btn.prop("disabled", true);
+            });
+
+        });
+    </script>
+
 @endsection

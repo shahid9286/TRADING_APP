@@ -33,7 +33,7 @@ class DistributeLevel1Commission extends Command
                 ->get();
 
             foreach ($users as $user) {
-                
+
                 $referralAmount = Investment::where('status', 'approved')
                     ->where("is_active", 'active')
                     ->where("expiry_date", ">=", today())
@@ -52,7 +52,7 @@ class DistributeLevel1Commission extends Command
                 }
 
                 $beforeBalance = $user->net_balance;
-                $afterBalance  = $beforeBalance + $commissionAmount;
+                $afterBalance = $beforeBalance + $commissionAmount;
 
                 // Update user balance
                 $user->increment("net_balance", $commissionAmount);
@@ -65,7 +65,7 @@ class DistributeLevel1Commission extends Command
                     'amount' => $commissionAmount,
                     'referral_id' => null,
                     'entry_date' => now(),
-                    'type' => 'monthly_commission', 
+                    'type' => 'monthly_commission',
                 ]);
 
                 // Save Ledger

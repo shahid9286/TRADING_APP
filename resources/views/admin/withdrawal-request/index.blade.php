@@ -91,6 +91,8 @@
                                             <th>{{ __('User') }}</th>
                                             <th>{{ __('Request Date') }}</th>
                                             <th>{{ __('Requested Amount') }}</th>
+                                            <th>{{ __('withdrawal Amount') }}</th>
+                                            <th>{{ __('withdrawal Fee') }}</th>
                                             <th>{{ __('Status') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
@@ -120,6 +122,9 @@
 
                                                 {{-- Requested Amount --}}
                                                 <td>{{ number_format($withdrawal_request->requested_amount, 2) }}</td>
+
+                                                 <td>{{ number_format($withdrawal_request->payout_amount, 2) }}</td>
+                                                  <td>{{ number_format($withdrawal_request->fee, 2) }}</td>
 
                                                 {{-- Status --}}
                                                 <td>

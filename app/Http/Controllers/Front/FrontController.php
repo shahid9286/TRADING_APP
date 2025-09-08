@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Enquiry;
 use App\Models\UserBank;
@@ -14,6 +15,7 @@ use App\Models\BusinessRule;
 use App\Models\UserLedger;
 use App\Models\UserProfile;
 use App\Models\UserTotal;
+use App\Mail\WithdrawalRequestMail;
 use App\Services\EmailService;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -21,6 +23,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
+use Session;
 
 class FrontController extends Controller
 {
@@ -87,8 +92,63 @@ class FrontController extends Controller
 
     public function signup($referral_username = null)
     {
-
+        if ($referral_username) {
+            $referral_user = User::where("username", $referral_username)->first();
+            if (!$referral_user) {
+                return redirect()->back()->with('error', 'Referral user not found. Please check the referral link.');
+            }
+            $referral_username = $referral_user->username;
+        }
         return view('front.signup', compact('referral_username'));
+    }
+
+
+    public function sendOtp(Request $request)
+    {
+        $request->validate(['email' => 'required|email|unique:users,email']);
+
+        $otp = rand(100000, 999999);
+
+        // store OTP in session for 5 minutes
+        Session::put('email_otp', $otp);
+        Session::put('email_otp_email', $request->email);
+        Session::put('email_otp_expires', now()->addMinutes(30));
+
+        // send OTP to email
+        Mail::raw("
+            Hello,
+
+            Thank you for registering with us.
+
+            Your One-Time Password (OTP) for email verification is: $otp
+
+            ⚠️ Please note: This code is valid for only 30 minutes. 
+            Do not share this code with anyone for security reasons.
+
+            If you did not request this, you can safely ignore this email.
+
+            Best regards,  
+            The Support Team", function ($message) use ($request) {
+            $message->to($request->email)
+                ->subject('Email Verification - OTP Code');
+        });
+        return response()->json(['status' => true, 'message' => 'OTP sent to your email.']);
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate(['otp' => 'required|numeric']);
+
+        if (
+            Session::get('email_otp') == $request->otp &&
+            Session::get('email_otp_expires') &&
+            now()->lessThan(Session::get('email_otp_expires'))
+        ) {
+            Session::put('email_verified', true);
+            return response()->json(['status' => true, 'message' => 'Email verified successfully!']);
+        }
+
+        return response()->json(['status' => false, 'message' => 'Invalid or expired OTP.']);
     }
 
     public function storeUser(Request $request)
@@ -102,7 +162,9 @@ class FrontController extends Controller
             'referral_username' => 'nullable|exists:users,username',
         ]);
 
-        // ✅ Handle referral (always by username)
+        if (!Session::get('email_verified') || Session::get('email_otp_email') !== $request->email) {
+            return back()->withErrors(['email' => 'Please verify your email before signing up.'])->withInput();
+        }
         $referral_user = null;
         if ($request->filled('referral_username')) {
             $referral_user = User::where('username', $request->referral_username)->first();
@@ -143,11 +205,15 @@ class FrontController extends Controller
         // ✅ Assign role
         $user->assignRole('user');
 
+        Mail::to($user->email)->send(new WelcomeMail($user));
         UserTotal::create([
             'user_id' => $user->id,
         ]);
+        Session::forget(['email_verified', 'email_otp', 'email_otp_email', 'email_otp_expires']);
 
         Auth::login($user);
+
+
 
         return redirect()->route('front.CreateProfile')
             ->with('success', 'Account created successfully! Please complete your Profile !.');
@@ -235,7 +301,33 @@ class FrontController extends Controller
 
     public function userReferral()
     {
-        return view('front.user-referral');
+
+
+        $authId = Auth::id();
+        $levelsData = [];
+        $previousLevelUserIds = [$authId];
+
+        for ($i = 1; $i <= 7; $i++) {
+            $levelUsers = User::whereIn('referral_user_id', $previousLevelUserIds)->pluck('id')->toArray();
+
+            $investments = Investment::where('status', 'approved')->whereIn('user_id', $levelUsers)
+                ->select('id', 'user_id', 'amount', 'created_at')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $levelsData[$i] = [
+                'investments' => $investments,
+                'total_transactions' => $investments->count(),
+                'total_amount' => $investments->sum('amount'),
+            ];
+
+            $previousLevelUserIds = $levelUsers;
+        }
+
+
+
+
+        return view('front.user-referral', compact("levelsData"));
     }
 
 
@@ -347,33 +439,29 @@ class FrontController extends Controller
 
     public function withdrawRequestStore(Request $request)
     {
+        $setting = Setting::first();
         $available_balance = Auth::user()->net_balance - Auth::user()->locked_amount;
         $min_withdraw_limit = BusinessRule::first()->min_withdraw_limit;
 
         $messages = [
             'bank_account.required' => 'Please select a bank account.',
-            'bank_account.exists'   => 'The selected bank account does not exist.',
-            'amount.required'       => 'Please enter the withdrawal amount.',
-            'amount.numeric'        => 'The withdrawal amount must be a number.',
-            'amount.min'            => "The amount must be at least {$min_withdraw_limit}.",
-            'amount.max'            => "The amount cannot exceed your available balance of {$available_balance}.",
+            'bank_account.exists' => 'The selected bank account does not exist.',
+            'amount.required' => 'Please enter the withdrawal amount.',
+            'amount.numeric' => 'The withdrawal amount must be a number.',
+            'amount.min' => "The amount must be at least {$min_withdraw_limit}.",
+            'amount.max' => "The amount cannot exceed your available balance of {$available_balance}.",
         ];
 
         $validator = Validator::make($request->all(), [
             'bank_account' => 'required|exists:user_banks,id',
-            'amount'       => 'required|numeric|min:' . $min_withdraw_limit . '|max:' . $available_balance,
+            'amount' => 'required|numeric|min:' . $min_withdraw_limit . '|max:' . $available_balance,
         ], $messages);
-
         if ($validator->fails()) {
             $errors = implode('<br>', $validator->errors()->all());
             return redirect()->back()->with('error', $errors)->withInput();
         }
-
-
         DB::beginTransaction();
-
         $user_bank = UserBank::find($request->bank_account);
-
         $withdrawal_request = new WithdrawalRequest();
         $withdrawal_request->account_no = $user_bank->account_no;
         $withdrawal_request->bank_name = $user_bank->bank_name;
@@ -386,7 +474,7 @@ class FrontController extends Controller
         $user = Auth::user();
         $user->locked_amount = $user->locked_amount + $request->amount;
         $user->save();
-
+        Mail::to($setting->admin_email)->send(new WithdrawalRequestMail($withdrawal_request, $user));
         DB::commit();
 
         return redirect()->route('front.withdraw.request.history')->with('success', 'Request Submitted Successfully!');

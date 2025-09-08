@@ -305,7 +305,7 @@ class InvestmentApprovalService
             if ($salaryType === 'current_month_salary') {
                 $user->current_month_salary = $salaryAmount;
             } else {
-                $user->next_month_salary = $salaryAmount;
+                $user->next_month_salary =$user->current_month_salary+$salaryAmount;
             }
             $user->save();
 

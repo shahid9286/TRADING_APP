@@ -34,7 +34,7 @@ class ProcessDailyReturn extends Command
 
         $businessRule = BusinessRule::first();
         $investments = Investment::where('is_active', 'active')
-            ->where('expiry_date', '>', now())
+            ->where('expiry_date', '>', today())
             ->where("status", 'approved')
             ->with('user')
             ->get();
@@ -163,7 +163,6 @@ class ProcessDailyReturn extends Command
         $failed = 0;
 
         try {
-            // Get users who have referrals (are mentioned as referral_id in investments)
             $referralUsers = User::whereHas('referralInvestments')->get();
 
             $this->info("Found {$referralUsers->count()} users with referrals to process");

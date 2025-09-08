@@ -44,7 +44,7 @@
                                                 <option value="expired">Expired</option>
                                             </select>
                                         </div>
-                                        
+
                                         <!-- Status -->
                                         <div class="col-md-2 mb-3">
                                             <label for="status" class="form-label">Status</label>
@@ -88,8 +88,10 @@
                                 <th>{{ __('ID') }}</th>
                                 <th>{{ __('User') }}</th>
                                 <th>{{ __('Amount') }}</th>
+                               
                                 <th>{{ __('Start/Expiry Date') }}</th>
                                 <th>Status</th>
+                                 <th>{{ __('Referred By') }}</th>
                                 <th>Activity</th>
                                 <th>{{ __('Action') }}</th>
                             </tr>
@@ -98,7 +100,7 @@
                             @forelse ($investments as $investment)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $investment->user->username }}</td>
+                                    <td>  <a class="pointer" href="{{route("admin.user.detail",$investment->user_id)}}">        {{ $investment->user->username }}</a> </td>
                                     <td>{{ $investment->amount }}</td>
                                     <td>
                                         {{ \Carbon\Carbon::parse($investment->start_date)->format('d M Y') }} -
@@ -114,6 +116,7 @@
                                             <span class="badge badge-success">Approved</span>
                                         @endif
                                     </td>
+                                    <td>{{$investment->user->referral->username?? "Direct Investment"}}</td>
                                     <td>
                                         @if ($investment->is_active === 'inactive')
                                             <span class="badge badge-warning">{{ __('Inactive') }}</span>
@@ -123,6 +126,7 @@
                                             <span class="badge badge-success">Active</span>
                                         @endif
                                     </td>
+                                    
                                     <td>
                                         <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#investmentDetail" data-amount="{{ $investment->amount }}"
@@ -143,14 +147,14 @@
                                             </button>
                                             <div class="dropdown-menu" role="menu" style="">
                                                 @if ($investment->status === 'pending')
-                                                    <form action="{{ route('admin.investment.approved', $investment->id) }}"
+                                                    <form
+                                                        action="{{ route('admin.investment.approved', $investment->id) }}"
                                                         method="post" class="approve-form">
                                                         @csrf
                                                         <button type="submit"
                                                             class="dropdown-item approve-btn">Approve</button>
                                                     </form>
-                                                    <form
-                                                        action="{{ route('admin.investment.reject', $investment->id) }}"
+                                                    <form action="{{ route('admin.investment.reject', $investment->id) }}"
                                                         method="post">
                                                         @csrf
                                                         <button type="submit" class="dropdown-item">Reject</button>
