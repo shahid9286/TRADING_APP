@@ -109,7 +109,7 @@ class FrontController extends Controller
 
         $otp = rand(100000, 999999);
 
-        // store OTP in session for 5 minutes
+        // store OTP in session for 30minutes
         Session::put('email_otp', $otp);
         Session::put('email_otp_email', $request->email);
         Session::put('email_otp_expires', now()->addMinutes(30));
