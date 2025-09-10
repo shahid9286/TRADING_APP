@@ -189,7 +189,6 @@
                 btn.find(".btn-text").addClass("d-none");
                 btn.find(".spinner-border").removeClass("d-none");
                 btn.prop("disabled", true);
-
                 $.ajax({
                     url: "{{ route('send.otp') }}",
                     type: "POST",

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Notifications\GeneralRoleDatabaseNotification;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\GD\Driver;
+use \Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -316,4 +317,41 @@ class UserController extends Controller
         $user = User::role('user')->where('id', Auth::user()->id)->first();
         return view('user.partials.editProfile', compact('user'));
     }
+    public function changePassword(Request $req, $id)
+    {
+        $req->validate([
+            'password' => 'required|min:6'
+        ]);
+        $user = User::findOrFail($id);
+        $user->password = Hash::make($req->password);
+        $user->save();
+        return response()->json(['message' => 'Password updated successfully!']);
+
+    }
+
+
+    public function changeReferral(Request $request, $id)
+    {
+        $request->validate([
+            'referral_name' => 'required|string|unique:users,username',
+        ], [
+            'referral_name.unique' => 'This referral name is already taken by another user.',
+        ]);
+
+        $user = User::findOrFail($id);
+        $oldUsername = $user->username;
+        $user->username = $request->referral_name;
+        $user->save();
+        User::where('referral_username', $oldUsername)
+            ->update([
+                'referral_username' => $request->referral_name,
+                'referral_user_id' => $id,
+            ]);
+
+        return response()->json(['message' => 'Referral name updated successfully for user and all referrals!']);
+    }
+
+
+
+
 }

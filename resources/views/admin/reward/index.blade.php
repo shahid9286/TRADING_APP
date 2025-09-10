@@ -49,13 +49,11 @@
                             @forelse ($rewards as $reward)
                                 <tr>
                                     <td>{{ $reward->id }}</td>
-                                                                        <td>
+                                    <td>
                                         @if ($reward->image)
-                                            <img src="{{ $reward->image }}" alt="Reward"
-                                                width="50" height="50">
+                                            <img src="{{ $reward->image }}" alt="Reward" width="50" height="50">
                                         @endif
                                     </td>
-
                                     <td>{{ $reward->title }}</td>
                                     <td>{{ $reward->reward_title }}</td>
                                     <td>
@@ -72,14 +70,13 @@
                                             class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                                <form id="deleteform" class="d-inline-block"
-                                                    action="{{ route('admin.reward.delete', $reward->id) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-danger btn-sm" id="delete">
-                                                        <i class="fas fa-trash"></i>{{ __('') }}
-                                                    </button>
-                                                </form>
+                                        <form id="deleteform" class="d-inline-block"
+                                            action="{{ route('admin.reward.delete', $reward->id) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm" id="delete">
+                                                <i class="fas fa-trash"></i>{{ __('') }}
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty

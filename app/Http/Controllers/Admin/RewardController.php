@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\Investment;
+use App\Models\User;
+use App\Models\UserReturn;
+use App\Models\UserLedger;
+use App\Models\UserTotal;
+use App\Models\RewardHistory;
 
 class RewardController extends Controller
 {
@@ -26,15 +32,15 @@ class RewardController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'          => 'required|string|max:255',
-            'start_date'     => 'required|date',
-            'end_date'       => 'required|date|after_or_equal:start_date',
-            'reward_title'   => 'required|array|max:255',
-            'reward_amount'  => 'required|array|min:0',
-            'target_amount'  => 'required|array|min:0',
-            'status'         => 'required|in:active,expired,inactive',
-            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'description'    => 'nullable|string',
+            'title' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'reward_title' => 'required|array|max:255',
+            'reward_amount' => 'required|array|min:0',
+            'target_amount' => 'required|array|min:0',
+            'status' => 'required|in:active,expired,inactive',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'nullable|string',
         ]);
 
         DB::beginTransaction();
@@ -50,7 +56,7 @@ class RewardController extends Controller
         if ($request->hasFile('image')) {
             $reward->image = FileHelper::upload($request->file('image'), 'assets/admin/uploads/rewards/images');
         }
-        
+
         $reward->save();
 
         foreach ($request->reward_title as $index => $title) {
@@ -58,8 +64,8 @@ class RewardController extends Controller
             $target = $request->target_amount[$index] ?? 0;
 
             RewardDetail::create([
-                'reward_id'     => $reward->id,
-                'reward_title'  => $title,
+                'reward_id' => $reward->id,
+                'reward_title' => $title,
                 'reward_amount' => $amount,
                 'target_amount' => $target,
             ]);
@@ -85,15 +91,15 @@ class RewardController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title'          => 'required|string|max:255',
-            'start_date'     => 'required|date',
-            'end_date'       => 'required|date|after_or_equal:start_date',
-            'reward_title'   => 'required|array|max:255',
-            'reward_amount'  => 'required|array|min:0',
-            'target_amount'  => 'required|array|min:0',
-            'status'         => 'required|in:active,expired,inactive',
-            'image'          => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'description'    => 'nullable|string',
+            'title' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'reward_title' => 'required|array|max:255',
+            'reward_amount' => 'required|array|min:0',
+            'target_amount' => 'required|array|min:0',
+            'status' => 'required|in:active,expired,inactive',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'nullable|string',
         ]);
 
         DB::beginTransaction();
@@ -121,21 +127,17 @@ class RewardController extends Controller
             $target = $request->target_amount[$index] ?? 0;
 
             RewardDetail::create([
-                'reward_id'     => $reward->id,
-                'reward_title'  => $title,
+                'reward_id' => $reward->id,
+                'reward_title' => $title,
                 'reward_amount' => $amount,
                 'target_amount' => $target,
             ]);
         }
-
         DB::commit();
-
         $notification = array(
             'message' => 'Reward Updated Successfully!',
             'alert' => 'success',
         );
-
-
         return redirect()->route('admin.reward.index')->with('notification', $notification);
     }
 
@@ -185,4 +187,130 @@ class RewardController extends Controller
 
         return back()->with('notification', $notification);
     }
+
+
+    // In your calculateRewardForAllReferrals function, modify to check payment status
+    public function calculateRewardForAllReferrals()
+    {
+        $rewardLists = [];
+        $reward = Reward::where("status", 'active')->first();
+
+        if (!$reward) {
+            return view("admin.reward.rewarded-user", compact("rewardLists"));
+        }
+
+        $users = User::whereHas("investments")->get();
+
+        foreach ($users as $user) {
+            $totalReferralAmount = Investment::where('referral_id', $user->id)
+                ->where('status', 'approved')
+                ->where("expiry_date", '>=', today())
+                ->where("is_active", "active")
+                ->whereBetween("approved_at", [$reward->start_date, $reward->end_date])
+                ->sum('amount');
+
+            $rewardDetail = RewardDetail::whereHas('reward', function ($q) {
+                $q->where('status', 'active');
+            })
+                ->where('target_amount', '<=', $totalReferralAmount)
+                ->orderByDesc('target_amount')
+                ->first();
+            if ($rewardDetail) {
+                $alreadyPaid = RewardHistory::where('user_id', $user->id)
+                    ->where('reward_id', $reward->id)
+                    ->where('reward_name', $rewardDetail->reward_title)
+                    ->exists();
+
+                $rewardLists[] = [
+                    'user_id' => $user->id,
+                    'user_name' => $user->username,
+                    'total_referral_investment' => $totalReferralAmount,
+                    'reward' => $rewardDetail->reward_title,
+                    'reward_amount' => $rewardDetail->reward_amount,
+                    'reward_title' => $rewardDetail->reward->title ?? "N/A",
+                    'paid' => $alreadyPaid, // Add payment status
+                    'paid_date' => $alreadyPaid ? RewardHistory::where('user_id', $user->id)
+                        ->where('reward_id', $reward->id)
+                        ->where('reward_name', $rewardDetail->reward_title)
+                        ->first()->pay_date : null,
+                ];
+            }
+        }
+
+        return view("admin.reward.rewarded-user", compact("rewardLists"));
+    }
+    public function adminPayReward(Request $request)
+    {
+        $request->validate([
+            'user_name' => 'required|exists:users,username',
+            'reward_amount' => 'required|numeric|min:1',
+            'reward_title' => 'nullable|string',
+        ]);
+        $user = User::where('username', $request->user_name)->firstOrFail();
+        $amount = $request->reward_amount;
+        try {
+            DB::transaction(function () use ($user, $amount, $request) {
+                $reward = Reward::where("status", "active")->first();
+
+                $rewardDetail = null;
+                if ($reward && $request->reward_title) {
+                    $rewardDetail = RewardDetail::where("reward_id", $reward->id)
+                        ->where("reward_title", $request->reward_title)
+                        ->first();
+                }
+                $userReturn = UserReturn::create([
+                    'user_id' => $user->id,
+                    'amount' => $amount,
+                    'entry_date' => now()->toDateString(),
+                    'type' => 'reward',
+                ]);
+                UserLedger::create([
+                    'user_id' => $user->id,
+                    'user_return_id' => $userReturn->id,
+                    'type' => 'reward',
+                    'amount' => $amount,
+                    'balance_before' => $user->net_balance,
+                    'balance_after' => $user->net_balance + $amount,
+                    'description' => 'Reward credited',
+                ]);
+                $totals = UserTotal::firstOrCreate(
+                    ['user_id' => $user->id],
+                    [
+                        'total_invested' => 0,
+                        'total_referral_commission' => 0,
+                        'total_salaries' => 0,
+                        'total_rewards' => 0,
+                        'total_withdraws' => 0,
+                        'total_fee' => 0,
+                        'direct_count' => 0,
+                    ]
+                );
+                $totals->increment('total_rewards', $amount);
+                $user->increment('net_balance', $amount);
+                RewardHistory::create([
+                    'user_id' => $user->id,
+                    'reward_id' => $reward?->id,
+                    'reward_title' => $reward?->title ?? "N/A",
+                    'reward_name' => $rewardDetail?->reward_title ?? "Manual Reward",
+                    'reward_amount' => $amount,
+                    'pay_date' => now()->toDateString(),
+                ]);
+            });
+
+
+            $notification = [
+                'message' => "Reward of {$amount} credited to {$user->username}",
+                'alert' => 'success',
+            ];
+            return redirect()->back()->with('notification', $notification);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', "Transaction failed: " . $e->getMessage());
+        }
+    }
 }
+
+
+
+
+
+

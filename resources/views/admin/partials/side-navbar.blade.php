@@ -274,7 +274,7 @@
 
                 {{-- reward --}}
                 <li
-                    class="nav-item {{ Route::currentRouteName() == 'admin.reward.index' || Route::currentRouteName() == 'admin.reward.add' ? 'menu-open' : '' }}">
+                    class="nav-item {{ Route::currentRouteName() == 'admin.reward.index' || Route::currentRouteName() == 'admin.reward.add' || Route::currentRouteName() == 'admin.reward.calculated'? 'menu-open' : '' }}">
                     <a href="{{ route('admin.reward.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-trophy"></i>
                         <p>
@@ -283,7 +283,6 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-
                         <li class="nav-item">
                             <a href="{{ route('admin.reward.index') }}"
                                 class="nav-link {{ Route::currentRouteName() == 'admin.reward.index' ? 'active' : '' }}">
@@ -296,6 +295,13 @@
                                 class="nav-link {{ Route::currentRouteName() == 'admin.reward.add' ? 'active' : '' }}">
                                 <i class="fas fa-circle nav-icon"></i>
                                 <p>{{ __('Add Reward') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.reward.calculated') }}"
+                                class="nav-link {{ Route::currentRouteName() == 'admin.reward.calculated' ? 'active' : '' }}">
+                                <i class="fas fa-circle nav-icon"></i>
+                                <p>{{ __('Reward History') }}</p>
                             </a>
                         </li>
                     </ul>

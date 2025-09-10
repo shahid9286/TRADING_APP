@@ -44,6 +44,7 @@ Route::post('reset-password', [NewPasswordController::class, 'store'])->name('pa
 Route::get('/pending-user', [UserController::class, 'pendingUser'])->name('pending.user');
 Route::get('/blocked-user', [UserController::class, 'blockedUser'])->name('blocked.user');
 
+
 require __DIR__ . '/auth.php';
 Route::get('/dashboard', function () {
     if (Auth::user()->hasRole('admin'))
@@ -77,6 +78,8 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::get('/pendingUsers', [UserController::class, 'pendingUsers'])->name('admin.user.pendingUsers');
         Route::get('/approvedUsers', [UserController::class, 'approvedUsers'])->name('admin.user.approvedUsers');
         Route::get('/blockedUsers', [UserController::class, 'blockedUsers'])->name('admin.user.blockedUsers');
+        Route::post('admin/change-password/{id}', [UserController::class, 'changePassword'])->name('admin.user.changePassword');
+        Route::post('admin/change-referral/{id}', [UserController::class, 'changeReferral'])->name('admin.user.changeReferral');
 
         // admins
         Route::get('/admins', [AdminController::class, 'index'])->name('admin.index');
@@ -104,6 +107,9 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::post('/reward/delete/{id}', [RewardController::class, 'delete'])->name('admin.reward.delete');
         Route::get('reward/restore/{id}', [RewardController::class, 'restore'])->name('admin.reward.restore');
         Route::post('reward/force_delete/{id}', [RewardController::class, 'forceDelete'])->name('admin.reward.force.delete');
+        Route::get('referrals-reward', [RewardController::class, 'calculateRewardForAllReferrals'])->name('admin.reward.calculated');
+        Route::post('admin-reward-pay', [RewardController::class, 'adminPayReward'])->name('admin.reward.pay');
+
         // End of reward
 
 
@@ -226,9 +232,9 @@ Route::middleware(['auth', 'status'])->group(function () {
         Route::post('/salary-rules/{id}/delete', [SalaryRulesController::class, 'delete'])->name('admin.salary-rules.delete');
         Route::get('/update-salary', [SalaryRulesController::class, 'updateSalary'])->name('admin.salary-rules.update-salary');
         Route::get('/give-salary', [SalaryRulesController::class, 'giveSalary'])->name('admin.salary-rules.give-salary');
-Route::get('/zameer', function () {
-    return view('zameer');
-});
+        Route::get('/zameer', function () {
+            return view('zameer');
+        });
 
     });
 });
